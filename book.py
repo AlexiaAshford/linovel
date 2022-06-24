@@ -8,6 +8,7 @@ class Book:
     def __init__(self, book_info: dict):
         self.content_config = []
         self.threading_list = []
+        self.progress_bar_count = 0
         self.book_info = book_info
         self.book_name = api.illegal_strip(book_info['bookName'])
         self.book_author = book_info['authorName']
@@ -15,7 +16,7 @@ class Book:
         self.chapter_url_list = book_info['chapUrl']
         self.save_config_path = os.path.join("Cache", self.book_name + ".json")
         self.out_text_path = os.path.join("downloads", self.book_name)
-        self.max_threading = threading.BoundedSemaphore(8)
+        self.max_threading = threading.BoundedSemaphore(16)
 
     def init_content_config(self):
         if not os.path.exists("Cache"):
@@ -61,8 +62,7 @@ class Book:
             chapter_info = api.get_chapter_info(chapter_url, index)
             if isinstance(chapter_info, dict):
                 self.content_config.append(chapter_info)
-                print("{}/{} title:{}".format(
-                    index, len(self.chapter_url_list), chapter_info.get('chapterTitle')), end="\r")
+                self.progress_bar(chapter_info['chapterTitle'])
         except Exception as e:
             print("error: {}".format(e), self.save_content_json())
         finally:
@@ -83,3 +83,9 @@ class Book:
         self.threading_list.clear()  # clear threading_list for next chapter
         self.save_content_json()
         self.merge_text_file()
+
+    def progress_bar(self, title: str = ""):
+        self.progress_bar_count += 1  # increase progress_bar_count
+        print(
+            "\r{}/{} title:{}".format(self.progress_bar_count, len(self.chapter_url_list), title), end="\r"
+        )
