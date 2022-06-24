@@ -1,9 +1,9 @@
-import api
+import LinovelAPI
 import book
 
 
 def shell_download_book(book_id: str):
-    book_info = api.get_book_info(book_id)
+    book_info = LinovelAPI.get_book_info(book_id)
     if book_info is not None:
         download = book.Book(book_info)
         download.init_content_config()
@@ -12,7 +12,7 @@ def shell_download_book(book_id: str):
 
 def shell_tag_scanner(max_page: int = 622):
     for page in range(max_page):
-        tag_bookid_list = api.get_sort(page)
+        tag_bookid_list = LinovelAPI.get_sort(page)
         for book_id in tag_bookid_list:
             shell_download_book(book_id)
 

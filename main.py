@@ -1,5 +1,5 @@
-from api import bot
-from api import scanner
+from LinovelAPI import bot
+from LinovelAPI import scanner
 import json
 def init():
     tag = 'all'

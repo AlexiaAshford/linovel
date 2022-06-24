@@ -5,8 +5,8 @@ import requests
 from lxml import etree
 from urllib3 import Retry
 
-from api import downloadAsEpub
-from api import getBookInfo
+from LinovelAPI import downloadAsEpub
+from LinovelAPI import getBookInfo
 
 
 def illegalStrip(path):
