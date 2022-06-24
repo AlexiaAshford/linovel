@@ -1,12 +1,13 @@
 import json
 import os
-
+import threading
 import api
 
 
 class Book:
     def __init__(self, book_info: dict):
         self.content_config = []
+        self.threading_list = []
         self.book_info = book_info
         self.book_name = api.illegal_strip(book_info['bookName'])
         self.book_author = book_info['authorName']
@@ -14,6 +15,7 @@ class Book:
         self.chapter_url_list = book_info['chapUrl']
         self.save_config_path = os.path.join("Cache", self.book_name + ".json")
         self.out_text_path = os.path.join("downloads", self.book_name)
+        self.max_threading = threading.BoundedSemaphore(8)
 
     def init_content_config(self):
         if not os.path.exists("Cache"):
@@ -53,16 +55,31 @@ class Book:
             if i.get("chapter_url") == chapter_url:
                 return True
 
-    def download_book(self):
+    def download_book_content(self, chapter_url, index):
+        self.max_threading.acquire()  # acquire semaphore to prevent multi threading
+        try:
+            chapter_info = api.get_chapter_info(chapter_url, index)
+            if isinstance(chapter_info, dict):
+                self.content_config.append(chapter_info)
+                print("{}/{} title:{}".format(
+                    index, len(self.chapter_url_list), chapter_info.get('chapterTitle')), end="\r")
+        except Exception as e:
+            print("error: {}".format(e), self.save_content_json())
+        finally:
+            self.max_threading.release()  # release threading semaphore
+
+    def multi_thread_download_book(self):
         for index, chapter_url in enumerate(self.chapter_url_list, start=1):
-            if not self.test_config_chapter(chapter_url):
-                try:
-                    chapter_info = api.get_chapter_info(chapter_url, index)
-                    if isinstance(chapter_info, dict):
-                        self.content_config.append(chapter_info)
-                        print("{}/{} title:{}".format(
-                            index, len(self.chapter_url_list), chapter_info.get('chapterTitle')), end="\r")
-                except Exception as e:
-                    print("error: {}".format(e), self.save_content_json())
-            # else:
-            # print("the chapter {} is already downloaded".format(chapter_url))
+            if self.test_config_chapter(chapter_url):
+                continue  # chapter already downloaded
+            self.threading_list.append(
+                threading.Thread(target=self.download_book_content, args=(chapter_url, index,))
+            )
+        if len(self.threading_list) != 0:  # if threading_list is not empty
+            for thread in self.threading_list:  # start all thread in threading_list
+                thread.start()
+            for thread in self.threading_list:  # wait for all threading_list to finish
+                thread.join()
+        self.threading_list.clear()  # clear threading_list for next chapter
+        self.save_content_json()
+        self.merge_text_file()
