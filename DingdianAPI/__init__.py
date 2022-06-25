@@ -1,18 +1,14 @@
 import time
 from lxml import etree
 import requests
-
-headers = {
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/537.36 (KHTML, like Gecko) "
-                  "Chrome/89.0.4389.114 Safari/537.36 "
-}
+from config import *
 
 
 def get(api_url: str, param: dict = None, retry: int = 0) -> [str, None, int]:
     if retry >= 5:
         time.sleep(retry * 0.5)
         print("retry is {}, sleep time is:[{}] url:{}".format(retry, int(retry * 0.5), api_url))
-    response = requests.get("https://www.ddyueshu.com" + api_url, params=param, headers=headers)
+    response = requests.get("https://www.ddyueshu.com" + api_url, params=param, headers=Vars.cfg.data['user_agent'])
     response.encoding = 'gbk'
     if response.status_code == 404:
         return 404
@@ -20,7 +16,7 @@ def get(api_url: str, param: dict = None, retry: int = 0) -> [str, None, int]:
 
 
 def post(api_url: str, data: dict = None, retry: int = 0, max_retries: int = 3):
-    response = requests.post(api_url, data=data, headers=headers)
+    response = requests.post(api_url, data=data, headers=Vars.cfg.data['user_agent'])
     response.encoding = 'gbk'
     if response.status_code == 200:
         return response.text
