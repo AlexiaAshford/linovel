@@ -33,6 +33,7 @@ def get_book_info(book_id: str, retry: int = 0) -> [dict, None]:  # get book inf
     if response is not None and isinstance(response, str):  # if the response is not None and is a string
         html_str = etree.HTML(response)  # parse html string to lxml.etree.ElementTree
         book_info = {
+            "bookId": book_id,
             "bookName": html_str.xpath('//h1[@class="book-title"]')[0].text,
             "authorName": html_str.xpath('//div[@class="author-frame"]//a')[0].text,
             "bookCoverUrl": html_str.xpath('//div[@class="book-cover"]/a')[0].get('href'),
@@ -85,4 +86,3 @@ def get_chapter_cover(html_string: [str]):
         return img_url_list
     else:
         return []
-

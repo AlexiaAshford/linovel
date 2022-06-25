@@ -1,7 +1,6 @@
-import json
-import os
 import threading
 import LinovelAPI
+from config import *
 
 
 class Book:
@@ -12,16 +11,18 @@ class Book:
         self.progress_bar_length = 0
         self.book_info = book_info
         self.book_name = LinovelAPI.illegal_strip(book_info['bookName'])
+        self.book_id = book_info['bookId']
         self.book_author = book_info['authorName']
         self.cover = book_info['bookCoverUrl']
         self.chapter_url_list = book_info['chapUrl']
-        self.save_config_path = os.path.join("Cache", self.book_name + ".json")  # save config path
-        self.out_text_path = os.path.join("downloads", self.book_name)  # downloads folder
-        self.max_threading = threading.BoundedSemaphore(16)  # create semaphore to prevent multi threading
+        self.save_config_path = os.path.join(Vars.cfg.data['config_path'], self.book_name + ".json")
+        self.out_text_path = os.path.join(Vars.cfg.data['out_path'], self.book_name)  # downloads folder
+        # create semaphore to prevent multi threading
+        self.max_threading = threading.BoundedSemaphore(Vars.cfg.data.get('max_thread'))
 
     def init_content_config(self):
-        if not os.path.exists("Cache"):  # if Cache folder is not exist, create it
-            os.mkdir("Cache")
+        if not os.path.exists(Vars.cfg.data['config_path']):  # if Cache folder is not exist, create it
+            os.mkdir(Vars.cfg.data['config_path'])
         if not os.path.exists(self.out_text_path):  # if downloads folder is not exist, create it
             os.makedirs(self.out_text_path)
         if os.path.exists(self.save_config_path):
@@ -87,10 +88,16 @@ class Book:
             for thread in self.threading_list:  # wait for all threading_list to finish
                 thread.join()
             self.threading_list.clear()  # clear threading_list for next chapter
+            self.save_content_json()
+            self.merge_text_file()
         else:
             print(self.book_name, "is no chapter to download.\n\n")
-        self.save_content_json()
-        self.merge_text_file()
+
+        if self.book_id not in Vars.cfg.data['downloaded_book_id_list']:
+            Vars.cfg.data['downloaded_book_id_list'].append(self.book_id)
+            Vars.cfg.save()
+        else:
+            print("the book {} add book_id update list.\n\n", self.book_name)
 
     def progress_bar(self, title: str = "") -> None:  # progress bar
         self.progress_bar_count += 1  # increase progress_bar_count
