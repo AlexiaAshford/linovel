@@ -5,17 +5,19 @@ import book
 from config import *
 
 
-def shell_download_book(book_id: str):
-    book_info = LinovelAPI.get_book_info(book_id)
-    if book_info is not None:
-        download = book.Book(book_info)
-        download.init_content_config()
-        download.multi_thread_download_book()
+def shell_download_book(book_id: str) -> None:
+    Vars.current_book = LinovelAPI.get_book_info(book_id)
+    if Vars.current_book is not None:
+        Vars.current_book = book.Book(Vars.current_book)
+        Vars.current_book.init_content_config()
+        Vars.current_book.multi_thread_download_book()
+    else:
+        print("[warning] book_id not found, book_id:", book_id)
 
 
 def shell_tag_scanner(tag_name: str = "", max_page: int = 622):
     for page in range(max_page):
-        tag_bookid_list = LinovelAPI.get_sort(page)
+        tag_bookid_list = LinovelAPI.get_sort(tag_name, page)
         for book_id in tag_bookid_list:
             shell_download_book(book_id)
 
@@ -50,7 +52,6 @@ def shell_main(inputs: list):
 if __name__ == '__main__':
     # shell_download_book()
     update_config()
-    print(sys.argv)
     if len(sys.argv) >= 2:
         shell_main(sys.argv[1:])
     else:
