@@ -5,13 +5,14 @@ import Epub
 
 
 class Book:
-    def __init__(self, book_info: dict):
+    def __init__(self, book_info: dict, app_type: str = ""):
+        self.app_type = app_type
         self.content_config = []
         self.threading_list = []
         self.progress_bar_count = 0
         self.progress_bar_length = 0
         self.book_info = book_info
-        self.book_name = LinovelAPI.illegal_strip(book_info['bookName'])
+        self.book_name = illegal_strip(book_info['bookName'])
         self.book_id = book_info['bookId']
         self.book_author = book_info['authorName']
         self.cover = book_info['bookCoverUrl']
@@ -27,7 +28,7 @@ class Book:
         if not os.path.exists(self.out_text_path):  # if downloads folder is not exist, create it
             os.makedirs(self.out_text_path)
         if os.path.exists(self.save_config_path):
-            self.content_config = LinovelAPI.read_text(self.save_config_path, json_load=True)
+            self.content_config = read_text(self.save_config_path, json_load=True)
             if self.content_config is None:
                 self.content_config = []
         else:
@@ -35,7 +36,7 @@ class Book:
         Vars.current_epub = Epub.EpubFile()
         Vars.current_epub.save_epub_file = os.path.join(self.out_text_path, self.book_name + '.epub')
         Vars.current_epub.download_cover_and_add_epub()
-        LinovelAPI.write_text(
+        write_text(
             path_name=os.path.join(self.out_text_path, self.book_name + ".txt"),
             content=Vars.current_epub.add_the_book_information(), mode="w"
         )  # write book information to text file in downloads folder and show book name, author and chapter count
@@ -43,7 +44,7 @@ class Book:
     def save_content_json(self) -> None:
         try:
             json_info = json.dumps(self.content_config, ensure_ascii=False)
-            LinovelAPI.write_text(path_name=self.save_config_path, content=json_info, mode="w")
+            write_text(path_name=self.save_config_path, content=json_info, mode="w")
         except Exception as err:  # if save_config_path is not exist, create it and save content_config
             print("save content json error: {}".format(err))
 
@@ -57,8 +58,7 @@ class Book:
                 content_lines_list=chapter_content,
                 serial_number=chapter_info['chapterIndex']
             )
-
-            LinovelAPI.write_text(
+            write_text(
                 path_name=os.path.join(self.out_text_path, self.book_name + ".txt"),
                 content=chapter_title + '\n'.join(chapter_content) + "\n\n\n", mode="a"
             )  # write chapter title and content to text file in downloads folder
@@ -74,7 +74,11 @@ class Book:
     def download_book_content(self, chapter_url, index) -> None:
         self.max_threading.acquire()  # acquire semaphore to prevent multi threading
         try:
-            chapter_info = LinovelAPI.get_chapter_info(chapter_url, index)
+            chapter_info = {}
+            if self.app_type == "Linovel":
+                chapter_info = LinovelAPI.get_chapter_info(chapter_url, index)
+            # if self.app_type == "dingdian":
+            #     chapter_info = dingdian_api.get_chapter_info(chapter_url, index)
             if isinstance(chapter_info, dict):
                 self.content_config.append(chapter_info)
                 self.progress_bar(chapter_info['chapterTitle'])

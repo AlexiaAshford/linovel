@@ -1,6 +1,4 @@
 import time
-
-from LinovelAPI.tool import *
 import requests
 from lxml import etree
 
