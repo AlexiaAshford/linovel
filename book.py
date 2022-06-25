@@ -1,6 +1,7 @@
 import threading
 import LinovelAPI
 from config import *
+import Epub
 
 
 class Book:
@@ -15,8 +16,8 @@ class Book:
         self.book_author = book_info['authorName']
         self.cover = book_info['bookCoverUrl']
         self.chapter_url_list = book_info['chapUrl']
-        self.save_config_path = os.path.join(Vars.cfg.data['config_path'], self.book_name + ".json")
-        self.out_text_path = os.path.join(Vars.cfg.data['out_path'], self.book_name)  # downloads folder
+        self.out_text_path = os.path.join(os.getcwd(), Vars.cfg.data['out_path'], self.book_name)
+        self.save_config_path = os.path.join(os.getcwd(), Vars.cfg.data['config_path'], self.book_name + ".json")
         # create semaphore to prevent multi threading
         self.max_threading = threading.BoundedSemaphore(Vars.cfg.data.get('max_thread'))
 
@@ -31,10 +32,13 @@ class Book:
                 self.content_config = []
         else:
             self.content_config = []
-        show_info = "book name: {}\nauthor: {}\nchapter count: {}\n\n".format(
-            self.book_name, self.book_author, len(self.chapter_url_list))
-        print(show_info)  # show book name, author and chapter count
-        LinovelAPI.write_text(path_name=os.path.join(self.out_text_path, self.book_name + ".txt"), content=show_info)
+        Vars.current_epub = Epub.EpubFile()
+        Vars.current_epub.save_epub_file = os.path.join(self.out_text_path, self.book_name + '.epub')
+        Vars.current_epub.download_cover_and_add_epub()
+        LinovelAPI.write_text(
+            path_name=os.path.join(self.out_text_path, self.book_name + ".txt"),
+            content=Vars.current_epub.add_the_book_information(), mode="w"
+        )  # write book information to text file in downloads folder and show book name, author and chapter count
 
     def save_content_json(self) -> None:
         try:
@@ -47,12 +51,19 @@ class Book:
         self.content_config.sort(key=lambda x: x.get('chapterIndex'))
         for chapter_info in self.content_config:
             chapter_title = "第{}章: {}\n".format(chapter_info['chapterIndex'], chapter_info['chapterTitle'])
-            chapter_content = '\n'.join(["　　" + i for i in chapter_info.get('chapterContent').split("\n")])
+            chapter_content = ["　　" + i for i in chapter_info.get('chapterContent').split("\n")]
+            Vars.current_epub.add_chapter_in_epub_file(
+                chapter_title=chapter_title,
+                content_lines_list=chapter_content,
+                serial_number=chapter_info['chapterIndex']
+            )
+
             LinovelAPI.write_text(
                 path_name=os.path.join(self.out_text_path, self.book_name + ".txt"),
-                content=chapter_title + chapter_content + "\n\n\n", mode="a"
+                content=chapter_title + '\n'.join(chapter_content) + "\n\n\n", mode="a"
             )  # write chapter title and content to text file in downloads folder
         self.content_config.clear()  # clear content_config for next book download
+        Vars.current_epub.out_put_epub_file()
 
     def test_config_chapter(self, chapter_url: str) -> bool:
         for i in self.content_config:
@@ -88,16 +99,16 @@ class Book:
             for thread in self.threading_list:  # wait for all threading_list to finish
                 thread.join()
             self.threading_list.clear()  # clear threading_list for next chapter
-            self.save_content_json()
-            self.merge_text_file()
         else:
             print(self.book_name, "is no chapter to download.\n\n")
+        self.save_content_json()
+        self.merge_text_file()
 
         if self.book_id not in Vars.cfg.data['downloaded_book_id_list']:
             Vars.cfg.data['downloaded_book_id_list'].append(self.book_id)
             Vars.cfg.save()
         else:
-            print("the book {} add book_id update list.\n\n", self.book_name)
+            print("the book {} add book_id update list.\n\n".format(self.book_name))
 
     def progress_bar(self, title: str = "") -> None:  # progress bar
         self.progress_bar_count += 1  # increase progress_bar_count
