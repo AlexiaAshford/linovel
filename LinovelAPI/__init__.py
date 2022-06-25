@@ -56,7 +56,8 @@ def get_chapter_info(chapter_url: str, index: int, content: str = "", retry: int
             "chapterIndex": index,
             "chapter_url": chapter_url,
             "chapterTitle": content_string.xpath('//div[@class="article-title"]')[0].text.strip(),
-            "chapterContent": content
+            "chapterContent": content,
+            "imageList": get_chapter_cover(content_string)
         }
     else:
         if retry <= 10:
@@ -74,3 +75,14 @@ def get_sort(page: int, retry: int = 0):  # get sort from url by page
         if retry <= 10:
             return get_sort(page, retry + 1)
         return print("get sort failed, page is {}".format(page))
+
+
+def get_chapter_cover(html_string: [str]):
+    img_url_list = [
+        img_url.get('src') for img_url in html_string.xpath('//div[@class="article-text"]//img')
+    ]
+    if isinstance(img_url_list, list) and len(img_url_list) != 0:
+        return img_url_list
+    else:
+        return []
+

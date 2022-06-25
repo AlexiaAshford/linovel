@@ -83,7 +83,9 @@ class Book:
                 thread.start()
             for thread in self.threading_list:  # wait for all threading_list to finish
                 thread.join()
-        self.threading_list.clear()  # clear threading_list for next chapter
+            self.threading_list.clear()  # clear threading_list for next chapter
+        else:
+            print(self.book_name, "is no chapter to download.\n\n")
         self.save_content_json()
         self.merge_text_file()
 

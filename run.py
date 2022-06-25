@@ -17,6 +17,7 @@ def shell_tag_scanner(max_page: int = 622):
             shell_download_book(book_id)
 
 
+
 if __name__ == '__main__':
     # shell_download_book()
     shell_tag_scanner()
