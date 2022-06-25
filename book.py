@@ -1,5 +1,6 @@
 import threading
 import LinovelAPI
+import DingdianAPI
 from config import *
 import Epub
 
@@ -74,16 +75,17 @@ class Book:
     def download_book_content(self, chapter_url, index) -> None:
         self.max_threading.acquire()  # acquire semaphore to prevent multi threading
         try:
-            chapter_info = {}
+            chapter_info = None
             if self.app_type == "Linovel":
                 chapter_info = LinovelAPI.get_chapter_info(chapter_url, index)
-            # if self.app_type == "dingdian":
-            #     chapter_info = dingdian_api.get_chapter_info(chapter_url, index)
-            if isinstance(chapter_info, dict):
+            if self.app_type == "Dingdian":
+                chapter_info = DingdianAPI.get_chapter_info(chapter_url, index)
+            if isinstance(chapter_info, dict) and chapter_info is not None:
                 self.content_config.append(chapter_info)
                 self.progress_bar(chapter_info['chapterTitle'])
-        except Exception as e:
-            print("error: {}".format(e), self.save_content_json())
+        except Exception as err:
+            pass
+            # print("download_book_content error:", self.save_content_json())
         finally:
             self.max_threading.release()  # release threading semaphore
 

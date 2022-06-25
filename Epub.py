@@ -4,10 +4,11 @@ import requests
 
 
 def get_cover_image(cover_url: str):
+    print("cover_url:", cover_url)
     retry = 0
     while True:
-        response = requests.get(cover_url)
-        if response.status_code == 200:
+        response = requests.get(cover_url, headers={'User-Agent': 'Mozilla/5.0'})
+        if response.status_code == 304 or response.status_code == 200:
             return response.content
         retry += 1
         if retry > 5:

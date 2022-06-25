@@ -19,7 +19,14 @@ def update_config():
 if __name__ == '__main__':
     # shell_download_book()
     update_config()
-    if len(sys.argv) >= 2:
-        shell_linovel(sys.argv[1:])
+    if len(sys.argv) >= 3:
+        if sys.argv[1] == "linovel":
+            shell_linovel(sys.argv[2:])
+        if sys.argv[1] == "dingdian":
+            shell_dingdian(sys.argv[2:])
     else:
-        shell_linovel(inputs=get(">").split(" "))
+        inputs = get(">").split(" ")
+        if inputs[0] == "linovel":
+            shell_linovel(inputs[1:])
+        if inputs[0] == "dingdian":
+            shell_dingdian(inputs[1:])
