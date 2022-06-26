@@ -1,14 +1,15 @@
-import sys
 from shell import *
 from config import *
 
 
 def update_config():
     Vars.cfg.load()
-    if Vars.cfg.data.get('downloaded_book_id_list') is None:
-        Vars.cfg.data['downloaded_book_id_list'] = []
+    if not isinstance(Vars.cfg.data.get('downloaded_book_id_list'), dict):
+        Vars.cfg.data['downloaded_book_id_list'] = {"Linovel": [], "Dingdian": []}
     if not isinstance(Vars.cfg.data.get('max_thread'), int):
         Vars.cfg.data['max_thread'] = 16
+    if not isinstance(Vars.cfg.data.get('app_type_list'), list):
+        Vars.cfg.data['app_type_list'] = ["Linovel", "Dingdian"]
     if not isinstance(Vars.cfg.data.get('config_path'), str):
         Vars.cfg.data['config_path'] = "./Cache/"
     if not isinstance(Vars.cfg.data.get('out_path'), str):
@@ -21,33 +22,74 @@ def update_config():
     Vars.cfg.save()
 
 
+def downloaded_update_book(app_type_name: str):
+    if app_type_name in Vars.cfg.data['app_type_list']:
+        if len(Vars.cfg.data['downloaded_book_id_list'][app_type_name]) != 0:
+            [start_download_book(book_id) for book_id in Vars.cfg.data.get('downloaded_book_id_list')]
+        else:
+            print("[warning] downloaded_book_id_list is empty, please download book first")
+    else:
+        print("[error] app_type_name not found, app_type_name:", app_type_name)
+
+
 def command():
     import argparse
     parser = argparse.ArgumentParser(description='Downloader for Linovel and Dingdian')
-    parser.add_argument('-c', '--config', help='config file path', default="./config.json")
     parser.add_argument('-u', '--update', help='update config file', action="store_true")
-    parser.add_argument('-d', '--download', help='download book', action="store_true")
-    parser.add_argument('-l', '--list', help='list book', action="store_true")
     parser.add_argument('-s', '--search', help='search book', action="store_true")
-    parser.add_argument('-v', '--version', help='show version', action="store_true")
-    parser.add_argument('-a', '--all', help='download all book', action="store_true")
-    parser.add_argument('-i', '--id', help='download book by id', type=int)
-    parser.add_argument('-n', '--name', help='download book by name')
+    # parser.add_argument('-v', '--version', help='show version', action="store_true")
+    parser.add_argument('-i', '--bookid', default=None, nargs=1, help='download book by book id')
+    parser.add_argument('-n', '--name', default=None, help='download book by name')
+    parser.add_argument('-a', '--app', help='run as app', default=None, nargs=1)
     return parser.parse_args()
 
 
 if __name__ == '__main__':
-    # shell_download_book()
     update_config()  # update config file if necessary (for example, add new token)
-    if len(sys.argv) >= 3:
-        if sys.argv[1] == "linovel":
-            shell_linovel(sys.argv[2:])
-        if sys.argv[1] == "dingdian":
-            shell_dingdian(sys.argv[2:])
+    args, shell_cmd = command(), False
+
+    if args.app:
+        set_up_app_type(args.app[0])
     else:
-        print("please input command, like: linovel download book_id")
-        inputs = get(">").split(" ")
-        if inputs[0] == "linovel":
-            shell_linovel(inputs[1:])
-        if inputs[0] == "dingdian":
-            shell_dingdian(inputs[1:])
+        set_up_app_type("Linovel")
+
+    if args.bookid:
+        get_book_info(args.bookid[0])
+        shell_cmd = True
+
+    if args.name:
+        get_search_list(args.book_name)
+        shell_cmd = True
+
+    if args.update is True:
+        for app_type in Vars.cfg.data['app_type_list']:
+            downloaded_update_book(app_type)
+        shell_cmd = True
+
+    if not shell_cmd:
+        print("[info] run as shell")
+        print("[info] d | download book by book id")
+        print("[info] s | search book")
+        print("[info] u | update book")
+        print("[info] a | run as app")
+        while True:
+            inputs = get(">").split(" ")
+            if inputs[0] == "d":
+                if len(inputs) >= 2:
+                    get_book_info(inputs[1])
+                else:
+                    print("[error] please input book id, example: d 12345")
+
+            elif inputs[0] == "s":
+                if len(inputs) >= 2:
+                    get_search_list(inputs[1])
+                else:
+                    print("[error] please input book name, example: s 红楼梦")
+            elif inputs[0] == "u":
+                if len(inputs) >= 2:
+                    downloaded_update_book(inputs[1])
+                print("download all books in config book_id_list")
+                for app_type in Vars.cfg.data['app_type_list']:
+                    downloaded_update_book(app_type)
+            else:
+                print("[error] command not found", inputs[0])

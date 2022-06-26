@@ -74,6 +74,18 @@ def get_sort(tag_name: str, page: int, retry: int = 0):  # get sort from url by 
         return print("get sort failed, page is {}".format(page))
 
 
+def search_book(book_name: str) -> [list, None]:
+    response = get(api_url="/search/?kw={}".format(book_name))
+    if response is not None and isinstance(response, str):
+        html_str = response.split('<div class="rank-book-list">')[1]
+        book_id_list = re.findall(r'<a href="/book/(\d+).html"', str(html_str))
+        if len(book_id_list) != 0:
+            return book_id_list
+        else:
+            return []
+        # print(book_id)
+
+
 def get_chapter_cover(html_string: [str]):
     img_url_list = [
         img_url.get('src') for img_url in html_string.xpath('//div[@class="article-text"]//img')

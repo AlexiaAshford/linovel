@@ -45,6 +45,7 @@ class Vars:
     current_bookshelf = []
     current_book = None
     current_epub = None
+    current_book_type = None
     out_text_file = None
     config_text = None
     force_output = False

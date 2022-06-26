@@ -4,7 +4,6 @@ import requests
 
 
 def get_cover_image(cover_url: str):
-    print("cover_url:", cover_url)
     retry = 0
     while True:
         response = requests.get(cover_url, headers={'User-Agent': 'Mozilla/5.0'})

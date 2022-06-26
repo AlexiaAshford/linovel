@@ -80,12 +80,13 @@ class Book:
                 chapter_info = LinovelAPI.get_chapter_info(chapter_url, index)
             if self.app_type == "Dingdian":
                 chapter_info = DingdianAPI.get_chapter_info(chapter_url, index)
+
             if isinstance(chapter_info, dict) and chapter_info is not None:
                 self.content_config.append(chapter_info)
                 self.progress_bar(chapter_info['chapterTitle'])
         except Exception as err:
-            pass
-            # print("download_book_content error:", self.save_content_json())
+            print("download book content error: {}".format(err))
+            self.save_content_json()  # save content_config if error occur
         finally:
             self.max_threading.release()  # release threading semaphore
 
@@ -110,11 +111,11 @@ class Book:
         self.save_content_json()
         self.merge_text_file()
 
-        if self.book_id not in Vars.cfg.data['downloaded_book_id_list']:
-            Vars.cfg.data['downloaded_book_id_list'].append(self.book_id)
+        if self.book_id not in Vars.cfg.data['downloaded_book_id_list'][Vars.current_book_type]:
+            Vars.cfg.data['downloaded_book_id_list'][Vars.current_book_type].append(self.book_id)
             Vars.cfg.save()
         else:
-            print("the book {} add book_id update list.\n\n".format(self.book_name))
+            print("{}: add book_id update list.".format(self.book_name))
 
     def progress_bar(self, title: str = "") -> None:  # progress bar
         self.progress_bar_count += 1  # increase progress_bar_count
