@@ -1,31 +1,8 @@
-import time
-import requests
-from lxml import etree
-from config import *
-
-
-def get(api_url: str, param: dict = None, retry: int = 0) -> [str, None, int]:
-    if retry >= 5:
-        time.sleep(retry * 0.5)
-        print("retry is {}, sleep time is:[{}] url:{}".format(retry, int(retry * 0.5), api_url))
-    response = requests.get("https://www.linovel.net" + api_url, params=param, headers=Vars.cfg.data['user_agent'])
-    if response.status_code == 500:
-        return 404
-    return response.text if response.status_code == 200 else None
-
-
-def post(api_url: str, data: dict = None, retry: int = 0, max_retries: int = 3):
-    response = requests.post(api_url, data=data, headers=Vars.cfg.data['user_agent'])
-    if response.status_code == 200:
-        return response.text
-    if retry <= max_retries:
-        post(api_url=api_url, data=data, retry=retry + 1, max_retries=max_retries - 1)
-    else:
-        print("retry is over, status code is {}".format(response.status_code))
+from HttpUtil import *
 
 
 def get_book_info(book_id: str, retry: int = 0) -> [dict, None]:  # get book info from url by book_id
-    response = get(api_url="/book/{}.html".format(book_id), retry=retry)
+    response = get(api_url="https://www.linovel.net/book/{}.html".format(book_id), retry=retry)
     if response is not None and isinstance(response, str):  # if the response is not None and is a string
         html_str = etree.HTML(response)  # parse html string to lxml.etree.ElementTree
         book_info = {
@@ -43,7 +20,7 @@ def get_book_info(book_id: str, retry: int = 0) -> [dict, None]:  # get book inf
 
 
 def get_chapter_info(chapter_url: str, index: int, content: str = "", retry: int = 0) -> [dict, None]:
-    response = get(api_url=chapter_url, retry=retry)
+    response = get(api_url="https://www.linovel.net" + chapter_url, retry=retry)
     if response is not None and isinstance(response, str):
         content_string = etree.HTML(response)
         for book in content_string.xpath('//div[@class="article-text"]/p'):
@@ -63,7 +40,8 @@ def get_chapter_info(chapter_url: str, index: int, content: str = "", retry: int
 
 
 def get_sort(tag_name: str, page: int, retry: int = 0):  # get sort from url by page
-    response = get(api_url="/cat/-1.html?sort=words&sign=-1&page={}".format(page), retry=retry)
+    params = {"sort": "words", "sign": "-1", "page": page}
+    response = get(api_url="https://www.linovel.net/cat/-1.html", params=params, retry=retry)
     if response is not None and isinstance(response, str):
         sort_list = [i.get('href').split('/')[-1][:-5] for i in etree.HTML(response).xpath('//a[@class="book-name"]')]
         if len(sort_list) != 0:
@@ -75,7 +53,7 @@ def get_sort(tag_name: str, page: int, retry: int = 0):  # get sort from url by 
 
 
 def search_book(book_name: str) -> [list, None]:
-    response = get(api_url="/search/?kw={}".format(book_name))
+    response = get(api_url="https://www.linovel.net/search/", params={"kw": book_name})
     if response is not None and isinstance(response, str):
         html_str = response.split('<div class="rank-book-list">')[1]
         book_id_list = re.findall(r'<a href="/book/(\d+).html"', str(html_str))

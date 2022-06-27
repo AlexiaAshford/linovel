@@ -40,7 +40,7 @@ def command():
     # parser.add_argument('-v', '--version', help='show version', action="store_true")
     parser.add_argument('-i', '--bookid', default=None, nargs=1, help='download book by book id')
     parser.add_argument('-n', '--name', default=None, help='download book by name')
-    parser.add_argument('-a', '--app', help='run as app', default=None, nargs=1)
+    parser.add_argument('-a', '--app', help='run as app', nargs=1, default=None)
     return parser.parse_args()
 
 

@@ -1,33 +1,8 @@
-import time
-from lxml import etree
-import requests
-from config import *
-
-
-def get(api_url: str, param: dict = None, retry: int = 0) -> [str, None, int]:
-    if retry >= 5:
-        time.sleep(retry * 0.5)
-        print("retry is {}, sleep time is:[{}] url:{}".format(retry, int(retry * 0.5), api_url))
-    response = requests.get("https://www.ddyueshu.com" + api_url, params=param, headers=Vars.cfg.data['user_agent'])
-    response.encoding = 'gbk'
-    if response.status_code == 404:
-        return 404
-    return response.text if response.status_code == 200 else None
-
-
-def post(api_url: str, data: dict = None, retry: int = 0, max_retries: int = 3):
-    response = requests.post(api_url, data=data, headers=Vars.cfg.data['user_agent'])
-    response.encoding = 'gbk'
-    if response.status_code == 200:
-        return response.text
-    if retry <= max_retries:
-        post(api_url=api_url, data=data, retry=retry + 1, max_retries=max_retries - 1)
-    else:
-        print("retry is over, status code is {}".format(response.status_code))
+from HttpUtil import *
 
 
 def get_book_info(book_id: str, retry: int = 0) -> [dict, None]:  # get book info from url by book_id
-    response = get(api_url="/" + book_id, retry=retry)
+    response = get(api_url="https://www.ddyueshu.com/" + book_id, retry=retry, gbk=True)
     if response is not None and isinstance(response, str):  # if the response is not None and is a string
         html_str = etree.HTML(response)  # parse html string to lxml.etree.ElementTree
         book_info = {
@@ -45,7 +20,7 @@ def get_book_info(book_id: str, retry: int = 0) -> [dict, None]:  # get book inf
 
 
 def get_chapter_info(chapter_url: str, index: int, content: str = "", retry: int = 0) -> [dict, None]:
-    response = get(api_url=chapter_url, retry=retry)
+    response = get(api_url="https://www.ddyueshu.com" + chapter_url, retry=retry, gbk=True)
     if response is not None and isinstance(response, str):
         # content_string = etree.HTML(str(response))
         for book in response.split('<div id="content">')[1].split("<script>")[0].split("<br />"):

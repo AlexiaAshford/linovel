@@ -27,13 +27,13 @@ def get_search_list(search_keyword: str):
     if Vars.current_book_type == "Linovel":
         return start_search_book(LinovelAPI.search_book(search_keyword))
     # elif Vars.current_book_type == "Dingdian":
-    #     return Dingdian.get_search_list()
+    #     return start_search_book(DingdianAPI.search_book(search_keyword))
 
 
 def start_download_book(book_info_result: dict) -> None:
     Vars.current_book = book_info_result
     if Vars.current_book is not None:
-        Vars.current_book = book.Book(Vars.current_book, "Linovel")
+        Vars.current_book = book.Book(Vars.current_book)
         Vars.current_book.init_content_config()
         Vars.current_book.multi_thread_download_book()
     else:
@@ -66,7 +66,6 @@ class Linovel:
             tag_bookid_list = LinovelAPI.get_sort(tag_name, page)
             for book_id in tag_bookid_list:
                 get_book_info(book_id)
-
 
 # def shell_linovel(inputs: list):
 #     choice = inputs[0].lower()

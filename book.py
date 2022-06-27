@@ -6,8 +6,7 @@ import Epub
 
 
 class Book:
-    def __init__(self, book_info: dict, app_type: str = ""):
-        self.app_type = app_type
+    def __init__(self, book_info: dict):
         self.content_config = []
         self.threading_list = []
         self.progress_bar_count = 0
@@ -76,9 +75,9 @@ class Book:
         self.max_threading.acquire()  # acquire semaphore to prevent multi threading
         try:
             chapter_info = None
-            if self.app_type == "Linovel":
+            if Vars.current_book_type == "Linovel":
                 chapter_info = LinovelAPI.get_chapter_info(chapter_url, index)
-            if self.app_type == "Dingdian":
+            if Vars.current_book_type == "Dingdian":
                 chapter_info = DingdianAPI.get_chapter_info(chapter_url, index)
 
             if isinstance(chapter_info, dict) and chapter_info is not None:
