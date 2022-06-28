@@ -5,14 +5,13 @@ def get_book_info(book_id: str, retry: int = 0) -> [dict, None]:  # get book inf
     response = get(api_url="https://www.linovel.net/book/{}.html".format(book_id), retry=retry)
     if response is not None and isinstance(response, str):  # if the response is not None and is a string
         html_str = etree.HTML(response)  # parse html string to lxml.etree.ElementTree
-        book_info = {
-            "bookId": book_id,
-            "bookName": html_str.xpath('//h1[@class="book-title"]')[0].text,
-            "authorName": html_str.xpath('//div[@class="author-frame"]//a')[0].text,
-            "bookCoverUrl": html_str.xpath('//div[@class="book-cover"]/a')[0].get('href'),
-            "chapUrl": [i.get('href') for i in html_str.xpath('//div[@class="chapter"]/a')]
-        }  # get book info from html string and return a dict with book info
-        return book_info  # return a dict with book info
+        return book_info_json(
+            book_id=book_id,
+            book_name=html_str.xpath('//h1[@class="book-title"]')[0].text,
+            author_name=html_str.xpath('//div[@class="author-frame"]//a')[0].text,
+            chapter_url_list=[i.get('href') for i in html_str.xpath('//div[@class="chapter"]/a')],
+            cover_url=html_str.xpath('//div[@class="book-cover"]/a')[0].get('href'),
+        )  # get book info from html string and return a dict with book info
     else:
         if retry <= 10 and response != 404:
             return get_book_info(book_id, retry + 1)
@@ -26,13 +25,11 @@ def get_chapter_info(chapter_url: str, index: int, content: str = "", retry: int
         for book in content_string.xpath('//div[@class="article-text"]/p'):
             if book.text is not None and len(book.text.strip()) != 0:
                 content += book.text.strip() + "\n"
-        return {
-            "chapterIndex": index,
-            "chapter_url": chapter_url,
-            "chapterTitle": content_string.xpath('//div[@class="article-title"]')[0].text.strip(),
-            "chapterContent": content,
-            "imageList": get_chapter_cover(content_string)
-        }
+        return chapter_info_json(
+            index=index, url=chapter_url, content=content,
+            title=content_string.xpath('//div[@class="article-title"]')[0].text.strip(),
+            image_list=get_chapter_cover(content_string)
+        )  # return a dict with chapter info
     else:
         if retry <= 10:
             return get_chapter_info(chapter_url, index, content, retry + 1)
@@ -64,7 +61,7 @@ def search_book(book_name: str) -> [list, None]:
         # print(book_id)
 
 
-def get_chapter_cover(html_string: [str]):
+def get_chapter_cover(html_string: [str, etree.ElementTree]) -> [list, None]:
     img_url_list = [
         img_url.get('src') for img_url in html_string.xpath('//div[@class="article-text"]//img')
     ]
