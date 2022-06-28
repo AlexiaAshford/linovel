@@ -1,6 +1,5 @@
 import threading
-import LinovelAPI
-import DingdianAPI
+from scr import DingdianAPI, LinovelAPI
 from config import *
 import Epub
 

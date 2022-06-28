@@ -1,5 +1,4 @@
-import LinovelAPI
-import DingdianAPI
+from scr import DingdianAPI, LinovelAPI
 import book
 from config import *
 
