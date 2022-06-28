@@ -49,9 +49,9 @@ if __name__ == '__main__':
     args, shell_cmd = command(), False
 
     if args.app:
-        set_up_app_type(args.app[0])
+        set_up_app_type(current_book_type=args.app[0])
     else:
-        set_up_app_type("Linovel")
+        set_up_app_type(current_book_type="Linovel")
 
     if args.bookid:
         get_book_info(args.bookid[0])
