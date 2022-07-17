@@ -87,6 +87,7 @@ def book_info_json(
         book_intro: str = None,
         book_status: str = None,
         cover_url: str = None,
+        book_uptime: str = None,
         chapter_url_list: list = None
 ) -> [dict, None]:
     try:
@@ -98,7 +99,8 @@ def book_info_json(
             "chapUrl": chapter_url_list,
             "bookTag": book_tag,
             "bookIntro": book_intro,
-            "bookStatus": book_status
+            "bookStatus": book_status,
+            "bookUptime": book_uptime
         }
     except Exception as error:
         print("book_info_json", error)
