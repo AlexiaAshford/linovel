@@ -46,6 +46,8 @@ def command():
 
 if __name__ == '__main__':
     update_config()  # update config file if necessary (for example, add new token)
+    # from scr import xxsyAPI
+    # print(xxsyAPI.get_book_info("2727"))
     args, shell_cmd = command(), False
 
     if args.app:

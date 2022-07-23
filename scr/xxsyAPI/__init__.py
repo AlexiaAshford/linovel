@@ -1,25 +1,25 @@
 from HttpUtil import *
 
 
-def get_book_info():
-    response = etree.HTML(get("http://www.xxsy.net/info/1588172.html"))[0]
-    book_img = response.xpath("//dl[@class='bookprofile']/dt/img/@src")[0]
-    book_title = response.xpath("//dl[@class='bookprofile']/dd/div[@class='title']/h1/text()")[0]
-    book_author = response.xpath("//dl[@class='bookprofile']/dd/div[@class='title']/span/a/text()")[0]
-    book_state = response.xpath("//dl[@class='bookprofile']/dd/p[@class='sub-cols']/span[2]/text()")[0]
-    book_label = response.xpath("//dl[@class='bookprofile']/dd/p[@class='sub-tags']//a/text()")
-    book_category = response.xpath("//dl[@class='bookprofile']/dd/p[@class='sub-cols']/span[3]/text()")[0]
-    book_update_time = response.xpath("//dl[@class='bookprofile']/dd/div[@class='sub-newest']/p/span/text()")[0]
-    book_number = response.xpath("//dl[@class='bookprofile']/dd/p[@class='sub-data']/span[1]/em/text()")[0]
-    book_detailed = response.xpath("//div[@class='book-profile']/dl/dd//p/text()")
-
+def get_book_info(book_id: str):
+    response = etree.HTML(get(f"https://www.xbookben.net/txt/{book_id}.html"))[0]
+    book_img = response.xpath('/html/body/div/div[2]/div/div/div[1]/span/img/@src')[0]
+    book_title = response.xpath('/html/body/div/div[2]/div/div/div[2]/h1/text()')[0]
+    book_author = response.xpath('/html/body/div/div[2]/div/div/div[2]/p/strong[1]/span/text()')[0]
+    book_state = response.xpath('/html/body/div/div[2]/div/div/div[2]/p/strong[3]/span/text()')[0]
+    book_label = response.xpath('/html/body/div/div[2]/div/div/div[2]/p/strong[2]/span/text()')[0]
+    last_chapter_title = response.xpath('//*[@id="Contents"]/div[1]/p/a/text()')[0]
+    book_number = response.xpath('/html/body/div/div[2]/div/div/div[2]/p/strong[4]/span/text()')[0]
+    book_update_time = response.xpath('//*[@id="Contents"]/div[1]/p/small/text()')[0].strip("——左边按钮目录正序倒序")
+    chapter_url_list = ["https://www.xbookben.net" + i for i in response.xpath('//*[@id="chapterList"]/li/a/@href')]
     return book_info_json(
         book_id=book_number,
         book_name=book_title,
         cover_url=book_img,
         author_name=book_author,
         book_status=book_state,
-        book_tag=','.join([str(i) for i in book_label]) if book_label else None,
+        book_tag=book_label,
+        last_chapter_title=last_chapter_title,
         book_uptime=book_update_time,
-        book_intro=','.join([str(i) for i in book_detailed]) if book_detailed else None,
+        chapter_url_list=chapter_url_list
     )
