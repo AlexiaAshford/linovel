@@ -1,5 +1,3 @@
-from argparse import Namespace
-
 from shell import *
 from config import *
 import argparse
@@ -7,10 +5,6 @@ import argparse
 
 def update_config():
     Vars.cfg.load()
-    if not isinstance(Vars.cfg.data.get('downloaded_book_id_list'), dict):
-        Vars.cfg.data['downloaded_book_id_list'] = {
-            "Linovel": [], "Dingdian": [], "Xbookben": [], "BiquPavilion": []
-        }
     if not isinstance(Vars.cfg.data.get('max_thread'), int):
         Vars.cfg.data['max_thread'] = 16
     if not isinstance(Vars.cfg.data.get('app_type_list'), list):
@@ -19,10 +13,10 @@ def update_config():
         Vars.cfg.data['config_path'] = "./Cache/"
     if not isinstance(Vars.cfg.data.get('out_path'), str):
         Vars.cfg.data['out_path'] = "./downloads/"
+    if not isinstance(Vars.cfg.data.get('downloaded_book_id_list'), dict):
+        Vars.cfg.data['downloaded_book_id_list'] = {"Linovel": [], "Dingdian": [], "Xbookben": [], "BiquPavilion": []}
     if not isinstance(Vars.cfg.data.get('user_agent'), dict):
-        Vars.cfg.data['user_agent'] = {
-            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit"
-        }
+        Vars.cfg.data['user_agent'] = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit"}
     Vars.cfg.save()
 
 
@@ -36,7 +30,7 @@ def downloaded_update_book(app_type_name: str):
         print("[error] app_type_name not found, app_type_name:", app_type_name)
 
 
-def command() -> Namespace:
+def command() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description='Downloader for Linovel and Dingdian')
     parser.add_argument('-u', '--update', help='update config file', action="store_true")
     parser.add_argument('-s', '--search', help='search book', action="store_true")
@@ -50,13 +44,9 @@ def command() -> Namespace:
 if __name__ == '__main__':
     update_config()  # update config file if necessary (for example, add new token)
     args, shell_cmd = command(), False
+    set_up_app_type(current_book_type=args.app[0]) if args.app else set_up_app_type(current_book_type="Linovel")
 
-    if args.app:
-        set_up_app_type(current_book_type=args.app[0])
-    else:
-        set_up_app_type(current_book_type="Linovel")
-
-    if args.bookid:
+    if args.bookid is not None and args.bookid != "":
         get_book_info(args.bookid[0])
         shell_cmd = True
 
