@@ -1,5 +1,5 @@
 import threading
-from scr import DingdianAPI, LinovelAPI,XbookbenAPI
+from scr import DingdianAPI, LinovelAPI, XbookbenAPI
 from config import *
 import Epub
 

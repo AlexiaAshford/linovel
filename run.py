@@ -1,23 +1,27 @@
+from argparse import Namespace
+
 from shell import *
 from config import *
+import argparse
 
 
 def update_config():
     Vars.cfg.load()
     if not isinstance(Vars.cfg.data.get('downloaded_book_id_list'), dict):
-        Vars.cfg.data['downloaded_book_id_list'] = {"Linovel": [], "Dingdian": [], "Xbookben": []}
+        Vars.cfg.data['downloaded_book_id_list'] = {
+            "Linovel": [], "Dingdian": [], "Xbookben": [], "BiquPavilion": []
+        }
     if not isinstance(Vars.cfg.data.get('max_thread'), int):
         Vars.cfg.data['max_thread'] = 16
     if not isinstance(Vars.cfg.data.get('app_type_list'), list):
-        Vars.cfg.data['app_type_list'] = ["Linovel", "Dingdian", "Xbookben"]
+        Vars.cfg.data['app_type_list'] = ["Linovel", "Dingdian", "Xbookben", "BiquPavilion"]
     if not isinstance(Vars.cfg.data.get('config_path'), str):
         Vars.cfg.data['config_path'] = "./Cache/"
     if not isinstance(Vars.cfg.data.get('out_path'), str):
         Vars.cfg.data['out_path'] = "./downloads/"
     if not isinstance(Vars.cfg.data.get('user_agent'), dict):
         Vars.cfg.data['user_agent'] = {
-            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/537.36 (KHTML, like Gecko) "
-                          "Chrome/89.0.4389.114 Safari/537.36 "
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit"
         }
     Vars.cfg.save()
 
@@ -32,8 +36,7 @@ def downloaded_update_book(app_type_name: str):
         print("[error] app_type_name not found, app_type_name:", app_type_name)
 
 
-def command():
-    import argparse
+def command() -> Namespace:
     parser = argparse.ArgumentParser(description='Downloader for Linovel and Dingdian')
     parser.add_argument('-u', '--update', help='update config file', action="store_true")
     parser.add_argument('-s', '--search', help='search book', action="store_true")

@@ -5,19 +5,16 @@ def get_book_info(novel_id: str, retry: int = 0) -> [dict, None]:  # get book in
     response = get("https://infosxs.pigqq.com/BookFiles/Html/{}/info.html".format(novel_id), return_type="json")
     if response is not None and isinstance(response, dict):  # if the response is not None and is a dict
         book_info = response.get("data")  # get book info from response dict
-        if book_info is not None and isinstance(book_info, dict):
-            return book_info_json(
-                book_id=book_info["Id"],
-                book_name=book_info["Name"],
-                author_name=book_info["Author"],
-                book_tag=book_info["CName"],
-                book_intro=book_info["Desc"],
-                book_status=book_info["BookStatus"],
-                cover_url=book_info["Img"],
-                # chapter_url_list=[i.get('href') for i in html_str.xpath('//div[@class="chapter"]/a')],
-            )  # get book info from html string and return a dict with book info
-        else:
-            return print("get book info failed, novel_id is {}".format(novel_id))
+        return book_info_json(
+            book_id=book_info["Id"],
+            book_name=book_info["Name"],
+            author_name=book_info["Author"],
+            book_tag=book_info["CName"],
+            book_intro=book_info["Desc"],
+            book_status=book_info["BookStatus"],
+            cover_url=book_info["Img"],
+            chapter_url_list=Book.catalogue(book_info["Id"]),
+        )  # get book info from html string and return a dict with book info
     else:
         if retry <= 10 and response != 404:
             return get_book_info(novel_id, retry + 1)  # if the response is None or is not a dict, retry
@@ -30,6 +27,7 @@ class Book:
     def catalogue(novel_id: str):
         response = get("https://infosxs.pigqq.com/BookFiles/Html/{}/index.html".format(novel_id))
         if response is not None and response.get('info') == 'success':
+            print(response.get('data').get('list'))
             return response.get('data').get('list')
 
     @staticmethod
