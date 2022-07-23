@@ -4,10 +4,23 @@
 
 ## current support Novel-website:
 
-| 站点名称 | 网址              | 是否正版 | 插图下载 |
-|------|-----------------|------|------|
-| 轻之文库 | www.linovel.net | ✅    | ✅    |
-| 顶点小说 | www.booktxt.net | ❌    | ❌    |
+| 站点名称 | 网址                | 是否正版 | 插图下载 |
+|------|-------------------|------|------|
+| 轻之文库 | www.linovel.net   | ✅    | ✅    |
+| 顶点小说 | www.booktxt.net   | ❌    | ❌    |
+| 书本网站 | www.xbookben.net/ | ❌    | ❌    |
+
+
+## command line
+``` 
+  -h, --help            show this help message and exit
+  -u, --update          update config file
+  -s, --search          search book
+  -i BOOKID             --bookid BOOKID  download book by book id
+  -n NAME               --name NAME  download book by name
+  -a APP                --app APP     run as app
+
+```
 
 ## planned development
 

@@ -89,7 +89,8 @@ def book_info_json(
         cover_url: str = None,
         book_uptime: str = None,
         last_chapter_title: str = None,
-        chapter_url_list: list = None
+        chapter_url_list: list = None,
+        book_words: str = None,
 ) -> [dict, None]:
     try:
         return {
@@ -98,6 +99,7 @@ def book_info_json(
             "authorName": author_name,
             "bookCoverUrl": cover_url,
             "chapUrl": chapter_url_list,
+            "bookWords": book_words,
             "bookTag": book_tag,
             "bookIntro": book_intro,
             "bookStatus": book_status,

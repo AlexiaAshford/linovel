@@ -1,24 +1,28 @@
-from scr import DingdianAPI, LinovelAPI, BiquPavilionAPI
+from scr import DingdianAPI, LinovelAPI, BiquPavilionAPI, XbookbenAPI
 import book
 from config import *
 
 
-def get_book_info(book_id: str):
+def get_book_info(book_id: str):  # get book info by book id
     if Vars.current_book_type == "Linovel":
         start_download_book(LinovelAPI.get_book_info(book_id))
     elif Vars.current_book_type == "Dingdian":
         start_download_book(DingdianAPI.get_book_info(book_id))
     elif Vars.current_book_type == "BiquPavilion":
         start_download_book(BiquPavilionAPI.get_book_info(book_id))
+    elif Vars.current_book_type == "Xbookben":
+        start_download_book(XbookbenAPI.get_book_info(book_id))
     else:
         print("[error] app type not found, app type:", Vars.current_book_type)
 
 
-def set_up_app_type(current_book_type: str):
+def set_up_app_type(current_book_type: str):  # set up app type and book type
     if current_book_type == "Linovel" or current_book_type == "l":
         Vars.current_book_type = "Linovel"
     elif current_book_type == "Dingdian" or current_book_type == "d":
         Vars.current_book_type = "Dingdian"
+    elif current_book_type == "Xbookben" or current_book_type == "x":
+        Vars.current_book_type = "Xbookben"
     elif Vars.current_book_type == "BiquPavilion" or current_book_type == "b":
         Vars.current_book_type = "BiquPavilion"
     else:
@@ -71,4 +75,3 @@ class Linovel:
             tag_bookid_list = LinovelAPI.get_sort(tag_name, page)
             for book_id in tag_bookid_list:
                 get_book_info(book_id)
-

@@ -5,11 +5,11 @@ from config import *
 def update_config():
     Vars.cfg.load()
     if not isinstance(Vars.cfg.data.get('downloaded_book_id_list'), dict):
-        Vars.cfg.data['downloaded_book_id_list'] = {"Linovel": [], "Dingdian": []}
+        Vars.cfg.data['downloaded_book_id_list'] = {"Linovel": [], "Dingdian": [], "Xbookben": []}
     if not isinstance(Vars.cfg.data.get('max_thread'), int):
         Vars.cfg.data['max_thread'] = 16
     if not isinstance(Vars.cfg.data.get('app_type_list'), list):
-        Vars.cfg.data['app_type_list'] = ["Linovel", "Dingdian"]
+        Vars.cfg.data['app_type_list'] = ["Linovel", "Dingdian", "Xbookben"]
     if not isinstance(Vars.cfg.data.get('config_path'), str):
         Vars.cfg.data['config_path'] = "./Cache/"
     if not isinstance(Vars.cfg.data.get('out_path'), str):
@@ -46,8 +46,6 @@ def command():
 
 if __name__ == '__main__':
     update_config()  # update config file if necessary (for example, add new token)
-    # from scr import xxsyAPI
-    # print(xxsyAPI.get_book_info("2727"))
     args, shell_cmd = command(), False
 
     if args.app:
