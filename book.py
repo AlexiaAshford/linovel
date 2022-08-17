@@ -150,3 +150,67 @@ class Book:
         print("\r{}/{} title:{}".format(
             self.progress_bar_count, self.progress_bar_length, title), end="\r"
         )  # print progress bar and title
+
+
+class Chapter:
+    def __init__(self, chapter_id: str):
+        self.chapter_id = chapter_id
+        self._content = None
+
+    @property
+    def chapter_info(self):
+        if Vars.current_book_type == "Linovel":
+            return Linovel.LinovelAPI.get_chapter_info_by_chapter_id(self.chapter_id)
+        elif Vars.current_book_type == "Dingdian":
+            return Dingdian.DingdianAPI.get_chapter_info_by_chapter_id(self.chapter_id)
+        elif Vars.current_book_type == "Xbookben":
+            return Xbookben.XbookbenAPI.get_chapter_info_by_chapter_id(self.chapter_id)
+
+    @property
+    def book_rule(self) -> rule:
+        if Vars.current_book_type == "Linovel":
+            return rule.LinovelRule
+        elif Vars.current_book_type == "Dingdian":
+            return rule.DingdianRule
+        elif Vars.current_book_type == "Xbookben":
+            return rule.XbookbenRule
+
+    @property
+    def chapter_title(self) -> str:
+        return self.chapter_info.xpath(self.book_rule.chapter_title)[0].strip()
+
+    @property
+    def content_html(self):
+        return self.chapter_info.xpath(self.book_rule.chapter_content)
+
+    def TEST(self, chapter_url: str, index: int):
+        image_list = []
+        return rule.chapter_json(
+            index=index,
+            url=chapter_url,
+            content=self.content,
+            title=self.chapter_title,
+            image_list=image_list if image_list is not None else []
+        )  # return a dict with chapter info
+
+    @property
+    def content(self):
+        if Vars.current_book_type == "Linovel":
+            for book in self.content_html:
+                if book.text is not None and len(book.text.strip()) != 0:
+                    self._content += book.text.strip() + "\n"
+            return self._content
+
+        elif Vars.current_book_type == "Dingdian":
+            for book in self.content_html:
+                if book.strip() == "" or '请记住本书首发域名' in book or '书友大本营' in book:
+                    continue
+                if book is not None and len(book.strip()) != 0:
+                    self._content += book.strip() + "\n"
+            return re.sub(r'&amp;|amp;|lt;|gt;', '', self._content)
+
+        elif Vars.current_book_type == "Xbookben":
+            for content_line in self.content_html:
+                if content_line.text is not None and len(content_line.text.strip()) != 0:
+                    self._content += content_line.text.strip() + "\n"
+            return self._content
