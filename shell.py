@@ -1,5 +1,5 @@
 import scr
-from scr import Dingdian, Linovel, BiquPavilionAPI, Xbookben
+from scr import Linovel, BiquPavilionAPI
 import book
 from config import *
 
@@ -59,20 +59,20 @@ def start_search_book(book_id_list: list):
         get_book_info(book_id)
 
 
-class Dingdian:
-    @staticmethod
-    def shell_tag_scanner(tag_name: str = "", max_page: int = 622):
-        for page in range(max_page):
-            tag_bookid_list = Linovel.get_sort(tag_name, page)
-            for book_id in tag_bookid_list:
-                get_book_info(book_id)
+# class Dingdian:
+#     @staticmethod
+#     def shell_tag_scanner(tag_name: str = "", max_page: int = 622):
+#         for page in range(max_page):
+#             tag_bookid_list = Linovel.get_sort(tag_name, page)
+#             for book_id in tag_bookid_list:
+#                 get_book_info(book_id)
 
 
-class Linovel:
-
-    @staticmethod
-    def shell_tag_scanner(tag_name: str = "", max_page: int = 622):
-        for page in range(max_page):
-            tag_bookid_list = Linovel.get_sort(tag_name, page)
-            for book_id in tag_bookid_list:
-                get_book_info(book_id)
+# class Linovel:
+#
+#     @staticmethod
+#     def shell_tag_scanner(tag_name: str = "", max_page: int = 622):
+#         for page in range(max_page):
+#             tag_bookid_list = Linovel.get_sort(tag_name, page)
+#             for book_id in tag_bookid_list:
+#                 get_book_info(book_id)
