@@ -7,16 +7,17 @@ def get_cover_image(cover_url: str):
     retry = 0
     while True:
         try:
-            response = requests.get(cover_url, headers={'User-Agent': 'Mozilla/5.0'})
+            response = requests.get(cover_url, headers={
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '})
             if response.status_code == 304 or response.status_code == 200:
                 return response.content
             retry += 1
             if retry > 5:
                 return None
         except Exception as error:
-            print(error)
             retry += 1
             if retry > 5:
+                print("get_cover_image", error)
                 return None
 
 
@@ -54,7 +55,7 @@ class EpubFile:
         elif Vars.current_book_type == "Dingdian":
             book_host = "https://www.ddyueshu.com"
         elif Vars.current_book_type == "Linovel":
-            book_host = "https://www.linovel.net"
+            book_host = ""
         else:
             book_host = ""
         print(book_host + Vars.current_book.cover)

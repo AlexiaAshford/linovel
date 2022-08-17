@@ -1,20 +1,7 @@
 import scr
-from scr import Linovel, BiquPavilionAPI
+from scr import Linovel
 import book
 from config import *
-
-
-def get_book_info(book_id: str):  # get book info by book id
-    if Vars.current_book_type == "Linovel":
-        start_download_book(scr.get_book_information(book_id))
-    elif Vars.current_book_type == "Dingdian":
-        start_download_book(scr.get_book_information(book_id))
-    elif Vars.current_book_type == "BiquPavilion":
-        start_download_book(BiquPavilionAPI.get_book_info(book_id))
-    elif Vars.current_book_type == "Xbookben":
-        start_download_book(scr.get_book_information(book_id))
-    else:
-        print("[error] app type not found, app type:", Vars.current_book_type)
 
 
 def set_up_app_type(current_book_type: str):  # set up app type and book type
@@ -56,8 +43,7 @@ def start_search_book(book_id_list: list):
         return
     print("[info] start search book, book_id_list length:", len(book_id_list))
     for book_id in book_id_list:
-        get_book_info(book_id)
-
+        start_download_book(scr.get_book_information(book_id))
 
 # class Dingdian:
 #     @staticmethod
