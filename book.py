@@ -153,7 +153,8 @@ class Book:
 
 
 class Chapter:
-    def __init__(self, chapter_id: str):
+    def __init__(self, chapter_id: str, index: int):
+        self.chapter_index = index
         self.chapter_id = chapter_id
         self._content = None
 
@@ -183,11 +184,12 @@ class Chapter:
     def content_html(self):
         return self.chapter_info.xpath(self.book_rule.chapter_content)
 
-    def TEST(self, chapter_url: str, index: int):
+    @property
+    def chapter_json(self):
         image_list = []
         return rule.chapter_json(
-            index=index,
-            url=chapter_url,
+            index=self.chapter_index,
+            url=self.chapter_id,
             content=self.content,
             title=self.chapter_title,
             image_list=image_list if image_list is not None else []
