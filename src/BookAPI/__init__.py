@@ -41,12 +41,20 @@ class LinovelAPI:
 
 class DingdianAPI:
     @staticmethod
-    def get_book_info_by_book_id(book_id):
+    def get_book_info_by_book_id(book_id: str):
         return etree.HTML(src.request("https://www.ddyueshu.com/{}".format(book_id), gbk=True))
 
     @staticmethod
     def get_chapter_info_by_chapter_id(chapter_url):
         return etree.HTML(src.request(api_url='https://www.ddyueshu.com' + chapter_url, gbk=True))
+
+
+class BiquPavilionAPI:
+    @staticmethod
+    def get_book_info_by_book_id(book_id: str) -> [dict, None]:  # get book info from url by book_id
+        response = src.request("https://infosxs.pigqq.com/BookFiles/Html/{}/info.html".format(book_id))
+        if response is not None and isinstance(response, dict):  # if the response is not None and is a dict
+            return response.get("data")  # get book info from response dict
 
 
 def get_sort(tag_name: str, page: int, retry: int = 0):  # get sort from url by page
