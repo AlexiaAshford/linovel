@@ -5,7 +5,7 @@ import src
 
 class XbookbenAPI:
     @staticmethod
-    def get_book_info_by_book_id(book_id):
+    def get_book_info_by_book_id(book_id: str):
         return etree.HTML(src.request(api_url="https://www.xbookben.net/txt/{}.html".format(book_id)))
 
     @staticmethod

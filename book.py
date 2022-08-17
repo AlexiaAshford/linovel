@@ -16,16 +16,23 @@ class Book:
         self.book_author = book_info['authorName']
         self.cover = book_info['bookCoverUrl']
         self.chapter_url_list = book_info['chapUrl']
-        self.out_text_path = os.path.join(os.getcwd(), Vars.cfg.data['out_path'], self.book_name)
-        self.save_config_path = os.path.join(os.getcwd(), Vars.cfg.data['config_path'], self.book_name + ".json")
-        # create semaphore to prevent multi threading
         self.max_threading = threading.BoundedSemaphore(Vars.cfg.data.get('max_thread'))
 
+    def make_dirs(self, file_path) -> str:
+        file_path = os.path.join(os.getcwd(), file_path)
+        if not os.path.exists(file_path):  # if Cache folder is not exist, create it
+            os.makedirs(file_path)
+        return file_path
+
+    @property
+    def out_text_path(self) -> str:
+        return self.make_dirs(os.path.join(Vars.cfg.data['out_path'], self.book_name))
+
+    @property
+    def save_config_path(self) -> str:
+        return os.path.join(self.make_dirs(Vars.cfg.data['config_path']), self.book_name + ".json")
+
     def init_content_config(self):
-        if not os.path.exists(Vars.cfg.data['config_path']):  # if Cache folder is not exist, create it
-            os.mkdir(Vars.cfg.data['config_path'])
-        if not os.path.exists(self.out_text_path):  # if downloads folder is not exist, create it
-            os.makedirs(self.out_text_path)
         if os.path.exists(self.save_config_path):
             self.content_config = read_text(self.save_config_path, json_load=True)
             if self.content_config is None:
