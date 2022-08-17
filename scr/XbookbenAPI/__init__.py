@@ -1,30 +1,44 @@
 from HttpUtil import *
+from scr import rule
 
 
 def get_book_info(book_id: str):
-    book_id = book_id
-    response = etree.HTML(get(f"https://www.xbookben.net/txt/{book_id}.html"))[0]
-    book_img = response.xpath('/html/body/div/div[2]/div/div/div[1]/span/img/@src')[0]
-    book_title = response.xpath('/html/body/div/div[2]/div/div/div[2]/h1/text()')[0]
-    book_author = response.xpath('/html/body/div/div[2]/div/div/div[2]/p/strong[1]/span/text()')[0]
-    book_state = response.xpath('/html/body/div/div[2]/div/div/div[2]/p/strong[3]/span/text()')[0]
-    book_label = response.xpath('/html/body/div/div[2]/div/div/div[2]/p/strong[2]/span/text()')[0]
-    last_chapter_title = response.xpath('//*[@id="Contents"]/div[1]/p/a/text()')[0]
-    book_words = response.xpath('/html/body/div/div[2]/div/div/div[2]/p/strong[4]/span/text()')[0]
-    book_update_time = response.xpath('//*[@id="Contents"]/div[1]/p/small/text()')[0].strip("——左边按钮目录正序倒序")
-    chapter_url_list = ["https://www.xbookben.net" + i for i in response.xpath('//*[@id="chapterList"]/li/a/@href')]
+    if Vars.current_book_type == "Xbookben":
+        book_rule = rule.XbookbenRule
+    else:
+        raise Exception("[error] app type not found, app type:", Vars.current_book_type)
 
-    return book_info_json(book_id=book_id,
-                          book_name=book_title,
-                          book_words=book_words,
-                          cover_url=book_img,
-                          author_name=book_author,
-                          book_status=book_state,
-                          book_tag=book_label,
-                          last_chapter_title=last_chapter_title,
-                          book_uptime=book_update_time,
-                          chapter_url_list=chapter_url_list
-                          )
+    if Vars.current_book_type == "Linovel":
+        book_rule = rule.LinovelRule
+    if Vars.current_book_type == "Dingdian":
+        book_rule = rule.DingdianRule
+    if Vars.current_book_type == "Xbookben":
+        book_rule = rule.XbookbenRule
+
+    book_id = book_id
+    response = etree.HTML(get(book_rule.descriptors_url.format(book_id)))
+    book_img = response.xpath(book_rule.book_img)[0]
+    book_name = response.xpath(book_rule.book_name)[0]
+    book_author = response.xpath(book_rule.book_author)[0]
+    book_state = response.xpath(book_rule.book_state)[0]
+    book_label = response.xpath(book_rule.book_label)[0]
+    last_chapter_title = response.xpath(book_rule.last_chapter_title)[0]
+    book_words = response.xpath(book_rule.book_words)[0]
+    book_update_time = response.xpath(book_rule.book_update_time)[0].strip("——左边按钮目录正序倒序")
+    chapter_url_list = ["https://www.xbookben.net" + i for i in response.xpath(book_rule.chapter_url_list)]
+
+    return book_info_json(
+        book_id=book_id,
+        book_name=book_name,
+        book_words=book_words,
+        cover_url=book_img,
+        author_name=book_author,
+        book_status=book_state,
+        book_tag=book_label,
+        last_chapter_title=last_chapter_title,
+        book_uptime=book_update_time,
+        chapter_url_list=chapter_url_list
+    )
 
 
 def get_chapter_info(chapter_url: str, index: int, content: str = "", retry: int = 0) -> [dict, None]:

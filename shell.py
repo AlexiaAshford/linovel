@@ -1,3 +1,4 @@
+import scr
 from scr import DingdianAPI, LinovelAPI, BiquPavilionAPI, XbookbenAPI
 import book
 from config import *
@@ -11,7 +12,7 @@ def get_book_info(book_id: str):  # get book info by book id
     elif Vars.current_book_type == "BiquPavilion":
         start_download_book(BiquPavilionAPI.get_book_info(book_id))
     elif Vars.current_book_type == "Xbookben":
-        start_download_book(XbookbenAPI.get_book_info(book_id))
+        start_download_book(scr.get_book_information(book_id))
     else:
         print("[error] app type not found, app type:", Vars.current_book_type)
 
