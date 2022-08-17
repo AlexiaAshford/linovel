@@ -6,12 +6,18 @@ import requests
 def get_cover_image(cover_url: str):
     retry = 0
     while True:
-        response = requests.get(cover_url, headers={'User-Agent': 'Mozilla/5.0'})
-        if response.status_code == 304 or response.status_code == 200:
-            return response.content
-        retry += 1
-        if retry > 5:
-            return None
+        try:
+            response = requests.get(cover_url, headers={'User-Agent': 'Mozilla/5.0'})
+            if response.status_code == 304 or response.status_code == 200:
+                return response.content
+            retry += 1
+            if retry > 5:
+                return None
+        except Exception as error:
+            print(error)
+            retry += 1
+            if retry > 5:
+                return None
 
 
 class EpubFile:

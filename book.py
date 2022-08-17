@@ -1,5 +1,5 @@
 import threading
-from scr import DingdianAPI, LinovelAPI, XbookbenAPI
+from scr import DingdianAPI, Linovel, Xbookben
 from config import *
 import Epub
 
@@ -75,11 +75,11 @@ class Book:
         try:
             chapter_info = None
             if Vars.current_book_type == "Linovel":
-                chapter_info = LinovelAPI.get_chapter_info(chapter_url, index)
+                chapter_info = Linovel.get_chapter_info(chapter_url, index)
             if Vars.current_book_type == "Dingdian":
                 chapter_info = DingdianAPI.get_chapter_info(chapter_url, index)
             if Vars.current_book_type == "Xbookben":
-                chapter_info = XbookbenAPI.get_chapter_info(chapter_url, index)
+                chapter_info = Xbookben.get_chapter_info(chapter_url, index)
             if isinstance(chapter_info, dict) and chapter_info is not None:
                 self.content_config.append(chapter_info)
                 self.progress_bar(chapter_info['chapterTitle'])

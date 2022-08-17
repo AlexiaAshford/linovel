@@ -1,12 +1,12 @@
 import scr
-from scr import DingdianAPI, LinovelAPI, BiquPavilionAPI, XbookbenAPI
+from scr import DingdianAPI, Linovel, BiquPavilionAPI, Xbookben
 import book
 from config import *
 
 
 def get_book_info(book_id: str):  # get book info by book id
     if Vars.current_book_type == "Linovel":
-        start_download_book(LinovelAPI.get_book_info(book_id))
+        start_download_book(scr.get_book_information(book_id))
     elif Vars.current_book_type == "Dingdian":
         start_download_book(DingdianAPI.get_book_info(book_id))
     elif Vars.current_book_type == "BiquPavilion":
@@ -33,7 +33,7 @@ def set_up_app_type(current_book_type: str):  # set up app type and book type
 
 def get_search_list(search_keyword: str):
     if Vars.current_book_type == "Linovel":
-        return start_search_book(LinovelAPI.search_book(search_keyword))
+        return start_search_book(Linovel.search_book(search_keyword))
     # elif Vars.current_book_type == "Dingdian":
     #     return start_search_book(DingdianAPI.search_book(search_keyword))
     # elif Vars.current_book_type == "BiquPavilion":
@@ -63,7 +63,7 @@ class Dingdian:
     @staticmethod
     def shell_tag_scanner(tag_name: str = "", max_page: int = 622):
         for page in range(max_page):
-            tag_bookid_list = LinovelAPI.get_sort(tag_name, page)
+            tag_bookid_list = Linovel.get_sort(tag_name, page)
             for book_id in tag_bookid_list:
                 get_book_info(book_id)
 
@@ -73,6 +73,6 @@ class Linovel:
     @staticmethod
     def shell_tag_scanner(tag_name: str = "", max_page: int = 622):
         for page in range(max_page):
-            tag_bookid_list = LinovelAPI.get_sort(tag_name, page)
+            tag_bookid_list = Linovel.get_sort(tag_name, page)
             for book_id in tag_bookid_list:
                 get_book_info(book_id)

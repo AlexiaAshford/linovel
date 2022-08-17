@@ -1,26 +1,14 @@
 from HttpUtil import *
 
 
-def get_book_info(book_id: str, retry: int = 0) -> [dict, None]:  # get book info from url by book_id
-    response = get(api_url="https://www.linovel.net/book/{}.html".format(book_id), retry=retry)
-    if isinstance(response, str):  # if the response is not None and is a string
-        html_string_etree = etree.HTML(response)  # parse html string to lxml.etree.ElementTree
-        book_name = html_string_etree.xpath('//h1[@class="book-title"]')[0].text
-        book_author = html_string_etree.xpath('//div[@class="author-frame"]//a')[0].text
-        chapter_url_list = [i.get('href') for i in html_string_etree.xpath('//div[@class="chapter"]/a')]
-        book_cover = html_string_etree.xpath('//div[@class="book-cover"]/a')[0].get('href')
+class LinovelAPI:
+    @staticmethod
+    def get_book_info_by_book_id(book_id):
+        return etree.HTML(get("https://www.linovel.net/book/{}.html".format(book_id)))
 
-        return book_info_json(
-            book_id=book_id,
-            book_name=book_name,
-            cover_url=book_cover,
-            author_name=book_author,
-            chapter_url_list=chapter_url_list,
-        )  # get book info from html string and return a dict with book info
-    else:
-        if retry <= 10 and response != 404:
-            return get_book_info(book_id, retry + 1)
-        return print("get book info failed, book_id is {}".format(book_id))
+    @staticmethod
+    def get_chapter_info_by_chapter_id(chapter_url):
+        return etree.HTML(get(api_url="https://www.linovel.net" + chapter_url, retry=5))
 
 
 def get_chapter_info(chapter_url: str, index: int, content: str = "", retry: int = 0) -> [dict, None]:
