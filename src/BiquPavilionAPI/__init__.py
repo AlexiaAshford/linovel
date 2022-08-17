@@ -1,5 +1,5 @@
 from HttpUtil import *
-from scr import rule
+from src import rule
 
 
 def get_book_info(novel_id: str, retry: int = 0) -> [dict, None]:  # get book info from url by book_id

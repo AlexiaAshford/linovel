@@ -1,5 +1,4 @@
-import scr
-from scr import Linovel
+import src
 import book
 from config import *
 
@@ -19,8 +18,9 @@ def set_up_app_type(current_book_type: str):  # set up app type and book type
 
 
 def get_search_list(search_keyword: str):
-    if Vars.current_book_type == "Linovel":
-        return start_search_book(Linovel.search_book(search_keyword))
+    pass
+    # if Vars.current_book_type == "Linovel":
+    #     return start_search_book(Linovel.search_book(search_keyword))
     # elif Vars.current_book_type == "Dingdian":
     #     return start_search_book(Dingdian.search_book(search_keyword))
     # elif Vars.current_book_type == "BiquPavilion":
@@ -43,7 +43,7 @@ def start_search_book(book_id_list: list):
         return
     print("[info] start search book, book_id_list length:", len(book_id_list))
     for book_id in book_id_list:
-        start_download_book(scr.get_book_information(book_id))
+        start_download_book(src.get_book_information(book_id))
 
 # class Dingdian:
 #     @staticmethod

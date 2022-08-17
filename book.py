@@ -1,5 +1,5 @@
 import threading
-from scr import BookAPI, rule
+from src import BookAPI, rule
 from config import *
 import Epub
 
@@ -37,7 +37,7 @@ class Book:
         Vars.current_epub.download_cover_and_add_epub()
         write_text(
             path_name=os.path.join(self.out_text_path, self.book_name + ".txt"),
-            content=Vars.current_epub.add_the_book_information(), mode="w"
+            content=Vars.current_epub.add_the_book_information()
         )  # write book information to text file in downloads folder and show book name, author and chapter count
 
     def save_content_json(self) -> None:

@@ -47,7 +47,7 @@ if __name__ == '__main__':
     set_up_app_type(current_book_type=args.app[0]) if args.app else set_up_app_type(current_book_type="Linovel")
 
     if args.bookid is not None and args.bookid != "":
-        start_download_book(scr.get_book_information(args.bookid[0]))
+        start_download_book(src.get_book_information(args.bookid[0]))
         shell_cmd = True
 
     if args.name:
@@ -69,7 +69,7 @@ if __name__ == '__main__':
             inputs = get(">").split(" ")
             if inputs[0] == "d":
                 if len(inputs) >= 2:
-                    start_download_book(scr.get_book_information(inputs[1]))
+                    start_download_book(src.get_book_information(inputs[1]))
                 else:
                     print("[error] please input book id, example: d 12345")
 
