@@ -3,34 +3,32 @@ from HttpUtil import *
 
 class LinovelAPI:
     @staticmethod
-    def get_book_info_by_book_id(book_id):
+    def get_book_info_by_book_id(book_id: str):
         return etree.HTML(get("https://www.linovel.net/book/{}.html".format(book_id)))
 
     @staticmethod
-    def get_chapter_info_by_chapter_id(chapter_url):
+    def get_chapter_info_by_chapter_id(chapter_url: str):
         return etree.HTML(get(api_url="https://www.linovel.net" + chapter_url, retry=5))
+
+    @staticmethod
+    def get_book_info_by_keyword(keyword: str):
+        return etree.HTML(get(api_url="https://www.linovel.net/search/", params={"kw": keyword}))
 
 
 def get_chapter_info(chapter_url: str, index: int, content: str = "", retry: int = 0) -> [dict, None]:
-    response = get(api_url="https://www.linovel.net" + chapter_url, retry=retry)
-    if isinstance(response, str):
-        html_string_etree = etree.HTML(response)
-        chapter_title = html_string_etree.xpath('//div[@class="article-title"]')[0].text.strip()
-        content_text_list = html_string_etree.xpath('//div[@class="article-text"]/p')
-        image_list = get_chapter_cover(html_string_etree)  # get chapter cover from html string
+    html_string_etree = LinovelAPI.get_chapter_info_by_chapter_id(chapter_url)
+    chapter_title = html_string_etree.xpath('//div[@class="article-title"]')[0].text.strip()
+    content_text_list = html_string_etree.xpath('//div[@class="article-text"]/p')
+    image_list = get_chapter_cover(html_string_etree)  # get chapter cover from html string
 
-        for book in content_text_list:
-            if book.text is not None and len(book.text.strip()) != 0:
-                content += book.text.strip() + "\n"
+    for book in content_text_list:
+        if book.text is not None and len(book.text.strip()) != 0:
+            content += book.text.strip() + "\n"
 
-        return chapter_info_json(
-            index=index, url=chapter_url,
-            content=content, title=chapter_title, image_list=image_list
-        )  # return a dict with chapter info
-    else:
-        if retry <= 10:
-            return get_chapter_info(chapter_url, index, content, retry + 1)
-        return print("get chapter info failed, chapter_url is {}".format(chapter_url))
+    return chapter_info_json(
+        index=index, url=chapter_url,
+        content=content, title=chapter_title, image_list=image_list
+    )  # return a dict with chapter info
 
 
 def get_sort(tag_name: str, page: int, retry: int = 0):  # get sort from url by page
