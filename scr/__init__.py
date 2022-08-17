@@ -1,4 +1,4 @@
-from scr import rule, Xbookben, Linovel, Dingdian
+from scr import rule, BookAPI
 
 from HttpUtil import *
 
@@ -6,13 +6,13 @@ from HttpUtil import *
 def get_book_information(book_id: str):
     if Vars.current_book_type == "Xbookben":
         book_rule = rule.XbookbenRule
-        result_etree = Xbookben.XbookbenAPI.get_book_info_by_book_id(book_id)
+        result_etree = BookAPI.XbookbenAPI.get_book_info_by_book_id(book_id)
     elif Vars.current_book_type == "Dingdian":
         book_rule = rule.DingdianRule
-        result_etree = Dingdian.DingdianAPI.get_book_info_by_book_id(book_id)
+        result_etree = BookAPI.DingdianAPI.get_book_info_by_book_id(book_id)
     elif Vars.current_book_type == "Linovel":
         book_rule = rule.LinovelRule
-        result_etree = Linovel.LinovelAPI.get_book_info_by_book_id(book_id)
+        result_etree = BookAPI.LinovelAPI.get_book_info_by_book_id(book_id)
     else:
         raise Exception("[error] app type not found, app type:", Vars.current_book_type)
 

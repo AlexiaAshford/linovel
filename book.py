@@ -1,5 +1,5 @@
 import threading
-from scr import Dingdian, Linovel, Xbookben, rule
+from scr import BookAPI, rule
 from config import *
 import Epub
 
@@ -75,6 +75,7 @@ class Book:
         self.max_threading.acquire()  # acquire semaphore to prevent multi threading
         # try:
         chapter_info = Chapter(chapter_id=chapter_url, index=index)
+        chapter_info.init_current_book_type()
         if isinstance(chapter_info.chapter_json, dict):
             self.content_config.append(chapter_info.chapter_json)
             self.progress_bar(chapter_info.chapter_title)
@@ -124,27 +125,34 @@ class Book:
 
 class Chapter:
     def __init__(self, chapter_id: str, index: int):
+        self.book_rule = None
+        self._chapter_info = None
         self._content = ""
         self.chapter_index = index
         self.chapter_id = chapter_id
 
-    @property
-    def chapter_info(self):
+    def init_current_book_type(self):
         if Vars.current_book_type == "Linovel":
-            return Linovel.LinovelAPI.get_chapter_info_by_chapter_id(self.chapter_id)
+            self.chapter_info = BookAPI.LinovelAPI.get_chapter_info_by_chapter_id(self.chapter_id)
+            self.book_rule = rule.LinovelRule
         elif Vars.current_book_type == "Dingdian":
-            return Dingdian.DingdianAPI.get_chapter_info_by_chapter_id(self.chapter_id)
+            self.book_rule = rule.DingdianRule
+            self.chapter_info = BookAPI.DingdianAPI.get_chapter_info_by_chapter_id(self.chapter_id)
         elif Vars.current_book_type == "Xbookben":
-            return Xbookben.XbookbenAPI.get_chapter_info_by_chapter_id(self.chapter_id)
+            self.book_rule = rule.XbookbenRule
+            self.chapter_info = BookAPI.XbookbenAPI.get_chapter_info_by_chapter_id(self.chapter_id)
 
     @property
-    def book_rule(self) -> rule:
-        if Vars.current_book_type == "Linovel":
-            return rule.LinovelRule
-        elif Vars.current_book_type == "Dingdian":
-            return rule.DingdianRule
-        elif Vars.current_book_type == "Xbookben":
-            return rule.XbookbenRule
+    def chapter_info(self):
+        if self._chapter_info is not None:
+            return self._chapter_info
+        else:
+            self.init_current_book_type()
+            return self._chapter_info
+
+    @chapter_info.setter
+    def chapter_info(self, chapter_info):
+        self._chapter_info = chapter_info
 
     @property
     def chapter_title(self) -> str:

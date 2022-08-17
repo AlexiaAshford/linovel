@@ -58,7 +58,7 @@ class EpubFile:
             book_host = ""
         else:
             book_host = ""
-        print(book_host + Vars.current_book.cover)
+        # print(book_host + Vars.current_book.cover)
         download_png_file = get_cover_image(book_host + Vars.current_book.cover)  # get cover image from url
         if download_png_file is not None:  # if cover image is not None ,then add to epub file
             self.epub.set_cover(Vars.current_book.book_name + '.png', download_png_file)  # add cover image to epub file
