@@ -43,9 +43,10 @@ class Book:
     def save_content_json(self) -> None:
         try:
             json_info = json.dumps(self.content_config, ensure_ascii=False)
-            write_text(path_name=self.save_config_path, content=json_info, mode="w")
+            write_text(path_name=self.save_config_path, content=json_info)
         except Exception as err:  # if save_config_path is not exist, create it and save content_config
             print("save content json error: {}".format(err))
+            self.save_content_json()
 
     def merge_text_file(self) -> None:  # merge all text file into one
         self.content_config.sort(key=lambda x: x.get('chapterIndex'))
@@ -70,53 +71,22 @@ class Book:
                 return True
         return False
 
-    def TEST(self, chapter_url: str, index: int):
-        if Vars.current_book_type == "Linovel":
-            book_rule = rule.LinovelRule
-            chapter_info = Linovel.LinovelAPI.get_chapter_info_by_chapter_id(chapter_url)
-        elif Vars.current_book_type == "Dingdian":
-            book_rule = rule.DingdianRule
-            chapter_info = Dingdian.DingdianAPI.get_chapter_info_by_chapter_id(chapter_url)
-        elif Vars.current_book_type == "Xbookben":
-            book_rule = rule.XbookbenRule
-            chapter_info = Xbookben.XbookbenAPI.get_chapter_info_by_chapter_id(chapter_url)
-        else:
-            raise Exception("book type error", Vars.current_book_type)
-
-        chapter_title = chapter_info.xpath(book_rule.chapter_title)[0]
-        content_text_list = chapter_info.xpath(book_rule.chapter_content)
-        content = ""
-        image_list = []
-        for book in content_text_list:
-            if book.text is not None and len(book.text.strip()) != 0:
-                content += book.text.strip() + "\n"
-
-        return rule.chapter_json(
-            index=index,
-            url=chapter_url,
-            content=content if content is not None else "",
-            title=chapter_title if chapter_title is not None else "",
-            image_list=image_list if image_list is not None else []
-        )  # return a dict with chapter info
-
     def download_book_content(self, chapter_url, index) -> None:
         self.max_threading.acquire()  # acquire semaphore to prevent multi threading
-        try:
-            chapter_info = None
-            if Vars.current_book_type == "Linovel":
-                chapter_info = Linovel.get_chapter_info(chapter_url, index)
-            if Vars.current_book_type == "Dingdian":
-                chapter_info = Dingdian.get_chapter_info(chapter_url, index)
-            if Vars.current_book_type == "Xbookben":
-                chapter_info = Xbookben.get_chapter_info(chapter_url, index)
-            if isinstance(chapter_info, dict) and chapter_info is not None:
-                self.content_config.append(chapter_info)
-                self.progress_bar(chapter_info['chapterTitle'])
-        except Exception as err:
-            print("download book content error: {}".format(err))
-            self.save_content_json()  # save content_config if error occur
-        finally:
-            self.max_threading.release()  # release threading semaphore
+        # try:
+        chapter_info = Chapter(chapter_id=chapter_url, index=index)
+        if isinstance(chapter_info.chapter_json, dict):
+            self.content_config.append(chapter_info.chapter_json)
+            self.progress_bar(chapter_info.chapter_title)
+        else:
+            print("{} chapter download error".format(chapter_url))
+        # except Exception as err:
+        #     print("download book content error: {}".format(err))
+        #     self.save_content_json()  # save content_config if error occur
+        # finally:
+        #     self.max_threading.release()  # release threading semaphore
+
+        self.max_threading.release()
 
     def multi_thread_download_book(self) -> None:
         for index, chapter_url in enumerate(self.chapter_url_list, start=1):
@@ -154,9 +124,9 @@ class Book:
 
 class Chapter:
     def __init__(self, chapter_id: str, index: int):
+        self._content = ""
         self.chapter_index = index
         self.chapter_id = chapter_id
-        self._content = None
 
     @property
     def chapter_info(self):
@@ -204,15 +174,18 @@ class Chapter:
             return self._content
 
         elif Vars.current_book_type == "Dingdian":
-            for book in self.content_html:
-                if book.strip() == "" or '请记住本书首发域名' in book or '书友大本营' in book:
+            for line in self.content_html:
+                content_line = str(line).strip()
+                if content_line is None or content_line == "":
                     continue
-                if book is not None and len(book.strip()) != 0:
-                    self._content += book.strip() + "\n"
+                if '请记住本书首发域名' in content_line or '书友大本营' in content_line:
+                    continue
+                self._content += content_line + "\n"
             return re.sub(r'&amp;|amp;|lt;|gt;', '', self._content)
 
         elif Vars.current_book_type == "Xbookben":
-            for content_line in self.content_html:
+            for content_line in self.content_html[0]:
                 if content_line.text is not None and len(content_line.text.strip()) != 0:
                     self._content += content_line.text.strip() + "\n"
+
             return self._content

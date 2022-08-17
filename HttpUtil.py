@@ -28,10 +28,9 @@ def get(
     except (Exception, requests.exceptions.ConnectionError) as error:
         if retry <= max_retries:
             if retry >= 3:
-                time.sleep(retry * 0.5)
                 print("get error, url is {}".format(api_url))
             if retry == max_retries:
-                print("get error: {}".format(error))
+                print("get error: {}\n{}".format(error, api_url))
             return get(api_url=api_url, params=params, retry=retry + 1, gbk=gbk)
 
 

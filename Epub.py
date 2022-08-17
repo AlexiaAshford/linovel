@@ -51,7 +51,7 @@ class EpubFile:
 
     def download_cover_and_add_epub(self):  # download cover image and add to epub file as cover
         if Vars.current_book_type == "Xbookben":
-            book_host = "https://www.xbookben.net"
+            book_host = ""
         elif Vars.current_book_type == "Dingdian":
             book_host = "https://www.ddyueshu.com"
         elif Vars.current_book_type == "Linovel":
