@@ -1,5 +1,4 @@
 class XbookbenRule:
-    descriptors_url = "https://www.xbookben.net/txt/{}.html"
     book_img = '/html/body/div/div[2]/div/div/div[1]/span/img/@src'
     book_name = '/html/body/div/div[2]/div/div/div[2]/h1/text()'
     book_author = '/html/body/div/div[2]/div/div/div[2]/p/strong[1]/span/text()'
@@ -12,20 +11,18 @@ class XbookbenRule:
 
 
 class DingdianRule:
-    descriptors_url = "https://www.ddyueshu.com/{}"
-    book_img = '//div[@id="fmimg"]/img'
-    book_name = '//*[@id="info"]/h1'
-    book_author = '//*[@id="info"]/p[1]'
+    book_img = '//*[@id="fmimg"]/img/@src'
+    book_name = '//*[@id="info"]/h1/text()'
+    book_author = '//*[@id="info"]/p[1]/text()'
     chapter_url_list = '//*[@id="list"]/dl/dd[*]/a/@href'
-    book_state = ' '
-    book_label = ''
-    last_chapter_title = ''
-    book_words = ''
-    book_update_time = ''
+    book_state = '//*[@id="intro"]/p'  # 没有这个信息
+    book_label = '//*[@id="wrapper"]/div[4]/div[1]/text()'
+    last_chapter_title = '//*[@id="list"]/dl/dd[1]/a/text()'
+    book_words = '//*[@id="intro"]/p'  # 没有这个信息
+    book_update_time = '//*[@id="info"]/p[3]/text()'
 
 
 class LinovelRule:
-    descriptors_url = "https://www.linovel.net/book/{}.html"
     book_img = '//div[@class="book-cover"]/a/@href'
     book_name = '//h1[@class="book-title"]/text()'
     book_author = '//div[@class="author-frame"]//a/text()'

@@ -1,5 +1,5 @@
 import scr
-from scr import DingdianAPI, Linovel, BiquPavilionAPI, Xbookben
+from scr import Dingdian, Linovel, BiquPavilionAPI, Xbookben
 import book
 from config import *
 
@@ -8,7 +8,7 @@ def get_book_info(book_id: str):  # get book info by book id
     if Vars.current_book_type == "Linovel":
         start_download_book(scr.get_book_information(book_id))
     elif Vars.current_book_type == "Dingdian":
-        start_download_book(DingdianAPI.get_book_info(book_id))
+        start_download_book(scr.get_book_information(book_id))
     elif Vars.current_book_type == "BiquPavilion":
         start_download_book(BiquPavilionAPI.get_book_info(book_id))
     elif Vars.current_book_type == "Xbookben":
@@ -35,7 +35,7 @@ def get_search_list(search_keyword: str):
     if Vars.current_book_type == "Linovel":
         return start_search_book(Linovel.search_book(search_keyword))
     # elif Vars.current_book_type == "Dingdian":
-    #     return start_search_book(DingdianAPI.search_book(search_keyword))
+    #     return start_search_book(Dingdian.search_book(search_keyword))
     # elif Vars.current_book_type == "BiquPavilion":
     #     return start_search_book(BiquPavilionAPI.search_book(search_keyword))
 

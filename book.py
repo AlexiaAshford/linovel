@@ -1,5 +1,5 @@
 import threading
-from scr import DingdianAPI, Linovel, Xbookben
+from scr import Dingdian, Linovel, Xbookben
 from config import *
 import Epub
 
@@ -77,7 +77,7 @@ class Book:
             if Vars.current_book_type == "Linovel":
                 chapter_info = Linovel.get_chapter_info(chapter_url, index)
             if Vars.current_book_type == "Dingdian":
-                chapter_info = DingdianAPI.get_chapter_info(chapter_url, index)
+                chapter_info = Dingdian.get_chapter_info(chapter_url, index)
             if Vars.current_book_type == "Xbookben":
                 chapter_info = Xbookben.get_chapter_info(chapter_url, index)
             if isinstance(chapter_info, dict) and chapter_info is not None:
