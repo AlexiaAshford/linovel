@@ -1,5 +1,5 @@
 import threading
-from scr import Dingdian, Linovel, Xbookben
+from scr import Dingdian, Linovel, Xbookben, rule
 from config import *
 import Epub
 
@@ -69,6 +69,35 @@ class Book:
             if i.get("chapter_url").split("/")[-1] == chapter_url.split("/")[-1]:
                 return True
         return False
+
+    def TEST(self, chapter_url: str, index: int):
+        if Vars.current_book_type == "Linovel":
+            book_rule = rule.LinovelRule
+            chapter_info = Linovel.LinovelAPI.get_chapter_info_by_chapter_id(chapter_url)
+        elif Vars.current_book_type == "Dingdian":
+            book_rule = rule.DingdianRule
+            chapter_info = Dingdian.DingdianAPI.get_chapter_info_by_chapter_id(chapter_url)
+        elif Vars.current_book_type == "Xbookben":
+            book_rule = rule.XbookbenRule
+            chapter_info = Xbookben.XbookbenAPI.get_chapter_info_by_chapter_id(chapter_url)
+        else:
+            raise Exception("book type error", Vars.current_book_type)
+
+        chapter_title = chapter_info.xpath(book_rule.chapter_title)[0]
+        content_text_list = chapter_info.xpath(book_rule.chapter_content)
+        content = ""
+        image_list = []
+        for book in content_text_list:
+            if book.text is not None and len(book.text.strip()) != 0:
+                content += book.text.strip() + "\n"
+
+        return rule.chapter_json(
+            index=index,
+            url=chapter_url,
+            content=content if content is not None else "",
+            title=chapter_title if chapter_title is not None else "",
+            image_list=image_list if image_list is not None else []
+        )  # return a dict with chapter info
 
     def download_book_content(self, chapter_url, index) -> None:
         self.max_threading.acquire()  # acquire semaphore to prevent multi threading
