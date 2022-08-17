@@ -1,3 +1,7 @@
+# chapter_title = html_string_etree.xpath('//div[@class="article-title"]')[0].text.strip()
+# content_text_list = html_string_etree.xpath('//div[@class="article-text"]/p')
+# image_list = get_chapter_cover(html_string_etree)  # get chapter cover from html string
+
 class XbookbenRule:
     book_img = '/html/body/div/div[2]/div/div/div[1]/span/img/@src'
     book_name = '/html/body/div/div[2]/div/div/div[2]/h1/text()'
@@ -8,6 +12,9 @@ class XbookbenRule:
     last_chapter_title = '//*[@id="Contents"]/div[1]/p/a/text()'
     book_words = '/html/body/div/div[2]/div/div/div[2]/p/strong[4]/span/text()'
     book_update_time = '//*[@id="Contents"]/div[1]/p/small/text()'
+    chapter_title = ''
+    chapter_content = ''
+    chapter_cover = ''
 
 
 class DingdianRule:
@@ -20,6 +27,9 @@ class DingdianRule:
     last_chapter_title = '//*[@id="list"]/dl/dd[1]/a/text()'
     book_words = '//*[@id="intro"]/p'  # 没有这个信息
     book_update_time = '//*[@id="info"]/p[3]/text()'
+    chapter_title = ''
+    chapter_content = ''
+    chapter_cover = ''
 
 
 class LinovelRule:
@@ -32,3 +42,6 @@ class LinovelRule:
     last_chapter_title = '/html/body/div[3]/div[2]/div[1]/div[5]/div[2]/div[3]/div[2]'
     book_words = '/html/body/div[3]/div[2]/div[1]/div[2]/div[3]/span[1]/text()'
     book_update_time = '/html/body/div[3]/div[2]/div[1]/div[5]/div[2]/div[3]/div[2]/div[1]/small/text()'
+    chapter_title = ''
+    chapter_content = ''
+    chapter_cover = ''
