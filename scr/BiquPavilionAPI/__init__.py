@@ -1,11 +1,12 @@
 from HttpUtil import *
+from scr import rule
 
 
 def get_book_info(novel_id: str, retry: int = 0) -> [dict, None]:  # get book info from url by book_id
     response = get("https://infosxs.pigqq.com/BookFiles/Html/{}/info.html".format(novel_id), return_type="json")
     if response is not None and isinstance(response, dict):  # if the response is not None and is a dict
         book_info = response.get("data")  # get book info from response dict
-        return book_info_json(
+        return rule.book_json(
             book_id=book_info["Id"],
             book_name=book_info["Name"],
             author_name=book_info["Author"],

@@ -27,7 +27,7 @@ def get_book_information(book_id: str):
     book_update_time = result_etree.xpath(book_rule.book_update_time)
     chapter_url_list = [i for i in result_etree.xpath(book_rule.chapter_url_list)]
 
-    return book_info_json(
+    return rule.book_json(
         book_id=book_id,
         book_name=book_name[0] if len(book_name) > 0 else "",
         book_words=book_words[0] if book_words else None,
