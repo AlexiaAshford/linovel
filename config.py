@@ -53,16 +53,9 @@ class Vars:
 
 def get_id(url: str) -> str:
     result = re.compile(r'(\d+)').findall(url)
-    if len(result) > 0 and result[0].isdigit() and len(result[0]) == 9:
-        return result[0]
+    if len(result) > 0 and result[0].isdigit():
+        return result[-1]
     print("[warning] get_id failed", url)
-
-
-def makedir_config(file_path, dir_path):
-    if not os.path.isdir(dir_path):
-        os.makedirs(dir_path)
-    if '.txt' in file_path:
-        open(file_path, 'w').close()
 
 
 def get(prompt, default=None):
@@ -74,12 +67,11 @@ def get(prompt, default=None):
             return default
 
 
-def illegal_strip(path):
-    """
-    :param path: 需要清洗的文件夹名字
-    :return: 清洗掉Windows系统非法文件夹名字的字符串
-    """
-    return re.sub(r'[？?*|“《》<>:/]', '', str(path))
+def make_dirs(file_path: str) -> str:
+    file_path = os.path.join(os.getcwd(), file_path)
+    if not os.path.exists(file_path):  # if Cache folder is not exist, create it
+        os.makedirs(file_path)
+    return file_path
 
 
 def write_text(path_name: str, content: str = "", mode: str = "w"):

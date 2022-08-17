@@ -11,26 +11,23 @@ class Book:
         self.progress_bar_count = 0
         self.progress_bar_length = 0
         self.book_info = book_info
-        self.book_name = illegal_strip(book_info['bookName'])
         self.book_id = book_info['bookId']
         self.book_author = book_info['authorName']
         self.cover = book_info['bookCoverUrl']
         self.chapter_url_list = book_info['chapUrl']
         self.max_threading = threading.BoundedSemaphore(Vars.cfg.data.get('max_thread'))
 
-    def make_dirs(self, file_path) -> str:
-        file_path = os.path.join(os.getcwd(), file_path)
-        if not os.path.exists(file_path):  # if Cache folder is not exist, create it
-            os.makedirs(file_path)
-        return file_path
+    @property
+    def book_name(self) -> str:
+        return re.sub(r'[？?*|“《》<>:/]', '', self.book_info['bookName'])
 
     @property
     def out_text_path(self) -> str:
-        return self.make_dirs(os.path.join(Vars.cfg.data['out_path'], self.book_name))
+        return make_dirs(os.path.join(Vars.cfg.data['out_path'], self.book_name))
 
     @property
     def save_config_path(self) -> str:
-        return os.path.join(self.make_dirs(Vars.cfg.data['config_path']), self.book_name + ".json")
+        return os.path.join(make_dirs(Vars.cfg.data['config_path']), self.book_name + ".json")
 
     def init_content_config(self):
         if os.path.exists(self.save_config_path):
