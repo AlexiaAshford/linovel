@@ -1,6 +1,7 @@
 import re
 from lxml import etree
 import src
+from tenacity import retry, stop_after_attempt
 
 
 class XbookbenAPI:
@@ -9,14 +10,9 @@ class XbookbenAPI:
         return etree.HTML(src.request(api_url="https://www.xbookben.net/txt/{}.html".format(book_id)))
 
     @staticmethod
-    def get_chapter_info_by_chapter_id(chapter_url, retry: int = 0):
-        response = src.request(api_url="https://www.xbookben.net" + chapter_url)
-        if isinstance(response, str):
-            return etree.HTML(response)
-        else:
-            if retry <= 10:
-                return XbookbenAPI.get_chapter_info_by_chapter_id(chapter_url, retry + 1)
-            return print("get chapter info failed, chapter_url is {}".format(chapter_url))
+    @retry(stop=stop_after_attempt(7))
+    def get_chapter_info_by_chapter_id(chapter_url: str):
+        response = etree.HTML(src.request(api_url="https://www.xbookben.net" + chapter_url))
 
     @staticmethod
     def get_book_info_by_keyword(keyword: str):
@@ -36,18 +32,27 @@ class LinovelAPI:
         return etree.HTML(src.request("https://www.linovel.net/book/{}.html".format(book_id)))
 
     @staticmethod
-    def get_chapter_info_by_chapter_id(chapter_url: str, retry: int = 0):
-        response = src.request(api_url="https://www.linovel.net" + chapter_url)
-        if isinstance(response, str):
-            return etree.HTML(response)
-        else:
-            if retry <= 10:
-                return LinovelAPI.get_chapter_info_by_chapter_id(chapter_url, retry + 1)
-            return print("get chapter info failed, chapter_url is {}".format(chapter_url))
+    @retry(stop=stop_after_attempt(7))
+    def get_chapter_info_by_chapter_id(chapter_url: str):
+        return etree.HTML(src.request(api_url="https://www.linovel.net" + chapter_url))
 
     @staticmethod
-    def get_book_info_by_keyword(keyword: str):
-        return etree.HTML(src.request(api_url="https://www.linovel.net/search/", params={"kw": keyword}))
+    def get_book_info_by_keyword(keyword: str, page: int = 1):
+        """kw: 神
+        page: 2
+        sort: hot
+        target: complex
+        mio: 1
+        ua: Mozilla/5.0"""
+        # params = {''
+        response = etree.HTML(src.request(api_url="https://www.linovel.net/search/", params={"kw": keyword}))
+        '/html/body/div[4]/div[3]/div[1]/a[1]/div/div[1]/img'
+        '/html/body/div[4]/div[3]/div[1]/a[1]'
+        search_result = list(
+            zip(response.xpath('/html/body/div[4]/div[3]/div[1]/a/div/div/img/@src'),
+                response.xpath('/html/body/div[4]/div[3]/div[1]/a/div/div/img/@alt'))
+        )
+        return search_result
 
 
 class DingdianAPI:
@@ -56,6 +61,7 @@ class DingdianAPI:
         return etree.HTML(src.request("https://www.ddyueshu.com/{}".format(book_id), gbk=True))
 
     @staticmethod
+    @retry(stop=stop_after_attempt(7))
     def get_chapter_info_by_chapter_id(chapter_url):
         return etree.HTML(src.request(api_url='https://www.ddyueshu.com' + chapter_url, gbk=True))
 

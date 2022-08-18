@@ -19,7 +19,7 @@ def set_up_app_type(current_book_type: str):  # set up app type and book type
 
 def get_search_list(search_keyword: str):
     if Vars.current_book_type == "Linovel":
-        search_response = src.BookAPI.search_book(search_keyword)  # search book
+        search_response = src.BookAPI.LinovelAPI.get_book_info_by_keyword(search_keyword)
     elif Vars.current_book_type == "Xbookben":
         search_response = src.BookAPI.XbookbenAPI.get_book_info_by_keyword(search_keyword)
     else:
