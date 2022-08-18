@@ -3,19 +3,24 @@ import requests
 from config import *
 from tenacity import retry, stop_after_attempt
 
+headers = {
+    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit",
+
+}
+
 
 @retry(stop=stop_after_attempt(5))
 def request(api_url: str, method: str = "GET", params: dict = None, gbk: bool = False, return_type: str = "text"):
-    response = requests.request(
-        url=api_url, method=method, params=params, headers=Vars.cfg.data['user_agent']
-    )
-    if gbk:
+    if method == "GET":
+        response = requests.request(url=api_url, method="GET", params=params, headers=headers)
+    else:
+        response = requests.request(url=api_url, method=method, data=params, headers=headers)
+
+    if gbk is True:
         response.encoding = 'gbk'
     else:
         response.encoding = 'utf-8'
 
-    if response.status_code != 200:
-        raise Exception("[error] status code is not 200, status code is {}".format(response.status_code))
     if response.status_code == 200:
         if return_type == "json":
             return response.json()
@@ -23,6 +28,8 @@ def request(api_url: str, method: str = "GET", params: dict = None, gbk: bool = 
             return response.text
         elif return_type == "content":
             return response.content
+    else:
+        raise Exception("[error] status code is not 200, status code is {}".format(response.status_code))
 
 
 def get_book_information(book_id: str):

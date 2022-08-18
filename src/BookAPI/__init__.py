@@ -18,6 +18,17 @@ class XbookbenAPI:
                 return XbookbenAPI.get_chapter_info_by_chapter_id(chapter_url, retry + 1)
             return print("get chapter info failed, chapter_url is {}".format(chapter_url))
 
+    @staticmethod
+    def get_book_info_by_keyword(keyword: str):
+        response = etree.HTML(src.request(
+            method="POST", api_url="https://www.xbookben.net/search", params={"searchkey": keyword}
+        ))
+        search_result = list(
+            zip(response.xpath('//*[@id="hism"]/a/img/@alt'), response.xpath('//*[@id="hism"]/a/img/@src'),
+                response.xpath('//*[@id="hism"]/h3/a/@href'))
+        )
+        return search_result
+
 
 class LinovelAPI:
     @staticmethod
