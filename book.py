@@ -1,5 +1,6 @@
 import threading
-from src import BookAPI, rule
+from src import BookAPI
+from constant import rule
 from config import *
 import Epub
 

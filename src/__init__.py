@@ -1,4 +1,5 @@
-from src import rule, BookAPI
+from src import BookAPI
+from constant import rule
 import requests
 from config import *
 from tenacity import retry, stop_after_attempt

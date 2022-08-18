@@ -27,9 +27,9 @@ class XbookbenAPI:
             api_url=XbookbenAPI.xbookben_host + XbookbenAPI.book_info_by_keyword
         ))
         return list(zip(
-            response.xpath(src.rule.XbookbenRule.Search.book_name),
-            response.xpath(src.rule.XbookbenRule.Search.book_img),
-            response.xpath(src.rule.XbookbenRule.Search.book_id)
+            response.xpath(constant.rule.XbookbenRule.Search.book_name),
+            response.xpath(constant.rule.XbookbenRule.Search.book_img),
+            response.xpath(constant.rule.XbookbenRule.Search.book_id)
         ))
 
 
@@ -53,8 +53,8 @@ class LinovelAPI:
                                                    'mio': 1, 'ua': 'Mozilla/5.0'}
         response = src.request(api_url=LinovelAPI.linovel_host + LinovelAPI.book_info_by_keyword, params=params)
         return list(zip(
-            etree.HTML(response).xpath(src.rule.LinovelRule.Search.book_img),
-            etree.HTML(response).xpath(src.rule.LinovelRule.Search.book_name)
+            etree.HTML(response).xpath(constant.rule.LinovelRule.Search.book_img),
+            etree.HTML(response).xpath(constant.rule.LinovelRule.Search.book_name)
         ))
 
 
