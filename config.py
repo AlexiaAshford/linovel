@@ -3,6 +3,23 @@ import os
 import re
 
 
+def update_config():
+    Vars.cfg.load()
+    if not isinstance(Vars.cfg.data.get('max_thread'), int):
+        Vars.cfg.data['max_thread'] = 16
+    if not isinstance(Vars.cfg.data.get('app_type_list'), list):
+        Vars.cfg.data['app_type_list'] = ["Linovel", "Dingdian", "Xbookben", "BiquPavilion"]
+    if not isinstance(Vars.cfg.data.get('config_path'), str):
+        Vars.cfg.data['config_path'] = "./Cache/"
+    if not isinstance(Vars.cfg.data.get('out_path'), str):
+        Vars.cfg.data['out_path'] = "./downloads/"
+    if not isinstance(Vars.cfg.data.get('downloaded_book_id_list'), dict):
+        Vars.cfg.data['downloaded_book_id_list'] = {"Linovel": [], "Dingdian": [], "Xbookben": [], "BiquPavilion": []}
+    if not isinstance(Vars.cfg.data.get('user_agent'), dict):
+        Vars.cfg.data['user_agent'] = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit"}
+    Vars.cfg.save()
+
+
 class Config:
     file_path = None
     dir_path = None
@@ -24,12 +41,10 @@ class Config:
         except FileNotFoundError:
             try:
                 open(self.file_path, 'w', encoding="utf-8").close()
-            except Exception as e:
-                print('[错误]', e)
-                print('创建配置文件时出错')
-        except Exception as e:
-            print('[错误]', e)
-            print('读取配置文件时出错')
+            except Exception as error:
+                print('[错误]', error, '创建配置文件时出错')
+        except Exception as error:
+            print('[错误]', error, '读取配置文件时出错')
 
     def save(self):
         try:
@@ -42,20 +57,20 @@ class Config:
 
 class Vars:
     cfg = Config(os.getcwd() + '/config.json', os.getcwd())
-    current_bookshelf = []
     current_book = None
     current_epub = None
     current_book_type = None
-    out_text_file = None
-    config_text = None
-    force_output = False
+
+
+class Current:
+    pass
 
 
 def get_id(url: str) -> str:
     result = re.compile(r'(\d+)').findall(url)
-    if len(result) > 0 and result[0].isdigit():
+    if len(result) > 0:
         return result[-1]
-    print("[warning] get_id failed", url)
+    print("[warning] get bookid failed", url)
 
 
 def get(prompt, default=None):
