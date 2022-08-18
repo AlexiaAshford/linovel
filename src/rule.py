@@ -10,7 +10,12 @@ class XbookbenRule:
     book_update_time = '//*[@id="Contents"]/div[1]/p/small/text()'
     chapter_title = '//*[@id="mlfy_main_text"]/h1/text()'
     chapter_content = '//*[@id="TextContent"]'
+
     # chapter_cover = ''
+    class Search:
+        book_name = '//*[@id="hism"]/a/img/@alt'
+        book_img = '//*[@id="hism"]/a/img/@src'
+        book_id = '//*[@id="hism"]/h3/a/@href'
 
 
 class DingdianRule:
@@ -40,7 +45,12 @@ class LinovelRule:
     book_update_time = '/html/body/div[3]/div[2]/div[1]/div[5]/div[2]/div[3]/div[2]/div[1]/small/text()'
     chapter_title = '//div[@class="article-title"]/text()'
     chapter_content = '//div[@class="article-text"]/p'
+
     # chapter_cover = ''
+    class Search:
+        book_name = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@alt'
+        book_img = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@src'
+        book_id = '/html/body/div[4]/div[3]/div[1]/a/@href'
 
 
 def chapter_json(index: int, url: str, title: str, content: str, image_list: list = None) -> dict:

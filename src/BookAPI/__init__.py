@@ -1,58 +1,61 @@
 import re
-from lxml import etree
 import src
+from lxml import etree
 from tenacity import retry, stop_after_attempt
 
 
 class XbookbenAPI:
+    xbookben_host = "https://www.xbookben.net"
+    book_info_by_book_id = "/txt/{}.html"
+    book_info_by_keyword = "/search"
+
     @staticmethod
     def get_book_info_by_book_id(book_id: str):
-        return etree.HTML(src.request(api_url="https://www.xbookben.net/txt/{}.html".format(book_id)))
+        return etree.HTML(
+            src.request(api_url=XbookbenAPI.xbookben_host + XbookbenAPI.book_info_by_book_id.format(book_id))
+        )
 
     @staticmethod
     @retry(stop=stop_after_attempt(7))
     def get_chapter_info_by_chapter_id(chapter_url: str):
-        return etree.HTML(src.request(api_url="https://www.xbookben.net" + chapter_url))
+        return etree.HTML(src.request(api_url=XbookbenAPI.xbookben_host + chapter_url))
 
     @staticmethod
     def get_book_info_by_keyword(keyword: str):
         response = etree.HTML(src.request(
-            method="POST", api_url="https://www.xbookben.net/search", params={"searchkey": keyword}
+            method="POST", params={"searchkey": keyword},
+            api_url=XbookbenAPI.xbookben_host + XbookbenAPI.book_info_by_keyword
         ))
-        search_result = list(
-            zip(response.xpath('//*[@id="hism"]/a/img/@alt'), response.xpath('//*[@id="hism"]/a/img/@src'),
-                response.xpath('//*[@id="hism"]/h3/a/@href'))
-        )
-        return search_result
+        return list(zip(
+            response.xpath(src.rule.XbookbenRule.Search.book_name),
+            response.xpath(src.rule.XbookbenRule.Search.book_img),
+            response.xpath(src.rule.XbookbenRule.Search.book_id)
+        ))
 
 
 class LinovelAPI:
+    linovel_host = "https://www.linovel.net"
+    book_info_by_book_id = "/book/{}.html"
+    book_info_by_keyword = "/search/"
+
     @staticmethod
     def get_book_info_by_book_id(book_id: str):
-        return etree.HTML(src.request("https://www.linovel.net/book/{}.html".format(book_id)))
+        return etree.HTML(src.request(LinovelAPI.linovel_host + LinovelAPI.book_info_by_book_id.format(book_id)))
 
     @staticmethod
     @retry(stop=stop_after_attempt(7))
     def get_chapter_info_by_chapter_id(chapter_url: str):
-        return etree.HTML(src.request(api_url="https://www.linovel.net" + chapter_url))
+        return etree.HTML(src.request(api_url=LinovelAPI.linovel_host + chapter_url))
 
     @staticmethod
     def get_book_info_by_keyword(keyword: str, page: int = 1):
-        """kw: 神
-        page: 2
-        sort: hot
-        target: complex
-        mio: 1
-        ua: Mozilla/5.0"""
-        # params = {''
-        response = etree.HTML(src.request(api_url="https://www.linovel.net/search/", params={"kw": keyword}))
-        '/html/body/div[4]/div[3]/div[1]/a[1]/div/div[1]/img'
-        '/html/body/div[4]/div[3]/div[1]/a[1]'
-        search_result = list(
-            zip(response.xpath('/html/body/div[4]/div[3]/div[1]/a/div/div/img/@src'),
-                response.xpath('/html/body/div[4]/div[3]/div[1]/a/div/div/img/@alt'))
-        )
-        return search_result
+        params = {'kw': keyword} if page < 2 else {'kw': keyword, 'page': page, 'sort': 'hot', 'target': 'complex',
+                                                   'mio': 1, 'ua': 'Mozilla/5.0'}
+        response = src.request(api_url=LinovelAPI.linovel_host + LinovelAPI.book_info_by_keyword, params=params)
+        return list(zip(
+            etree.HTML(response).xpath(src.rule.LinovelRule.Search.book_img),
+            etree.HTML(response).xpath(src.rule.LinovelRule.Search.book_name)
+        ))
 
 
 class DingdianAPI:
