@@ -12,7 +12,7 @@ class XbookbenAPI:
     @staticmethod
     @retry(stop=stop_after_attempt(7))
     def get_chapter_info_by_chapter_id(chapter_url: str):
-        response = etree.HTML(src.request(api_url="https://www.xbookben.net" + chapter_url))
+        return etree.HTML(src.request(api_url="https://www.xbookben.net" + chapter_url))
 
     @staticmethod
     def get_book_info_by_keyword(keyword: str):
