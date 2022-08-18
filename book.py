@@ -1,6 +1,6 @@
 import threading
 from src import BookAPI
-from constant import rule
+from constant import rule, template_json
 from config import *
 import Epub
 
@@ -170,7 +170,7 @@ class Chapter:
     @property
     def chapter_json(self):
         image_list = []
-        return rule.chapter_json(
+        return template_json.chapter_json(
             index=self.chapter_index,
             url=self.chapter_id,
             content=self.content,

@@ -4,7 +4,7 @@ import book
 from config import *
 
 
-def set_up_app_type(current_book_type: str):  # set up app type and book type
+def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and book type
     if current_book_type == "Linovel" or current_book_type == "l":
         Vars.current_book_type = "Linovel"
     elif current_book_type == "Dingdian" or current_book_type == "d":
@@ -75,18 +75,19 @@ def command() -> argparse.Namespace:
 
 if __name__ == '__main__':
     update_config()  # update config file if necessary (for example, add new token)
-    args, shell_cmd = command(), False
-    set_up_app_type(current_book_type=args.app[0]) if args.app else set_up_app_type(current_book_type="Linovel")
+    args_command = command()
+    shell_cmd = False
+    set_up_app_type(current_book_type=args_command.app[0]) if args_command.app else set_up_app_type()
 
-    if args.bookid is not None and args.bookid != "":
-        start_download_book(src.get_book_information(args.bookid[0]))
+    if args_command.bookid is not None and args_command.bookid != "":
+        start_download_book(src.get_book_information(args_command.bookid[0]))
         shell_cmd = True
 
-    if args.name:
-        get_search_list(args.book_name)
+    if args_command.name:
+        get_search_list(args_command.book_name)
         shell_cmd = True
 
-    if args.update is True:
+    if args_command.update is True:
         for app_type in Vars.cfg.data['app_type_list']:
             downloaded_update_book(app_type)
         shell_cmd = True
