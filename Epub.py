@@ -52,7 +52,7 @@ class EpubFile:
     def download_cover_and_add_epub(self):  # download cover image and add to epub file as cover
         if Vars.current_book_type == "Dingdian":
             Vars.current_book.cover = "https://www.ddyueshu.com" + Vars.current_book.cover
-        if make_dirs(os.path.join("cover", Vars.current_book.book_name + "png")):
+        if os.path.join(make_dirs("cover"), Vars.current_book.book_name + "png"):
             cover_image = open('./cover/' + Vars.current_book.book_name + '.png', 'rb').read()
         else:
             cover_image = get_cover_image(Vars.current_book.cover)  # get cover image from url
