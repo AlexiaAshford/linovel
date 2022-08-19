@@ -6,7 +6,6 @@ import constant
 from tenacity import retry, stop_after_attempt
 from fake_useragent import UserAgent
 
-
 headers = {"user-agent": UserAgent().random}
 
 
@@ -35,34 +34,34 @@ def request(api_url: str, method: str = "GET", params: dict = None, gbk: bool = 
 
 def get_book_information(book_id: str):
     if Vars.current_book_type == "Xbookben":
-        book_rule: Type["constant.rule.XbookbenRule"] = constant.rule.XbookbenRule
+        Vars.current_book_rule = constant.rule.XbookbenRule
         result_etree = BookAPI.XbookbenAPI.get_book_info_by_book_id(book_id)
     elif Vars.current_book_type == "Dingdian":
-        book_rule: Type["constant.rule.DingdianRule"] = constant.rule.DingdianRule
+        Vars.current_book_rule = constant.rule.DingdianRule
         result_etree = BookAPI.DingdianAPI.get_book_info_by_book_id(book_id)
     elif Vars.current_book_type == "Linovel":
-        book_rule: Type["constant.rule.LinovelRule"] = constant.rule.LinovelRule
+        Vars.current_book_rule = constant.rule.LinovelRule
         result_etree = BookAPI.LinovelAPI.get_book_info_by_book_id(book_id)
     elif Vars.current_book_type == "sfacg":
-        book_rule: Type["constant.rule.BoluobaoRule"] = constant.rule.BoluobaoRule
+        Vars.current_book_rule = constant.rule.BoluobaoRule
         result_etree = BookAPI.BoluobaoAPI.get_book_info_by_book_id(book_id)
     else:
         raise Exception("[error] app type not found, app type:", Vars.current_book_type)
 
     book_id = book_id
-    book_img = result_etree.xpath(book_rule.book_img)
-    book_name = result_etree.xpath(book_rule.book_name)
-    book_author = result_etree.xpath(book_rule.book_author)
-    book_state = result_etree.xpath(book_rule.book_state)
-    book_label = result_etree.xpath(book_rule.book_label)
-    last_chapter_title = result_etree.xpath(book_rule.last_chapter_title)
-    book_words = result_etree.xpath(book_rule.book_words)
-    book_update_time = result_etree.xpath(book_rule.book_update_time)
+    book_img = result_etree.xpath(Vars.current_book_rule.book_img)
+    book_name = result_etree.xpath(Vars.current_book_rule.book_name)
+    book_author = result_etree.xpath(Vars.current_book_rule.book_author)
+    book_state = result_etree.xpath(Vars.current_book_rule.book_state)
+    book_label = result_etree.xpath(Vars.current_book_rule.book_label)
+    last_chapter_title = result_etree.xpath(Vars.current_book_rule.last_chapter_title)
+    book_words = result_etree.xpath(Vars.current_book_rule.book_words)
+    book_update_time = result_etree.xpath(Vars.current_book_rule.book_update_time)
     if Vars.current_book_type == "sfacg":
         catalogue = BookAPI.BoluobaoAPI.get_catalogue_info_by_book_id(book_id)
-        chapter_url_list = [i for i in catalogue.xpath(book_rule.chapter_url_list)]
+        chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list)]
     else:
-        chapter_url_list = [i for i in result_etree.xpath(book_rule.chapter_url_list)]
+        chapter_url_list = [i for i in result_etree.xpath(Vars.current_book_rule.chapter_url_list)]
 
     return constant.json.book_json(
         book_id=book_id,

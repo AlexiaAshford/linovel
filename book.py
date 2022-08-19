@@ -130,7 +130,6 @@ class Book:
 
 class Chapter:
     def __init__(self, chapter_id: str, index: int):
-        self.book_rule = None
         self._chapter_info = None
         self._content = ""
         self.chapter_index = index
@@ -139,15 +138,11 @@ class Chapter:
     def init_current_book_type(self):
         if Vars.current_book_type == "Linovel":
             self.chapter_info = BookAPI.LinovelAPI.get_chapter_info_by_chapter_id(self.chapter_id)
-            self.book_rule = constant.rule.LinovelRule
         elif Vars.current_book_type == "Dingdian":
-            self.book_rule = constant.rule.DingdianRule
             self.chapter_info = BookAPI.DingdianAPI.get_chapter_info_by_chapter_id(self.chapter_id)
         elif Vars.current_book_type == "Xbookben":
-            self.book_rule = constant.rule.XbookbenRule
             self.chapter_info = BookAPI.XbookbenAPI.get_chapter_info_by_chapter_id(self.chapter_id)
         elif Vars.current_book_type == "sfacg":
-            self.book_rule = constant.rule.BoluobaoRule
             self.chapter_info = BookAPI.BoluobaoAPI.get_chapter_info_by_chapter_id(self.chapter_id)
 
     @property
@@ -164,11 +159,11 @@ class Chapter:
 
     @property
     def chapter_title(self) -> str:
-        return self.chapter_info.xpath(self.book_rule.chapter_title)[0].strip()
+        return self.chapter_info.xpath(Vars.current_book_rule.chapter_title)[0].strip()
 
     @property
     def content_html(self):
-        return self.chapter_info.xpath(self.book_rule.chapter_content)
+        return self.chapter_info.xpath(Vars.current_book_rule.chapter_content)
 
     @property
     def chapter_json(self):
@@ -204,7 +199,7 @@ class Chapter:
                 if content_line.text is not None and len(content_line.text.strip()) != 0:
                     self._content += content_line.text.strip() + "\n"
             return self._content
-        elif Vars.current_book_type == "sfacg": 
+        elif Vars.current_book_type == "sfacg":
             for content_line in self.content_html:
                 if content_line.text is not None and len(content_line.text.strip()) != 0:
                     self._content += content_line.text.strip() + "\n"
