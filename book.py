@@ -1,5 +1,4 @@
 import threading
-from src import BookAPI
 import constant
 from config import *
 import Epub
@@ -80,7 +79,6 @@ class Book:
         self.max_threading.acquire()  # acquire semaphore to prevent multi threading
         # try:
         chapter_info = Chapter(chapter_id=chapter_url, index=index)
-        chapter_info.init_current_book_type()
         if isinstance(chapter_info.chapter_json, dict):
             self.content_config.append(chapter_info.chapter_json)
             self.progress_bar(chapter_info.chapter_title)
@@ -133,9 +131,6 @@ class Chapter:
         self._content = ""
         self.chapter_index = index
         self.chapter_id = chapter_id
-
-    def init_current_book_type(self):
-        Vars.current_book_api.get_chapter_info_by_chapter_id(self.chapter_id)
 
     @property
     def chapter_info(self):
