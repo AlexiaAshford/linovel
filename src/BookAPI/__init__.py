@@ -1,16 +1,22 @@
 import constant
+from lxml import etree
+from .. import request
 from tenacity import *
 
 
 @retry(stop=stop_after_attempt(7), wait=wait_fixed(0.5))
-def get(api_url: str, gbk: bool = False, params: dict = None, method: str = "GET"):
-    from lxml import etree
-    from .. import request
-    try:
-        return etree.HTML(request(method=method, api_url=api_url, gbk=gbk, params=params))
-    except Exception as error:
-        print(error)
-        raise Exception("[error] method:{} api_url: {}".format(method, api_url))
+def get(api_url: str, method: str = "GET", gbk: bool = False, params: dict = None, re_type: str = "html"):
+    response = request(method=method, api_url=api_url, gbk=gbk, params=params)
+    if re_type == "html":
+        return etree.HTML(str(response.text))
+    elif re_type == "json":
+        return response.json()
+    elif re_type == "text":
+        return response.text
+    elif re_type == "content":
+        return response.content
+    else:
+        raise Exception("[error] re_type is not html, json, text, content")
 
 
 class XbookbenAPI:
