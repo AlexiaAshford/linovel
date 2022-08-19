@@ -146,6 +146,9 @@ class Chapter:
         elif Vars.current_book_type == "Xbookben":
             self.book_rule = constant.rule.XbookbenRule
             self.chapter_info = BookAPI.XbookbenAPI.get_chapter_info_by_chapter_id(self.chapter_id)
+        elif Vars.current_book_type == "sfacg":
+            self.book_rule = constant.rule.BoluobaoRule
+            self.chapter_info = BookAPI.BoluobaoAPI.get_chapter_info_by_chapter_id(self.chapter_id)
 
     @property
     def chapter_info(self):
@@ -200,5 +203,9 @@ class Chapter:
             for content_line in self.content_html[0]:
                 if content_line.text is not None and len(content_line.text.strip()) != 0:
                     self._content += content_line.text.strip() + "\n"
-
+            return self._content
+        elif Vars.current_book_type == "sfacg": 
+            for content_line in self.content_html:
+                if content_line.text is not None and len(content_line.text.strip()) != 0:
+                    self._content += content_line.text.strip() + "\n"
             return self._content
