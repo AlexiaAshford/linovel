@@ -84,9 +84,8 @@ class Book:
                 self.progress_bar(chapter_info.chapter_title)
             else:
                 print("chapter_info.chapter_json is not dict", chapter_info.chapter_json)
-        except Exception as err:
-            self.save_content_json()  # save content_config if error occur
-            print("[error] {} error:{}".format(chapter_url, err))
+        except:
+            self.save_content_json()  # save content_config if error
         finally:
             self.max_threading.release()  # release threading semaphore when threading is finished
 
