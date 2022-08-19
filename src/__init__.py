@@ -1,15 +1,15 @@
-from src import BookAPI
 import requests
 from config import *
 import constant
 from tenacity import retry, stop_after_attempt
 from fake_useragent import UserAgent
 
-headers = {"user-agent": UserAgent().random}
+__all__ = ["BookAPI", "get_book_information", "request"]
 
 
 @retry(stop=stop_after_attempt(5))
 def request(api_url: str, method: str = "GET", params: dict = None, gbk: bool = False, return_type: str = "text"):
+    headers = {"user-agent": UserAgent().random}
     if method == "GET":
         response = requests.request(url=api_url, method="GET", params=params, headers=headers)
     else:

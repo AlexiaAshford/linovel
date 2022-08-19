@@ -1,13 +1,13 @@
-import src
-from lxml import etree
 import constant
-from tenacity import retry, stop_after_attempt, wait_fixed
+from tenacity import *
 
 
 @retry(stop=stop_after_attempt(7), wait=wait_fixed(0.5))
 def get(api_url: str, gbk: bool = False, params: dict = None, method: str = "GET"):
+    from lxml import etree
+    from .. import request
     try:
-        return etree.HTML(src.request(method=method, api_url=api_url, gbk=gbk, params=params))
+        return etree.HTML(request(method=method, api_url=api_url, gbk=gbk, params=params))
     except Exception as error:
         print(error)
         raise Exception("[error] method:{} api_url: {}".format(method, api_url))
@@ -100,7 +100,7 @@ class BoluobaoAPI:
 #         return sort_info_list
 
 
-def get_chapter_cover(html_string: [str, etree.ElementTree]) -> [list, None]:
+def get_chapter_cover(html_string) -> [list, None]:
     img_url_list = [
         img_url.get('src') for img_url in html_string.xpath('//div[@class="article-text"]//img')
     ]

@@ -138,7 +138,10 @@ class Chapter:
 
     @property
     def chapter_title(self) -> str:
-        return self.chapter_info.xpath(Vars.current_book_rule.chapter_title)[0].strip()
+        chapter_name = self.chapter_info.xpath(Vars.current_book_rule.chapter_title)
+        if isinstance(chapter_name, list):
+            return chapter_name[0].strip()
+        return chapter_name.strip()
 
     @property
     def content_html(self):
