@@ -8,13 +8,14 @@ def update_config():
     if not isinstance(Vars.cfg.data.get('max_thread'), int):
         Vars.cfg.data['max_thread'] = 16
     if not isinstance(Vars.cfg.data.get('app_type_list'), list):
-        Vars.cfg.data['app_type_list'] = ["Linovel", "Dingdian", "Xbookben", "BiquPavilion"]
+        Vars.cfg.data['app_type_list'] = ["Linovel", "Dingdian", "Xbookben", "BiquPavilion", "sfacg"]
     if not isinstance(Vars.cfg.data.get('config_path'), str):
         Vars.cfg.data['config_path'] = "./Cache/"
     if not isinstance(Vars.cfg.data.get('out_path'), str):
         Vars.cfg.data['out_path'] = "./downloads/"
     if not isinstance(Vars.cfg.data.get('downloaded_book_id_list'), dict):
-        Vars.cfg.data['downloaded_book_id_list'] = {"Linovel": [], "Dingdian": [], "Xbookben": [], "BiquPavilion": []}
+        Vars.cfg.data['downloaded_book_id_list'] = {
+            "Linovel": [], "Dingdian": [], "Xbookben": [], "BiquPavilion": [], "sfacg": []}
     if not isinstance(Vars.cfg.data.get('user_agent'), dict):
         Vars.cfg.data['user_agent'] = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit"}
     Vars.cfg.save()
