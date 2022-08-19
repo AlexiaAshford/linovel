@@ -10,4 +10,4 @@ class Site:
         book_info_by_keyword = host + "/search/"
 
     class Dingdian:
-        host = "https://www.ddyueshu.com"
+        host = "https://www.ddyueshu.com/"

@@ -1,7 +1,7 @@
 from src import BookAPI
 import requests
 from config import *
-from constant import rule, template_json
+import constant
 from tenacity import retry, stop_after_attempt
 
 headers = {
@@ -35,13 +35,13 @@ def request(api_url: str, method: str = "GET", params: dict = None, gbk: bool = 
 
 def get_book_information(book_id: str):
     if Vars.current_book_type == "Xbookben":
-        book_rule = rule.XbookbenRule
+        book_rule = constant.rule.XbookbenRule
         result_etree = BookAPI.XbookbenAPI.get_book_info_by_book_id(book_id)
     elif Vars.current_book_type == "Dingdian":
-        book_rule = rule.DingdianRule
+        book_rule = constant.rule.DingdianRule
         result_etree = BookAPI.DingdianAPI.get_book_info_by_book_id(book_id)
     elif Vars.current_book_type == "Linovel":
-        book_rule = rule.LinovelRule
+        book_rule = constant.rule.LinovelRule
         result_etree = BookAPI.LinovelAPI.get_book_info_by_book_id(book_id)
     else:
         raise Exception("[error] app type not found, app type:", Vars.current_book_type)
@@ -57,7 +57,7 @@ def get_book_information(book_id: str):
     book_update_time = result_etree.xpath(book_rule.book_update_time)
     chapter_url_list = [i for i in result_etree.xpath(book_rule.chapter_url_list)]
 
-    return template_json.book_json(
+    return constant.json.book_json(
         book_id=book_id,
         book_name=book_name[0] if len(book_name) > 0 else "",
         book_words=book_words[0] if book_words else None,

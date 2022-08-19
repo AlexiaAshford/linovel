@@ -1,6 +1,6 @@
 import threading
 from src import BookAPI
-from constant import rule, template_json
+import constant
 from config import *
 import Epub
 
@@ -139,12 +139,12 @@ class Chapter:
     def init_current_book_type(self):
         if Vars.current_book_type == "Linovel":
             self.chapter_info = BookAPI.LinovelAPI.get_chapter_info_by_chapter_id(self.chapter_id)
-            self.book_rule = rule.LinovelRule
+            self.book_rule = constant.rule.LinovelRule
         elif Vars.current_book_type == "Dingdian":
-            self.book_rule = rule.DingdianRule
+            self.book_rule = constant.rule.DingdianRule
             self.chapter_info = BookAPI.DingdianAPI.get_chapter_info_by_chapter_id(self.chapter_id)
         elif Vars.current_book_type == "Xbookben":
-            self.book_rule = rule.XbookbenRule
+            self.book_rule = constant.rule.XbookbenRule
             self.chapter_info = BookAPI.XbookbenAPI.get_chapter_info_by_chapter_id(self.chapter_id)
 
     @property
@@ -170,7 +170,7 @@ class Chapter:
     @property
     def chapter_json(self):
         image_list = []
-        return template_json.chapter_json(
+        return constant.json.chapter_json(
             index=self.chapter_index,
             url=self.chapter_id,
             content=self.content,
