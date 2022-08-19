@@ -1,4 +1,3 @@
-from typing import Type
 from src import BookAPI
 import requests
 from config import *
@@ -32,36 +31,22 @@ def request(api_url: str, method: str = "GET", params: dict = None, gbk: bool = 
         raise Exception("[error] status code is not 200, status code is {}".format(response.status_code))
 
 
-def get_book_information(book_id: str):
-    if Vars.current_book_type == "Xbookben":
-        Vars.current_book_rule = constant.rule.XbookbenRule
-        result_etree = BookAPI.XbookbenAPI.get_book_info_by_book_id(book_id)
-    elif Vars.current_book_type == "Dingdian":
-        Vars.current_book_rule = constant.rule.DingdianRule
-        result_etree = BookAPI.DingdianAPI.get_book_info_by_book_id(book_id)
-    elif Vars.current_book_type == "Linovel":
-        Vars.current_book_rule = constant.rule.LinovelRule
-        result_etree = BookAPI.LinovelAPI.get_book_info_by_book_id(book_id)
-    elif Vars.current_book_type == "sfacg":
-        Vars.current_book_rule = constant.rule.BoluobaoRule
-        result_etree = BookAPI.BoluobaoAPI.get_book_info_by_book_id(book_id)
-    else:
-        raise Exception("[error] app type not found, app type:", Vars.current_book_type)
-
-    book_id = book_id
-    book_img = result_etree.xpath(Vars.current_book_rule.book_img)
-    book_name = result_etree.xpath(Vars.current_book_rule.book_name)
-    book_author = result_etree.xpath(Vars.current_book_rule.book_author)
-    book_state = result_etree.xpath(Vars.current_book_rule.book_state)
-    book_label = result_etree.xpath(Vars.current_book_rule.book_label)
-    last_chapter_title = result_etree.xpath(Vars.current_book_rule.last_chapter_title)
-    book_words = result_etree.xpath(Vars.current_book_rule.book_words)
-    book_update_time = result_etree.xpath(Vars.current_book_rule.book_update_time)
+def get_book_information(book_id: str):  # return book info json
+    book_id = book_id if "_" in book_id else re.findall(r"\d+", book_id)[-1]  # del book url suffix
+    current_book_info_html = Vars.current_book_api.get_book_info_by_book_id(book_id)  # get book info html
+    book_img = current_book_info_html.xpath(Vars.current_book_rule.book_img)
+    book_name = current_book_info_html.xpath(Vars.current_book_rule.book_name)
+    book_author = current_book_info_html.xpath(Vars.current_book_rule.book_author)
+    book_state = current_book_info_html.xpath(Vars.current_book_rule.book_state)
+    book_label = current_book_info_html.xpath(Vars.current_book_rule.book_label)
+    last_chapter_title = current_book_info_html.xpath(Vars.current_book_rule.last_chapter_title)
+    book_words = current_book_info_html.xpath(Vars.current_book_rule.book_words)
+    book_update_time = current_book_info_html.xpath(Vars.current_book_rule.book_update_time)
     if Vars.current_book_type == "sfacg":
-        catalogue = BookAPI.BoluobaoAPI.get_catalogue_info_by_book_id(book_id)
+        catalogue = Vars.current_book_api.get_catalogue_info_by_book_id(book_id)
         chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list)]
     else:
-        chapter_url_list = [i for i in result_etree.xpath(Vars.current_book_rule.chapter_url_list)]
+        chapter_url_list = [i for i in current_book_info_html.xpath(Vars.current_book_rule.chapter_url_list)]
 
     return constant.json.book_json(
         book_id=book_id,

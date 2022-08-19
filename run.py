@@ -1,21 +1,32 @@
 import argparse
+
+import constant
 import src
 import book
 from config import *
+from src import BookAPI
 
 
 def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and book type
-    if current_book_type == "Linovel" or current_book_type == "l":
-        Vars.current_book_type = "Linovel"
+    # distribution book type and app type
+    if current_book_type == "Xbookben" or current_book_type == "x":
+        Vars.current_book_type = "Xbookben"
+        Vars.current_book_rule = constant.rule.XbookbenRule
+        Vars.current_book_api = BookAPI.XbookbenAPI
     elif current_book_type == "Dingdian" or current_book_type == "d":
         Vars.current_book_type = "Dingdian"
-    elif current_book_type == "Xbookben" or current_book_type == "x":
-        Vars.current_book_type = "Xbookben"
-    elif Vars.current_book_type == "sfacg" or current_book_type == "s":
-        Vars.current_book_type = "sfacg"
-    else:
+        Vars.current_book_rule = constant.rule.DingdianRule
+        Vars.current_book_api = BookAPI.DingdianAPI
+    elif current_book_type == "Linovel" or current_book_type == "l":
         Vars.current_book_type = "Linovel"
-        print("[error] app type not found, app type:", current_book_type)
+        Vars.current_book_rule = constant.rule.LinovelRule
+        Vars.current_book_api = BookAPI.LinovelAPI
+    elif current_book_type == "sfacg" or current_book_type == "s":
+        Vars.current_book_type = "sfacg"
+        Vars.current_book_rule = constant.rule.BoluobaoRule
+        Vars.current_book_api = BookAPI.BoluobaoAPI
+    else:
+        raise Exception("[error] app type not found, app type:", Vars.current_book_type)
 
 
 def get_search_list(search_keyword: str):

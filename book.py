@@ -130,32 +130,16 @@ class Book:
 
 class Chapter:
     def __init__(self, chapter_id: str, index: int):
-        self._chapter_info = None
         self._content = ""
         self.chapter_index = index
         self.chapter_id = chapter_id
 
     def init_current_book_type(self):
-        if Vars.current_book_type == "Linovel":
-            self.chapter_info = BookAPI.LinovelAPI.get_chapter_info_by_chapter_id(self.chapter_id)
-        elif Vars.current_book_type == "Dingdian":
-            self.chapter_info = BookAPI.DingdianAPI.get_chapter_info_by_chapter_id(self.chapter_id)
-        elif Vars.current_book_type == "Xbookben":
-            self.chapter_info = BookAPI.XbookbenAPI.get_chapter_info_by_chapter_id(self.chapter_id)
-        elif Vars.current_book_type == "sfacg":
-            self.chapter_info = BookAPI.BoluobaoAPI.get_chapter_info_by_chapter_id(self.chapter_id)
+        Vars.current_book_api.get_chapter_info_by_chapter_id(self.chapter_id)
 
     @property
     def chapter_info(self):
-        if self._chapter_info is not None:
-            return self._chapter_info
-        else:
-            self.init_current_book_type()
-            return self._chapter_info
-
-    @chapter_info.setter
-    def chapter_info(self, chapter_info):
-        self._chapter_info = chapter_info
+        return Vars.current_book_api.get_chapter_info_by_chapter_id(self.chapter_id)
 
     @property
     def chapter_title(self) -> str:
