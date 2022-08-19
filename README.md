@@ -1,6 +1,4 @@
-# **download multiple website book**
-
-## current support Novel-website:
+# current support Novel-website:
 
 | 站点名称 | 网址                | 是否正版 | 插图下载 |
 |------|-------------------|------|------|
