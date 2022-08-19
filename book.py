@@ -77,20 +77,18 @@ class Book:
 
     def download_book_content(self, chapter_url, index) -> None:
         self.max_threading.acquire()  # acquire semaphore to prevent multi threading
-        # try:
-        chapter_info = Chapter(chapter_id=chapter_url, index=index)
-        if isinstance(chapter_info.chapter_json, dict):
-            self.content_config.append(chapter_info.chapter_json)
-            self.progress_bar(chapter_info.chapter_title)
-        else:
-            print("{} chapter download error".format(chapter_url))
-        # except Exception as err:
-        #     print("download book content error: {}".format(err))
-        #     self.save_content_json()  # save content_config if error occur
-        # finally:
-        #     self.max_threading.release()  # release threading semaphore
-
-        self.max_threading.release()
+        try:
+            chapter_info = Chapter(chapter_id=chapter_url, index=index)
+            if isinstance(chapter_info.chapter_json, dict):
+                self.content_config.append(chapter_info.chapter_json)
+                self.progress_bar(chapter_info.chapter_title)
+            else:
+                print("chapter_info.chapter_json is not dict", chapter_info.chapter_json)
+        except Exception as err:
+            self.save_content_json()  # save content_config if error occur
+            print("[error] {} error:{}".format(chapter_url, err))
+        finally:
+            self.max_threading.release()  # release threading semaphore when threading is finished
 
     def multi_thread_download_book(self) -> None:
         for index, chapter_url in enumerate(self.chapter_url_list, start=1):
@@ -116,8 +114,6 @@ class Book:
         if self.book_id not in Vars.cfg.data['downloaded_book_id_list'][Vars.current_book_type]:
             Vars.cfg.data['downloaded_book_id_list'][Vars.current_book_type].append(self.book_id)
             Vars.cfg.save()
-        else:
-            print("{}: add book_id update list.".format(self.book_name))
 
     def progress_bar(self, title: str = "") -> None:  # progress bar
         self.progress_bar_count += 1  # increase progress_bar_count
