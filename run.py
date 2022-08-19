@@ -30,12 +30,9 @@ def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and 
 
 
 def get_search_list(search_keyword: str):
-    if Vars.current_book_type == "Linovel":
-        search_response = src.BookAPI.LinovelAPI.get_book_info_by_keyword(search_keyword)
-    elif Vars.current_book_type == "Xbookben":
-        search_response = src.BookAPI.XbookbenAPI.get_book_info_by_keyword(search_keyword)
-    else:
+    if Vars.current_book_type not in ["Linovel", "Xbookben"]:
         raise Exception("[error] current book type not found, current book type:", Vars.current_book_type)
+    search_response = Vars.current_book_api.get_book_info_by_keyword(search_keyword)
     if len(search_response) > 0:
         print("[info] start search book, book_id_list length:", len(search_response))
         for book_id in search_response:
