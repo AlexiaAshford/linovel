@@ -8,3 +8,6 @@ class Site:
         host = "https://www.linovel.net"
         book_info_by_book_id = host + "/book/{}.html"
         book_info_by_keyword = host + "/search/"
+
+    class Dingdian:
+        host = "https://www.ddyueshu.com"

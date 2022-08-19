@@ -50,16 +50,10 @@ class EpubFile:
         return book_detailed  # return book detailed information as string
 
     def download_cover_and_add_epub(self):  # download cover image and add to epub file as cover
-        if Vars.current_book_type == "Xbookben":
-            book_host = ""
-        elif Vars.current_book_type == "Dingdian":
-            book_host = "https://www.ddyueshu.com"
-        elif Vars.current_book_type == "Linovel":
-            book_host = ""
-        else:
-            book_host = ""
-        # print(book_host + Vars.current_book.cover)
-        download_png_file = get_cover_image(book_host + Vars.current_book.cover)  # get cover image from url
+        if Vars.current_book_type == "Dingdian":
+            Vars.current_book.cover = "https://www.ddyueshu.com" + Vars.current_book.cover
+
+        download_png_file = get_cover_image(Vars.current_book.cover)  # get cover image from url
         if download_png_file is not None:  # if cover image is not None ,then add to epub file
             self.epub.set_cover(Vars.current_book.book_name + '.png', download_png_file)  # add cover image to epub file
 

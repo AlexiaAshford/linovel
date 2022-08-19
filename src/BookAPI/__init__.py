@@ -60,11 +60,11 @@ class LinovelAPI:
 class DingdianAPI:
     @staticmethod
     def get_book_info_by_book_id(book_id: str):
-        return get(api_url="https://www.ddyueshu.com/{}".format(book_id), gbk=True)
+        return get(api_url=constant.url.Site.Dingdian.host + book_id, gbk=True)
 
     @staticmethod
     def get_chapter_info_by_chapter_id(chapter_url):
-        return get(api_url='https://www.ddyueshu.com' + chapter_url, gbk=True)
+        return get(api_url=constant.url.Site.Dingdian.host + chapter_url, gbk=True)
 
 
 def get_sort(tag_name: str, page: int, retry: int = 0):  # get sort from url by page
