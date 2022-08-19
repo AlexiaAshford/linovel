@@ -11,3 +11,10 @@ class Site:
 
     class Dingdian:
         host = "https://www.ddyueshu.com/"
+
+    class Boluobao:
+        host = "https://book.sfacg.com"
+        book_info_by_book_id = host + "/Novel/{}/"
+        catalogue_info_by_book_id = host + "/Novel/{}/MainIndex/"
+        content_info_by_chapter_id = host + "/Novel/{}/{}/{}/"  # book_id, volume_id, chapter_id
+        book_info_by_keyword = host + "https://s.sfacg.com/?Key={}&S=1&SS=0"

@@ -43,6 +43,9 @@ def get_book_information(book_id: str):
     elif Vars.current_book_type == "Linovel":
         book_rule = constant.rule.LinovelRule
         result_etree = BookAPI.LinovelAPI.get_book_info_by_book_id(book_id)
+    elif Vars.current_book_type == "sfacg":
+        book_rule = constant.rule.BoluobaoRule
+        result_etree = BookAPI.BoluobaoAPI.get_book_info_by_book_id(book_id)
     else:
         raise Exception("[error] app type not found, app type:", Vars.current_book_type)
 

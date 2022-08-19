@@ -11,8 +11,8 @@ def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and 
         Vars.current_book_type = "Dingdian"
     elif current_book_type == "Xbookben" or current_book_type == "x":
         Vars.current_book_type = "Xbookben"
-    # elif Vars.current_book_type == "BiquPavilion" or current_book_type == "b":
-    #     Vars.current_book_type = "BiquPavilion"
+    elif Vars.current_book_type == "sfacg" or current_book_type == "s":
+        Vars.current_book_type = "sfacg"
     else:
         Vars.current_book_type = "Linovel"
         print("[error] app type not found, app type:", current_book_type)

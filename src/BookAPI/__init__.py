@@ -67,13 +67,32 @@ class DingdianAPI:
         return get(api_url=constant.url.Site.Dingdian.host + chapter_url, gbk=True)
 
 
-def get_sort(tag_name: str, page: int, retry: int = 0):  # get sort from url by page
-    params = {"sort": "words", "sign": "-1", "page": page}
-    response = get(api_url="https://www.linovel.net/cat/-1.html", params=params)
-    sort_html_list = response.xpath('//a[@class="book-name"]')
-    sort_info_list = [i.get('href').split('/')[-1][:-5] for i in sort_html_list]
-    if sort_info_list and len(sort_info_list) != 0:
-        return sort_info_list
+class BoluobaoAPI:
+    @staticmethod
+    def get_book_info_by_book_id(book_id: str):
+        return get(api_url=constant.url.Site.Boluobao.book_info_by_book_id.format(book_id))
+
+    @staticmethod
+    def get_chapter_info_by_chapter_id(chapter_url: str):
+        return get(api_url=constant.url.Site.Boluobao.host + chapter_url)
+
+    @staticmethod
+    def get_book_info_by_keyword(keyword: str, page: int = 1):
+        params = {'kw': keyword} if page < 2 else {
+            'kw': keyword, 'page': page, 'sort': 'hot', 'target': 'complex', 'mio': 1, 'ua': 'Mozilla/5.0'}
+        response = get(api_url=constant.url.Site.Boluobao.book_info_by_keyword, params=params)
+        return list(zip(
+            response.xpath(constant.rule.BoluobaoRule.Search.book_img),
+            response.xpath(constant.rule.BoluobaoRule.Search.book_name)
+        ))
+
+# def get_sort(tag_name: str, page: int, retry: int = 0):  # get sort from url by page
+#     params = {"sort": "words", "sign": "-1", "page": page}
+#     response = get(api_url="https://www.linovel.net/cat/-1.html", params=params)
+#     sort_html_list = response.xpath('//a[@class="book-name"]')
+#     sort_info_list = [i.get('href').split('/')[-1][:-5] for i in sort_html_list]
+#     if sort_info_list and len(sort_info_list) != 0:
+#         return sort_info_list
 
 
 def get_chapter_cover(html_string: [str, etree.ElementTree]) -> [list, None]:

@@ -53,3 +53,21 @@ class LinovelRule:
         book_id = '/html/body/div[4]/div[3]/div[1]/a/@href'
 
 
+class BoluobaoRule:
+    book_img = '//div[@class="book-cover"]/a/@href'
+    book_name = '//h1[@class="book-title"]/text()'
+    book_author = '//div[@class="author-frame"]//a/text()'
+    chapter_url_list = '//div[@class="chapter"]/a/@href'
+    book_state = '/html/body/div[3]/div[2]/div[1]/div[2]/div[3]/span[7]/text()'
+    book_label = '/html/body/div[3]/div[2]/div[1]/div[2]/div[2]/a[1]/text()'
+    last_chapter_title = '/html/body/div[3]/div[2]/div[1]/div[5]/div[2]/div[3]/div[2]'
+    book_words = '/html/body/div[3]/div[2]/div[1]/div[2]/div[3]/span[1]/text()'
+    book_update_time = '/html/body/div[3]/div[2]/div[1]/div[5]/div[2]/div[3]/div[2]/div[1]/small/text()'
+    chapter_title = '//div[@class="article-title"]/text()'
+    chapter_content = '//div[@class="article-text"]/p'
+
+    # chapter_cover = ''
+    class Search:
+        book_name = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@alt'
+        book_img = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@src'
+        book_id = '/html/body/div[4]/div[3]/div[1]/a/@href'
