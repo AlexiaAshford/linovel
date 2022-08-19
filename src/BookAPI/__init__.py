@@ -73,6 +73,10 @@ class BoluobaoAPI:
         return get(api_url=constant.url.Site.Boluobao.book_info_by_book_id.format(book_id))
 
     @staticmethod
+    def get_catalogue_info_by_book_id(book_id: str):
+        return get(api_url=constant.url.Site.Boluobao.catalogue_info_by_book_id.format(book_id))
+
+    @staticmethod
     def get_chapter_info_by_chapter_id(chapter_url: str):
         return get(api_url=constant.url.Site.Boluobao.host + chapter_url)
 
@@ -85,6 +89,7 @@ class BoluobaoAPI:
             response.xpath(constant.rule.BoluobaoRule.Search.book_img),
             response.xpath(constant.rule.BoluobaoRule.Search.book_name)
         ))
+
 
 # def get_sort(tag_name: str, page: int, retry: int = 0):  # get sort from url by page
 #     params = {"sort": "words", "sign": "-1", "page": page}

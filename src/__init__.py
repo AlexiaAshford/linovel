@@ -1,13 +1,13 @@
+from typing import Type
 from src import BookAPI
 import requests
 from config import *
 import constant
 from tenacity import retry, stop_after_attempt
+from fake_useragent import UserAgent
 
-headers = {
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit",
 
-}
+headers = {"user-agent": UserAgent().random}
 
 
 @retry(stop=stop_after_attempt(5))
@@ -35,16 +35,16 @@ def request(api_url: str, method: str = "GET", params: dict = None, gbk: bool = 
 
 def get_book_information(book_id: str):
     if Vars.current_book_type == "Xbookben":
-        book_rule = constant.rule.XbookbenRule
+        book_rule: Type["constant.rule.XbookbenRule"] = constant.rule.XbookbenRule
         result_etree = BookAPI.XbookbenAPI.get_book_info_by_book_id(book_id)
     elif Vars.current_book_type == "Dingdian":
-        book_rule = constant.rule.DingdianRule
+        book_rule: Type["constant.rule.DingdianRule"] = constant.rule.DingdianRule
         result_etree = BookAPI.DingdianAPI.get_book_info_by_book_id(book_id)
     elif Vars.current_book_type == "Linovel":
-        book_rule = constant.rule.LinovelRule
+        book_rule: Type["constant.rule.LinovelRule"] = constant.rule.LinovelRule
         result_etree = BookAPI.LinovelAPI.get_book_info_by_book_id(book_id)
     elif Vars.current_book_type == "sfacg":
-        book_rule = constant.rule.BoluobaoRule
+        book_rule: Type["constant.rule.BoluobaoRule"] = constant.rule.BoluobaoRule
         result_etree = BookAPI.BoluobaoAPI.get_book_info_by_book_id(book_id)
     else:
         raise Exception("[error] app type not found, app type:", Vars.current_book_type)
@@ -58,7 +58,11 @@ def get_book_information(book_id: str):
     last_chapter_title = result_etree.xpath(book_rule.last_chapter_title)
     book_words = result_etree.xpath(book_rule.book_words)
     book_update_time = result_etree.xpath(book_rule.book_update_time)
-    chapter_url_list = [i for i in result_etree.xpath(book_rule.chapter_url_list)]
+    if Vars.current_book_type == "sfacg":
+        catalogue = BookAPI.BoluobaoAPI.get_catalogue_info_by_book_id(book_id)
+        chapter_url_list = [i for i in catalogue.xpath(book_rule.chapter_url_list)]
+    else:
+        chapter_url_list = [i for i in result_etree.xpath(book_rule.chapter_url_list)]
 
     return constant.json.book_json(
         book_id=book_id,
@@ -70,5 +74,5 @@ def get_book_information(book_id: str):
         book_tag=book_label[0] if book_label else None,
         last_chapter_title=last_chapter_title[0] if last_chapter_title else None,
         book_uptime=book_update_time[0] if book_update_time else None,
-        chapter_url_list=chapter_url_list
+        chapter_url_list=chapter_url_list if chapter_url_list else []
     )

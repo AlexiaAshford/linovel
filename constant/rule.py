@@ -57,7 +57,7 @@ class BoluobaoRule:
     book_img = '//*[@id="hasTicket"]/div[1]/div/div[1]/a/img/@src'
     book_name = '/html/body/div[1]/div[3]/div/div/div[1]/h1/span[1]/text()'
     book_author = '/html/body/div[1]/div[3]/div/div/div[1]/div[1]/div[1]/div[2]/span/text()'
-    chapter_url_list = '//div[@class="chapter"]/a/@href'
+    chapter_url_list = '/html/body/div[1]/div[3]/div/div/ul/li/a/@href'
     book_state = '/html/body/div[1]/div[3]/div/div/div[1]/div[1]/div[2]/div[1]/span[2]/text()'
     book_label = '/html/body/div[1]/div[4]/div/div[1]/ul/text()'
     last_chapter_title = '/html/body/div[1]/div[4]/div/div[1]/div[2]/h3/a/text()'
