@@ -52,10 +52,17 @@ class EpubFile:
     def download_cover_and_add_epub(self):  # download cover image and add to epub file as cover
         if Vars.current_book_type == "Dingdian":
             Vars.current_book.cover = "https://www.ddyueshu.com" + Vars.current_book.cover
+        if make_dirs(os.path.join("cover", Vars.current_book.book_name + "png")):
+            cover_image = open('./cover/' + Vars.current_book.book_name + '.png', 'rb').read()
+        else:
+            cover_image = get_cover_image(Vars.current_book.cover)  # get cover image from url
+            with open('./cover/' + Vars.current_book.book_name + '.png', 'wb') as f:
+                f.write(cover_image)
 
-        download_png_file = get_cover_image(Vars.current_book.cover)  # get cover image from url
-        if download_png_file is not None:  # if cover image is not None ,then add to epub file
-            self.epub.set_cover(Vars.current_book.book_name + '.png', download_png_file)  # add cover image to epub file
+        if cover_image is not None:  # if cover image is not None ,then add to epub file
+            self.epub.set_cover(Vars.current_book.book_name + '.png', cover_image)  # add cover image to epub file
+        else:
+            self.download_cover_and_add_epub()
 
     def add_chapter_in_epub_file(self, chapter_title: str, content_lines_list: str, serial_number: str):
         import uuid
