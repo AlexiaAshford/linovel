@@ -14,23 +14,20 @@ def get(api_url: str, gbk: bool = False, params: dict = None, method: str = "GET
 
 
 class XbookbenAPI:
-    xbookben_host = "https://www.xbookben.net"
-    book_info_by_book_id = "/txt/{}.html"
-    book_info_by_keyword = "/search"
 
     @staticmethod
     def get_book_info_by_book_id(book_id: str):
-        return get(api_url=XbookbenAPI.xbookben_host + XbookbenAPI.book_info_by_book_id.format(book_id))
+        return get(api_url=constant.url.Site.Xbookben.book_info_by_book_id.format(book_id))
 
     @staticmethod
     def get_chapter_info_by_chapter_id(chapter_url: str):
-        return get(api_url=XbookbenAPI.xbookben_host + chapter_url)
+        return get(api_url=constant.url.Site.Xbookben.host + chapter_url)
 
     @staticmethod
     def get_book_info_by_keyword(keyword: str):
         response = get(
             method="POST", params={"searchkey": keyword},
-            api_url=XbookbenAPI.xbookben_host + XbookbenAPI.book_info_by_keyword
+            api_url=constant.url.Site.Xbookben.book_info_by_keyword
         )
         return list(zip(
             response.xpath(constant.rule.XbookbenRule.Search.book_name),
@@ -40,23 +37,20 @@ class XbookbenAPI:
 
 
 class LinovelAPI:
-    linovel_host = "https://www.linovel.net"
-    book_info_by_book_id = "/book/{}.html"
-    book_info_by_keyword = "/search/"
 
     @staticmethod
     def get_book_info_by_book_id(book_id: str):
-        return get(LinovelAPI.linovel_host + LinovelAPI.book_info_by_book_id.format(book_id))
+        return get(constant.url.Site.Linovel.book_info_by_book_id.format(book_id))
 
     @staticmethod
     def get_chapter_info_by_chapter_id(chapter_url: str):
-        return get(api_url=LinovelAPI.linovel_host + chapter_url)
+        return get(api_url=constant.url.Site.Linovel.host + chapter_url)
 
     @staticmethod
     def get_book_info_by_keyword(keyword: str, page: int = 1):
         params = {'kw': keyword} if page < 2 else {
             'kw': keyword, 'page': page, 'sort': 'hot', 'target': 'complex', 'mio': 1, 'ua': 'Mozilla/5.0'}
-        response = get(api_url=LinovelAPI.linovel_host + LinovelAPI.book_info_by_keyword, params=params)
+        response = get(api_url=constant.url.Site.Linovel.book_info_by_keyword, params=params)
         return list(zip(
             response.xpath(constant.rule.LinovelRule.Search.book_img),
             response.xpath(constant.rule.LinovelRule.Search.book_name)
