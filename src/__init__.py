@@ -59,7 +59,7 @@ def get_book_information(book_id: str):  # return book info json
 
     return constant.json.book_json(
         book_id=book_id,
-        book_name=book_name[0] if len(book_name) > 0 else "",
+        book_name=book_name[0] if len(book_name) > 0 else None,
         book_words=book_words[0] if book_words else None,
         cover_url=book_img[0] if book_img else None,
         author_name=book_author[0] if book_author else None,

@@ -33,10 +33,15 @@ class EpubFile:
 
     def add_the_book_information(self) -> str:
         description = epub.EpubHtml(title='简介信息', file_name='0000-000000-intro.xhtml', lang='zh-CN')
-        description.content = '<html><head></head><body>\n<h1>小说简介</h1>\n'
+        description.content = '<html><head></head><body>\n'
+        description.content += '<h1>小说简介</h1>\n'
         description.content += '<p>书籍书名:{}</p>\n'.format(Vars.current_book.book_name)
         description.content += '<p>书籍序号:{}</p>\n'.format(Vars.current_book.book_id)
         description.content += '<p>书籍作者:{}</p>\n'.format(Vars.current_book.book_author)
+        if Vars.current_book.book_status is not None:
+            description.content += '<p>书籍状态:</p>{}\n'.format(Vars.current_book.book_status)
+        if Vars.current_book.book_words is not None:
+            description.content += '<p>字数信息:</p>{}\n'.format(Vars.current_book.book_words)
         if Vars.current_book.last_chapter_title is not None:
             description.content += '<p>最新章节:{}</p>\n'.format(Vars.current_book.last_chapter_title)
         if Vars.current_book.book_tag is not None:
