@@ -34,13 +34,14 @@ def get_search_list(search_keyword: str):
     if len(search_response) > 0:
         print("[info] start search book, book_id_list length:", len(search_response))
         for book_id in search_response:
-            start_download_book(get_book_information(book_id))
+            start_download_book(book_id)
     else:
         print("[warning] search result is empty, search keyword:", search_keyword)
 
 
-def start_download_book(book_info_result: dict) -> None:
-    Vars.current_book = book_info_result
+def start_download_book(book_id: str) -> None:
+    Vars.current_book = get_book_information(book_id)
+    from rich import print
     if Vars.current_book is not None:
         Vars.current_book = book.Book(Vars.current_book)
         Vars.current_book.init_content_config()
@@ -55,8 +56,7 @@ def start_search_book(book_id_list: list):
         return
     print("[info] start search book, book_id_list length:", len(book_id_list))
     for book_id in book_id_list:
-        start_download_book(get_book_information(book_id))
-
+        start_download_book(book_id)
 
 
 def shell_console():
@@ -69,7 +69,7 @@ def shell_console():
         inputs = get(">").split(" ")
         if inputs[0] == "d":
             if len(inputs) >= 2:
-                start_download_book(get_book_information(inputs[1]))
+                start_download_book(inputs[1])
             else:
                 print("[error] please input book id, example: d 12345")
 
@@ -100,7 +100,7 @@ if __name__ == '__main__':
     set_up_app_type(current_book_type=args_command.app[0]) if args_command.app else set_up_app_type()
 
     if args_command.bookid is not None and args_command.bookid != "":
-        start_download_book(get_book_information(args_command.bookid[0]))
+        start_download_book(args_command.bookid[0])
         shell_open_console = True
 
     if args_command.name:

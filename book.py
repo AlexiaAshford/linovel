@@ -3,6 +3,7 @@ import chapter
 import threading
 from config import *
 
+
 class Book:
     def __init__(self, book_info: dict):
         self.content_config = []
@@ -11,14 +12,11 @@ class Book:
         self.progress_bar_length = 0
         self.book_info = book_info
         self.book_id = book_info['bookId']
-        self.cover = book_info['bookCoverUrl']
+        self.cover = book_info.get('bookCoverUrl')
         self.chapter_url_list = book_info['chapUrl']
-        self.book_words = book_info.get('bookWords')
         self.book_tag = book_info.get('bookTag')
         self.book_intro = book_info.get('bookIntro')
-        self.book_status = book_info.get('bookStatus')
         self.last_chapter_title = book_info.get('lastChapterTitle')
-
         self.max_threading = threading.BoundedSemaphore(Vars.cfg.data.get('max_thread'))
 
     @property
@@ -29,6 +27,13 @@ class Book:
     def book_author(self) -> str:
         return self.book_info['authorName'].replace('作    者：', '')
 
+    @property
+    def book_status(self) -> str:
+        return self.book_info['bookStatus'] if isinstance(self.book_info.get('bookStatus'), str) else None
+
+    @property
+    def book_words(self) -> str:
+        return self.book_info['bookWords'] if isinstance(self.book_info.get('bookWords'), str) else None
     @property
     def out_text_path(self) -> str:
         return make_dirs(os.path.join(Vars.cfg.data['out_path'], self.book_name))
@@ -123,4 +128,3 @@ class Book:
         print("\r{}/{} title:{}".format(
             self.progress_bar_count, self.progress_bar_length, title), end="\r"
         )  # print progress bar and title
-
