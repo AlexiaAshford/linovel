@@ -23,7 +23,7 @@ class Book:
 
     @property
     def book_name(self) -> str:
-        return re.sub(r'[？?*|“《》<>:/]', '', self.book_info['bookName'])
+        return re.sub(r'[？?*|“《》<>:/]|\r|\n|\s', '', self.book_info['bookName']).strip()
 
     @property
     def book_author(self) -> str:
