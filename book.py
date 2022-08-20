@@ -119,10 +119,6 @@ class Book:
         self.save_content_json()
         self.merge_text_file()
 
-        if self.book_id not in Vars.cfg.data['downloaded_book_id_list'][Vars.current_book_type]:
-            Vars.cfg.data['downloaded_book_id_list'][Vars.current_book_type].append(self.book_id)
-            Vars.cfg.save()
-
     def progress_bar(self, title: str = "") -> None:  # progress bar
         self.progress_bar_count += 1  # increase progress_bar_count
         print("\r{}/{} title:{}".format(

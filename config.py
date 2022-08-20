@@ -13,9 +13,6 @@ def update_config():
         Vars.cfg.data['config_path'] = "./Cache/"
     if not isinstance(Vars.cfg.data.get('out_path'), str):
         Vars.cfg.data['out_path'] = "./downloads/"
-    if not isinstance(Vars.cfg.data.get('downloaded_book_id_list'), dict):
-        Vars.cfg.data['downloaded_book_id_list'] = {
-            "Linovel": [], "Dingdian": [], "Xbookben": [], "BiquPavilion": [], "sfacg": []}
     if not isinstance(Vars.cfg.data.get('user_agent'), dict):
         Vars.cfg.data['user_agent'] = {"user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit"}
     Vars.cfg.save()

@@ -58,15 +58,6 @@ def start_search_book(book_id_list: list):
         start_download_book(get_book_information(book_id))
 
 
-def downloaded_update_book(app_type_name: str):
-    if app_type_name in Vars.cfg.data['app_type_list']:
-        if len(Vars.cfg.data['downloaded_book_id_list'][app_type_name]) != 0:
-            [start_download_book(book_id) for book_id in Vars.cfg.data.get('downloaded_book_id_list')]
-        else:
-            print("[warning] downloaded_book_id_list is empty, please download book first")
-    else:
-        print("[error] app_type_name not found, app_type_name:", app_type_name)
-
 
 def shell_console():
     print("[info] run as shell")
@@ -87,19 +78,13 @@ def shell_console():
                 get_search_list(inputs[1])
             else:
                 print("[error] please input book name, example: s 红楼梦")
-        elif inputs[0] == "u":
-            if len(inputs) >= 2:
-                downloaded_update_book(inputs[1])
-            print("download all books in config book_id_list")
-            for app_type in Vars.cfg.data['app_type_list']:
-                downloaded_update_book(app_type)
         else:
             print("[error] command not found", inputs[0])
 
 
 def command() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description='Downloader for Linovel and Dingdian')
-    parser.add_argument('-u', '--update', help='update config file', action="store_true")
+    # parser.add_argument('-u', '--update', help='update config file', action="store_true")
     parser.add_argument('-s', '--search', help='search book', action="store_true")
     # parser.add_argument('-v', '--version', help='show version', action="store_true")
     parser.add_argument('-i', '--bookid', default=None, nargs=1, help='download book by book id')
@@ -120,11 +105,6 @@ if __name__ == '__main__':
 
     if args_command.name:
         get_search_list(args_command.book_name)
-        shell_open_console = True
-
-    if args_command.update is True:
-        for app_type in Vars.cfg.data['app_type_list']:
-            downloaded_update_book(app_type)
         shell_open_console = True
 
     if not shell_open_console:
