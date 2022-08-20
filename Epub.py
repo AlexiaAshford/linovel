@@ -32,27 +32,28 @@ class EpubFile:
         self.epub.add_author(Vars.current_book.book_author)
 
     def add_the_book_information(self) -> str:
-        intro_ = epub.EpubHtml(title='简介信息', file_name='0000-000000-intro.xhtml', lang='zh-CN')
-        intro_.content = '<html><head></head><body><h1>简介</h1>'
-        intro_.content += '<p>书籍书名:{}</p> '.format(Vars.current_book.book_name)
-
-        intro_.content += '<p>书籍序号:{}</p>'.format(Vars.current_book.book_id)
-        intro_.content += '<p>书籍作者:{}</p>'.format(Vars.current_book.book_author)
-        # intro_.content += '<p>最新章节:{}</p><p>系统标签:{}</p>'.format(up_chapter, novel_tag)
-        # intro_.content += '<p>简介信息:</p>{}</body></html>'.format(intro)
-        intro_.content += '</body></html>'
-        self.epub.add_item(intro_)
-        self.EpubList.append(intro_)
-        book_detailed = re.compile('<[^>]+>').sub(
-            "", intro_.content.replace(' ', '').replace('\n', '').
-            replace('<p>', "\n").replace('</p>', "\n").replace('\n\n', "\n"))
+        description = epub.EpubHtml(title='简介信息', file_name='0000-000000-intro.xhtml', lang='zh-CN')
+        description.content = '<html><head></head><body><h1>简介</h1>'
+        description.content += '<p>书籍书名:{}</p> '.format(Vars.current_book.book_name)
+        description.content += '<p>书籍序号:{}</p>'.format(Vars.current_book.book_id)
+        description.content += '<p>书籍作者:{}</p>'.format(Vars.current_book.book_author)
+        if Vars.current_book.last_chapter_title is not None:
+            description.content += '<p>最新章节:{}</p>'.format(Vars.current_book.last_chapter_title)
+        if Vars.current_book.book_tag is not None:
+            description.content += '<p>系统标签:{}</p>'.format(Vars.current_book.book_tag)
+        if Vars.current_book.book_intro is not None:
+            description.content += '<p>简介信息:</p>{}'.format(Vars.current_book.book_intro)
+        description.content += '</body></html>'
+        self.epub.add_item(description)
+        self.EpubList.append(description)
+        book_detailed = re.sub(r"\n+", "\n", re.sub('<[^>]+>|<p>|</p>', "\n", description.content.strip()))
         print(book_detailed)  # print book detailed information to console
-        return book_detailed  # return book detailed information as string
+        return book_detailed + "\n\n"  # return book detailed information as string
 
     def download_cover_and_add_epub(self):  # download cover image and add to epub file as cover
         if Vars.current_book_type == "Dingdian":
             Vars.current_book.cover = "https://www.ddyueshu.com" + Vars.current_book.cover
-        cover_file_path = os.path.join(make_dirs("cover"), Vars.current_book.book_name + "png")
+        cover_file_path = os.path.join(make_dirs("cover"), Vars.current_book.book_name + ".png")
         if not os.path.exists(cover_file_path):
             open(cover_file_path, 'wb').write(get_cover_image(Vars.current_book.cover))
         cover_image = open(cover_file_path, 'rb').read()

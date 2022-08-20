@@ -12,14 +12,23 @@ class Book:
         self.progress_bar_length = 0
         self.book_info = book_info
         self.book_id = book_info['bookId']
-        self.book_author = book_info['authorName']
         self.cover = book_info['bookCoverUrl']
         self.chapter_url_list = book_info['chapUrl']
+        self.book_words = book_info.get('bookWords')
+        self.book_tag = book_info.get('bookTag')
+        self.book_intro = book_info.get('bookIntro')
+        self.book_status = book_info.get('bookStatus')
+        self.last_chapter_title = book_info.get('lastChapterTitle')
+
         self.max_threading = threading.BoundedSemaphore(Vars.cfg.data.get('max_thread'))
 
     @property
     def book_name(self) -> str:
         return re.sub(r'[？?*|“《》<>:/]', '', self.book_info['bookName'])
+
+    @property
+    def book_author(self) -> str:
+        return self.book_info['authorName'].replace('作    者：', '')
 
     @property
     def out_text_path(self) -> str:
