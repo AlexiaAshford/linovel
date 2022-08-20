@@ -46,7 +46,7 @@ class EpubFile:
         description.content += '</body></html>'
         self.epub.add_item(description)
         self.EpubList.append(description)
-        book_detailed = re.sub(r"\n+", "\n", re.sub('<[^>]+>|<p>|</p>', "\n", description.content.strip()))
+        book_detailed = re.sub(r"\n+", "\n", re.sub('<[^>]+>|<p>|</p>', "\n", description.content).strip())
         print(book_detailed)  # print book detailed information to console
         return book_detailed + "\n\n"  # return book detailed information as string
 
