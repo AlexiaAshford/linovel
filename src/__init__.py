@@ -2,7 +2,7 @@ import constant
 import requests
 from config import *
 from tenacity import *
-from fake_useragent import UserAgent
+import fake_useragent
 
 __all__ = [
     "API",
@@ -16,7 +16,7 @@ session = requests.Session()
 @retry(stop=stop_after_attempt(5))
 def request(api_url: str, method: str = "GET", params: dict = None, gbk: bool = False):
     headers = {
-        "User-Agent": UserAgent().random,
+        "User-Agent": fake_useragent.UserAgent().random,
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9",
         "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
         "Accept-Encoding": "gzip, deflate",
