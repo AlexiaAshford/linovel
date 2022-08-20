@@ -2,7 +2,7 @@ import argparse
 import constant
 import book
 from config import *
-from src import BookAPI, get_book_information
+from src import API, get_book_information
 
 
 def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and book type
@@ -10,19 +10,19 @@ def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and 
     if current_book_type == "Xbookben" or current_book_type == "x":
         Vars.current_book_type = "Xbookben"
         Vars.current_book_rule = constant.rule.XbookbenRule
-        Vars.current_book_api = BookAPI.XbookbenAPI
+        Vars.current_book_api = API.XbookbenAPI
     elif current_book_type == "Dingdian" or current_book_type == "d":
         Vars.current_book_type = "Dingdian"
         Vars.current_book_rule = constant.rule.DingdianRule
-        Vars.current_book_api = BookAPI.DingdianAPI
+        Vars.current_book_api = API.DingdianAPI
     elif current_book_type == "Linovel" or current_book_type == "l":
         Vars.current_book_type = "Linovel"
         Vars.current_book_rule = constant.rule.LinovelRule
-        Vars.current_book_api = BookAPI.LinovelAPI
+        Vars.current_book_api = API.LinovelAPI
     elif current_book_type == "sfacg" or current_book_type == "s":
         Vars.current_book_type = "sfacg"
         Vars.current_book_rule = constant.rule.BoluobaoRule
-        Vars.current_book_api = BookAPI.BoluobaoAPI
+        Vars.current_book_api = API.BoluobaoAPI
     else:
         raise Exception("[error] app type not found, app type:", Vars.current_book_type)
 

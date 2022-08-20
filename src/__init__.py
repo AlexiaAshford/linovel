@@ -5,7 +5,7 @@ from tenacity import *
 from fake_useragent import UserAgent
 
 __all__ = [
-    "BookAPI",
+    "API",
     "request",
     "get_book_information",
 ]

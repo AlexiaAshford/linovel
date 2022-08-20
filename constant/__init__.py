@@ -1,3 +1,7 @@
-from constant import rule, json, url
+from . import rule, json, url
 
-__all__ = ["rule", "json", "url"]
+__all__ = [
+    "rule",
+    "json",
+    "url"
+]
