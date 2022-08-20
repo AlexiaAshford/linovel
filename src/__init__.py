@@ -52,6 +52,8 @@ def get_book_information(book_id: str):  # return book info json
     if Vars.current_book_type == "sfacg":
         catalogue = Vars.current_book_api.get_catalogue_info_by_book_id(book_id)
         chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list)]
+    elif Vars.current_book_type == "Dingdian":
+        chapter_url_list = [i for i in current_book_info_html.xpath(Vars.current_book_rule.chapter_url_list)][6:]
     else:
         chapter_url_list = [i for i in current_book_info_html.xpath(Vars.current_book_rule.chapter_url_list)]
 

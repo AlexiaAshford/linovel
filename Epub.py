@@ -58,7 +58,7 @@ class EpubFile:
             open(cover_file_path, 'wb').write(get_cover_image(Vars.current_book.cover))
         cover_image = open(cover_file_path, 'rb').read()
         if cover_image is not None:  # if cover image is not None ,then add to epub file
-            self.epub.set_cover(cover_file_path, cover_image)  # add cover image to epub file
+            self.epub.set_cover("cover.png", cover_image)  # add cover image to epub file
         else:
             self.download_cover_and_add_epub()
 
