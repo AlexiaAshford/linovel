@@ -41,7 +41,6 @@ def get_search_list(search_keyword: str):
 
 def start_download_book(book_id: str) -> None:
     Vars.current_book = get_book_information(book_id)
-    from rich import print
     if Vars.current_book is not None:
         Vars.current_book = book.Book(Vars.current_book)
         Vars.current_book.init_content_config()
