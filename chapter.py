@@ -41,22 +41,8 @@ class Chapter:
 
     @property
     def content(self):
-        currency_ruly = ["Linovel", "sfacg", "Dingdian", "Xbookben", "Biquge"]
-        if Vars.current_book_type in currency_ruly:
-            for content_line in self.content_html:
-                if content_line is not None and len(content_line.strip()) != 0:
-                    self._content += content_line.strip() + "\n"
-            return re.sub(r'&amp;|amp;|lt;|gt;', '', self._content)
-
-        # elif Vars.current_book_type == "Xbookben":
-        #     print(self.content_html)
-        #     for content_line in self.content_html:
-        #         if content_line is not None and len(content_line.strip()) != 0:
-        #             self._content += content_line.strip() + "\n"
-        #     return self._content
-        #
-        # elif Vars.current_book_type == "Biquge":
-        #     for content_line in self.content_html:
-        #         if content_line is not None and len(content_line.strip()) != 0:
-        #             self._content += content_line.strip() + "\n"
-        #     return self._content
+        for content_line in self.content_html:
+            if content_line is not None and len(content_line.strip()) != 0:
+                self._content += content_line.strip() + "\n"
+        self._content = re.sub(r'&amp;|amp;|lt;|gt;', '', self._content)
+        return self._content
