@@ -47,7 +47,7 @@ class LinovelRule:
     book_words = '/html/body/div[3]/div[2]/div[1]/div[2]/div[3]/span[1]/text()'
     book_update_time = '/html/body/div[3]/div[2]/div[1]/div[5]/div[2]/div[3]/div[2]/div[1]/small/text()'
     chapter_title = '//div[@class="article-title"]/text()'
-    chapter_content = '//div[@class="article-text"]/p'
+    chapter_content = '//div[@class="article-text"]/p/text()'
 
     # chapter_cover = ''
     class Search:
@@ -68,7 +68,7 @@ class BoluobaoRule:
     book_words = '/html/body/div[1]/div[3]/div/div/div[1]/div[1]/div[2]/div[1]/span[2]/text()'
     book_update_time = '/html/body/div[1]/div[3]/div/div/div[1]/div[1]/div[2]/div[2]/span/text()'
     chapter_title = '//*[@id="article"]/div[1]/h1/text()'
-    chapter_content = '//*[@id="ChapterBody"]/p'
+    chapter_content = '//*[@id="ChapterBody"]/p/text()'
 
     # chapter_cover = ''
     class Search:
