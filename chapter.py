@@ -62,3 +62,9 @@ class Chapter:
                 if content_line.text is not None and len(content_line.text.strip()) != 0:
                     self._content += content_line.text.strip() + "\n"
             return self._content
+
+        elif Vars.current_book_type == "Biquge":
+            for content_line in self.content_html:
+                if content_line is not None and len(content_line.strip()) != 0:
+                    self._content += content_line.strip() + "\n"
+            return self._content
