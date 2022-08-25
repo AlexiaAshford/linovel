@@ -10,7 +10,7 @@ class XbookbenRule:
     book_words = '/html/body/div/div[2]/div/div/div[2]/p/strong[4]/span/text()'
     book_update_time = '//*[@id="Contents"]/div[1]/p/small/text()'
     chapter_title = '//*[@id="mlfy_main_text"]/h1/text()'
-    chapter_content = '//*[@id="TextContent"]'
+    chapter_content = '//*[@id="TextContent"]/p/text()'
 
     # chapter_cover = ''
     class Search:

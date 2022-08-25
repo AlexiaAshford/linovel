@@ -41,37 +41,22 @@ class Chapter:
 
     @property
     def content(self):
-        currency_ruly = ["Linovel", "sfacg", "Dingdian"]
+        currency_ruly = ["Linovel", "sfacg", "Dingdian", "Xbookben", "Biquge"]
         if Vars.current_book_type in currency_ruly:
             for content_line in self.content_html:
                 if content_line is not None and len(content_line.strip()) != 0:
                     self._content += content_line.strip() + "\n"
             return re.sub(r'&amp;|amp;|lt;|gt;', '', self._content)
 
-        # elif Vars.current_book_type == "Dingdian":
-        #     for line in self.content_html:
-        #
-        #         content_line = str(line).strip()
-        #         if content_line is None or content_line == "":
-        #             continue
-        #         if '请记住本书首发域名' in content_line or '书友大本营' in content_line:
-        #             continue
-        #         self._content += content_line + "\n"
-        #     return re.sub(r'&amp;|amp;|lt;|gt;', '', self._content)
-
-        elif Vars.current_book_type == "Xbookben":
-            for content_line in self.content_html[0]:
-                if content_line.text is not None and len(content_line.text.strip()) != 0:
-                    self._content += content_line.text.strip() + "\n"
-            return self._content
-        # elif Vars.current_book_type == "sfacg":
+        # elif Vars.current_book_type == "Xbookben":
+        #     print(self.content_html)
         #     for content_line in self.content_html:
-        #         if content_line.text is not None and len(content_line.text.strip()) != 0:
-        #             self._content += content_line.text.strip() + "\n"
+        #         if content_line is not None and len(content_line.strip()) != 0:
+        #             self._content += content_line.strip() + "\n"
         #     return self._content
         #
-        elif Vars.current_book_type == "Biquge":
-            for content_line in self.content_html:
-                if content_line is not None and len(content_line.strip()) != 0:
-                    self._content += content_line.strip() + "\n"
-            return self._content
+        # elif Vars.current_book_type == "Biquge":
+        #     for content_line in self.content_html:
+        #         if content_line is not None and len(content_line.strip()) != 0:
+        #             self._content += content_line.strip() + "\n"
+        #     return self._content
