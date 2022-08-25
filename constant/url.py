@@ -17,3 +17,7 @@ class Site:
         book_info_by_book_id = host + "/Novel/{}/"
         catalogue_info_by_book_id = host + "/Novel/{}/MainIndex/"
         book_info_by_keyword = host + "https://s.sfacg.com/?Key={}&S=1&SS=0"
+
+    class Biquge:
+        host = "https://www.qu-la.com"
+        book_info_by_book_id = host + "/booktxt/"

@@ -97,13 +97,15 @@ class BoluobaoAPI:
         ))
 
 
-# def get_sort(tag_name: str, page: int, retry: int = 0):  # get sort from url by page
-#     params = {"sort": "words", "sign": "-1", "page": page}
-#     response = get(api_url="https://www.linovel.net/cat/-1.html", params=params)
-#     sort_html_list = response.xpath('//a[@class="book-name"]')
-#     sort_info_list = [i.get('href').split('/')[-1][:-5] for i in sort_html_list]
-#     if sort_info_list and len(sort_info_list) != 0:
-#         return sort_info_list
+class BiqugeAPI:
+
+    @staticmethod
+    def get_book_info_by_book_id(book_id: str):
+        return get(api_url=constant.url.Site.Biquge.book_info_by_book_id + book_id, gbk=True)
+
+    @staticmethod
+    def get_chapter_info_by_chapter_id(chapter_url: str):
+        return get(api_url=constant.url.Site.Biquge.host + chapter_url, gbk=True)
 
 
 def get_chapter_cover(html_string) -> [list, None]:

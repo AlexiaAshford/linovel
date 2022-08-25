@@ -29,11 +29,12 @@ class Book:
 
     @property
     def book_status(self) -> str:
-        return self.book_info['bookStatus'] if isinstance(self.book_info.get('bookStatus'), str) else None
+        return self.book_info['bookStatus'].strip() if isinstance(self.book_info.get('bookStatus'), str) else None
 
     @property
     def book_words(self) -> str:
         return self.book_info['bookWords'] if isinstance(self.book_info.get('bookWords'), str) else None
+
     @property
     def out_text_path(self) -> str:
         return make_dirs(os.path.join(Vars.cfg.data['out_path'], self.book_name))

@@ -75,3 +75,24 @@ class BoluobaoRule:
         book_name = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@alt'
         book_img = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@src'
         book_id = '/html/body/div[4]/div[3]/div[1]/a/@href'
+
+
+class BiqugeRule:
+    book_img = '//*[@id="fengmian"]/a/img/@src'
+    book_name = '//*[@id="list"]/div[1]/div[2]/h1/text()'
+    book_author = '//*[@id="list"]/div[1]/div[2]/span/text()'
+    chapter_url_list = '//*[@id="list"]/div[3]/ul[2]/li/a'
+    book_state = '//*[@id="list"]/div[1]/div[2]/div[1]/span[2]/text()'
+    book_label = '/html/body/div[1]/div[4]/div/div[1]/ul/text()'
+    book_intro = '//*[@id="list"]/div[1]/div[2]/div[2]/text()'
+    last_chapter_title = '//*[@id="list"]/div[2]/p[2]/a/text()'
+    book_words = '/html/body/div[1]/div[3]/div/div/div[1]/div[1]/div[2]/div[1]/span[2]/text()'
+    book_update_time = '//*[@id="list"]/div[2]/p[2]/span/text()'
+    chapter_title = '//*[@id="article"]/div[1]/h1/text()'
+    chapter_content = '//*[@id="ChapterBody"]/p'
+
+    # chapter_cover = ''
+    class Search:
+        book_name = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@alt'
+        book_img = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@src'
+        book_id = '/html/body/div[4]/div[3]/div[1]/a/@href'
