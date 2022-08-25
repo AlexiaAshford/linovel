@@ -5,7 +5,7 @@ class XbookbenRule:
     chapter_url_list = '//*[@id="chapterList"]/li/a/@href'
     book_state = '/html/body/div/div[2]/div/div/div[2]/p/strong[3]/span/text()'
     book_label = '/html/body/div/div[2]/div/div/div[2]/p/strong[2]/span/text()'
-    book_intro = ''
+    book_intro = '/html/body/div/div[2]/div/div/div[2]/div[1]/p/text()'
     last_chapter_title = '//*[@id="Contents"]/div[1]/p/a/text()'
     book_words = '/html/body/div/div[2]/div/div/div[2]/p/strong[4]/span/text()'
     book_update_time = '//*[@id="Contents"]/div[1]/p/small/text()'
@@ -26,7 +26,7 @@ class DingdianRule:
     chapter_url_list = '//*[@id="list"]/dl/dd[*]/a/@href'
     book_state = '//*[@id="intro"]/p'  # 没有这个信息
     book_label = '//*[@id="wrapper"]/div[4]/div[1]/text()'
-    book_intro = ''
+    book_intro = '//*[@id="intro"]/p/text()'
     last_chapter_title = '//*[@id="list"]/dl/dd[1]/a/text()'
     book_words = '//*[@id="intro"]/p'  # 没有这个信息
     book_update_time = '//*[@id="info"]/p[3]/text()'
@@ -42,7 +42,7 @@ class LinovelRule:
     chapter_url_list = '//div[@class="chapter"]/a/@href'
     book_state = '/html/body/div[3]/div[2]/div[1]/div[2]/div[3]/span[7]/text()'
     book_label = '/html/body/div[3]/div[2]/div[1]/div[2]/div[2]/a[1]/text()'
-    book_intro = ''
+    book_intro = '/html/body/div[3]/div[2]/div[1]/div[5]/div[1]/div[2]/div[1]/div/text()'
     last_chapter_title = '/html/body/div[3]/div[2]/div[1]/div[5]/div[2]/div[3]/div[2]'
     book_words = '/html/body/div[3]/div[2]/div[1]/div[2]/div[3]/span[1]/text()'
     book_update_time = '/html/body/div[3]/div[2]/div[1]/div[5]/div[2]/div[3]/div[2]/div[1]/small/text()'
