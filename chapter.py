@@ -4,10 +4,10 @@ from config import *
 
 class Chapter:
     def __init__(self, chapter_id: str, index: int):
-        self._content = ""
         self.chapter_index = index
         self.chapter_id = chapter_id
-        self.chapter_info = Vars.current_book_api.get_chapter_info_by_chapter_id(self.chapter_id)
+        self.next_url = self.chapter_id.replace(".html", "_2.html")
+        self.chapter_info = Vars.current_book_api.get_chapter_info_by_chapter_id(chapter_id)
 
     # @property
     # def chapter_info(self):
@@ -21,7 +21,12 @@ class Chapter:
         return chapter_name.strip()
 
     @property
-    def content_html(self):
+    def content_page_html(self):
+        if Vars.current_book_type == "Xbookben":
+            next_page = Vars.current_book_api.get_chapter_info_by_chapter_id(self.next_url)
+            return self.chapter_info.xpath(Vars.current_book_rule.chapter_content) + \
+                   next_page.xpath(Vars.current_book_rule.chapter_content)
+
         return self.chapter_info.xpath(Vars.current_book_rule.chapter_content)
 
     @property
@@ -35,14 +40,11 @@ class Chapter:
             image_list=image_list if image_list is not None else []
         )  # return a dict with chapter info
 
-    @property
-    def standard_content(self):
-        return re.sub(r'&amp;|amp;|lt;|gt;', '', self._content)
+    # @property
+    # def standard_content(self):
+    #     return re.sub(r'&amp;|amp;|lt;|gt;', '', self._content)
 
     @property
     def content(self):
-        for content_line in self.content_html:
-            if content_line is not None and len(content_line.strip()) != 0:
-                self._content += content_line.strip() + "\n"
-        self._content = re.sub(r'&amp;|amp;|lt;|gt;', '', self._content)
-        return self._content
+        content_list = [page.strip() for page in self.content_page_html if page is not None and len(page.strip()) != 0]
+        return re.sub(r'&amp;|amp;|lt;|gt;', '',  "\n".join(content_list))
