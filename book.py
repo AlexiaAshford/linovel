@@ -60,14 +60,14 @@ class Book:
 
     def save_content_json(self) -> None:
         try:
-            json_info = json.dumps(self.content_config, ensure_ascii=False)
+            self.content_config.sort(key=lambda x: x.get('chapterIndex'))
+            json_info = json.dumps(self.content_config, ensure_ascii=False, indent=4)
             write_text(path_name=self.save_config_path, content=json_info)
         except Exception as err:  # if save_config_path is not exist, create it and save content_config
             print("save content json error: {}".format(err))
             self.save_content_json()
 
-    def merge_text_file(self) -> None:  # merge all text file into one
-        self.content_config.sort(key=lambda x: x.get('chapterIndex'))
+    def merge_text_file(self) -> None:  # merge all text file into one text file
         for chapter_info in self.content_config:
             chapter_title = "第{}章: {}\n".format(chapter_info['chapterIndex'], chapter_info['chapterTitle'])
             chapter_content = ["　　" + i for i in chapter_info.get('chapterContent').split("\n")]
