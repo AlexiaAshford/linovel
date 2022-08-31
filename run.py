@@ -2,7 +2,7 @@ import argparse
 import constant
 import book
 from config import *
-from src import API, get_book_information
+from src import API, get_book_information_template
 
 
 def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and book type
@@ -48,7 +48,7 @@ def get_search_list(search_keyword: str):
 
 
 def start_download_book(book_id: str) -> None:
-    Vars.current_book = get_book_information(book_id)
+    Vars.current_book = get_book_information_template(book_id)
     if Vars.current_book is not None:
         Vars.current_book = book.Book(Vars.current_book)
         Vars.current_book.init_content_config()

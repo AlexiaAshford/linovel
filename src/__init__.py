@@ -7,7 +7,7 @@ import fake_useragent
 __all__ = [
     "API",
     "request",
-    "get_book_information",
+    "get_book_information_template",
 ]
 
 session = requests.Session()
@@ -38,7 +38,7 @@ def request(api_url: str, method: str = "GET", params: dict = None, gbk: bool = 
         raise Exception("[error] status code is not 200, status code is {}".format(response.status_code))
 
 
-def get_book_information(book_id: str):  # return book info json
+def get_book_information_template(book_id: str):  # return book info json
     book_id = book_id if "_" in book_id else re.findall(r"\d+", book_id)[-1]  # del book url suffix
     current_book_info_html = Vars.current_book_api.get_book_info_by_book_id(book_id)  # get book info html
     book_img = current_book_info_html.xpath(Vars.current_book_rule.book_img)
