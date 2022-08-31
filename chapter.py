@@ -43,7 +43,13 @@ class Chapter:
 
     @property
     def standard_content(self):
-        return re.sub(r'&amp;|amp;|lt;|gt;', '', "\n".join(self.content))
+        delete_list = [
+            "&amp;", "amp;", "lt;", "gt;", "一秒记住【八零中文网 www.80zw.net】，精彩小说无弹窗免费阅读！"
+        ]
+        content = "\n".join(self.content)
+        for delete_info in delete_list:
+            content = re.sub(delete_info, '', content)
+        return content
 
     @property
     def content(self):
