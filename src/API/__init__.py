@@ -2,6 +2,7 @@ import constant
 from lxml import etree
 from .. import request
 from tenacity import *
+from config import *
 
 
 @retry(stop=stop_after_attempt(7), wait=wait_fixed(0.1))
@@ -106,6 +107,18 @@ class BiqugeAPI:
     @staticmethod
     def get_chapter_info_by_chapter_id(chapter_url: str):
         return get(api_url=constant.url.Site.Biquge.host + chapter_url, gbk=True)
+
+
+class BalingAPI:
+
+    @staticmethod
+    def get_book_info_by_book_id(book_id: str):
+        return get(api_url=constant.url.Site.Baling.book_info_by_book_id + book_id, gbk=True)
+
+    @staticmethod
+    def get_chapter_info_by_chapter_id(chapter_url: str):
+        api_url = constant.url.Site.Baling.book_info_by_chapter_id
+        return get(api_url=api_url.format(Vars.current_book.book_id, chapter_url), gbk=True)
 
 
 def get_chapter_cover(html_string) -> [list, None]:

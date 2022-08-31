@@ -27,6 +27,10 @@ def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and 
         Vars.current_book_type = "Biquge"
         Vars.current_book_rule = constant.rule.BiqugeRule
         Vars.current_book_api = API.BiqugeAPI
+    elif current_book_type == "Baling" or current_book_type == "bl":
+        Vars.current_book_type = "Baling"
+        Vars.current_book_rule = constant.rule.BalingRule
+        Vars.current_book_api = API.BalingAPI
     else:
         raise Exception("[error] app type not found, app type:", Vars.current_book_type)
 

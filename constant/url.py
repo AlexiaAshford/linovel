@@ -21,3 +21,8 @@ class Site:
     class Biquge:
         host = "https://www.qu-la.com"
         book_info_by_book_id = host + "/booktxt/"
+
+    class Baling:
+        host = "http://www.80zw.net"
+        book_info_by_book_id = host + "/article/"
+        book_info_by_chapter_id = host + "/article/{}/{}"

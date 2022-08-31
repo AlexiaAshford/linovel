@@ -96,3 +96,24 @@ class BiqugeRule:
         book_name = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@alt'
         book_img = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@src'
         book_id = '/html/body/div[4]/div[3]/div[1]/a/@href'
+
+
+class BalingRule:
+    book_img = '//*[@id="fmimg"]/img/@src'
+    book_name = '//*[@id="info"]/h1/text()'
+    book_author = '//*[@id="info"]/p[1]/a/text()'
+    chapter_url_list = '/html/body/div[4]/div/ul/li/a/@href'
+    book_state = '//*[@id="list"]/div[1]/div[2]/div[1]/span[2]/text()'
+    book_label = '/html/body/div[1]/div[4]/div/div[1]/ul/text()'
+    book_intro = '//*[@id="intro"]/text()'
+    last_chapter_title = '//*[@id="list"]/div[2]/p[2]/a/text()'
+    book_words = '/html/body/div[1]/div[3]/div/div/div[1]/div[1]/div[2]/div[1]/span[2]/text()'
+    book_update_time = '//*[@id="info"]/p[3]/text()'
+    chapter_title = '//*[@id="content"]/h1/text()'
+    chapter_content = '//*[@id="htmlContent"]/text()'
+
+    # chapter_cover = ''
+    class Search:
+        book_name = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@alt'
+        book_img = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@src'
+        book_id = '/html/body/div[4]/div[3]/div[1]/a/@href'
