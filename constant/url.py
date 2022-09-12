@@ -16,7 +16,7 @@ class Site:
         host = "https://book.sfacg.com"
         book_info_by_book_id = host + "/Novel/{}/"
         catalogue_info_by_book_id = host + "/Novel/{}/MainIndex/"
-        book_info_by_keyword = host + "https://s.sfacg.com/?Key={}&S=1&SS=0"
+        book_info_by_keyword = "https://s.sfacg.com/"
 
     class Biquge:
         host = "https://www.qu-la.com"

@@ -72,9 +72,11 @@ class BoluobaoRule:
 
     # chapter_cover = ''
     class Search:
-        book_name = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@alt'
-        book_img = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@src'
-        book_id = '/html/body/div[4]/div[3]/div[1]/a/@href'
+        book_name = '/html/body/form/table[5]/tbody/tr/td/ul[1]/li/strong/a/text()'
+        book_img = '//*[@id="SearchResultList1___ResultList_Cover_0"]/img/@src'
+        book_id = '/html/body/form/table[5]/tbody/tr/td/ul[1]/li[2]/strong/a'
+        '/html/body/form/table[5]/tbody/tr/td/ul[1]/li[2]/strong/a'
+
 
 
 class BiqugeRule:

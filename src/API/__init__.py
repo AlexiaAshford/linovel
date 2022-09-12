@@ -90,13 +90,16 @@ class BoluobaoAPI:
         return get(api_url=constant.url.Site.Boluobao.host + chapter_url)
 
     @staticmethod
-    def get_book_info_by_keyword(keyword: str, page: int = 1):
-        params = {'kw': keyword} if page < 2 else {
-            'kw': keyword, 'page': page, 'sort': 'hot', 'target': 'complex', 'mio': 1, 'ua': 'Mozilla/5.0'}
-        response = get(api_url=constant.url.Site.Boluobao.book_info_by_keyword, params=params)
+    def get_book_info_by_keyword(keyword: str):
+        response = get(params={"Key": keyword, "S": 1, "SS": 0},
+                       api_url=constant.url.Site.Boluobao.book_info_by_keyword)
+        print(response.xpath(constant.rule.BoluobaoRule.Search.book_id))
+        for i in response.xpath(constant.rule.BoluobaoRule.Search.book_id):
+            print(i)
         return list(zip(
             response.xpath(constant.rule.BoluobaoRule.Search.book_img),
-            response.xpath(constant.rule.BoluobaoRule.Search.book_name)
+            response.xpath(constant.rule.BoluobaoRule.Search.book_name),
+            response.xpath(constant.rule.BoluobaoRule.Search.book_id)
         ))
 
 
