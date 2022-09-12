@@ -42,19 +42,9 @@ def get_search_list(search_keyword: str):
     if len(search_response) > 0:
         print("[info] start search book, book_id_list length:", len(search_response))
         for book_id in search_response:
-            start_download_book(book_id)
+            shell_console(["d", book_id])
     else:
         print("[warning] search result is empty, search keyword:", search_keyword)
-
-
-def start_download_book(book_id: str) -> None:
-    Vars.current_book = get_book_information_template(book_id)
-    if Vars.current_book is not None:
-        Vars.current_book = book.Book(Vars.current_book)
-        Vars.current_book.init_content_config()
-        Vars.current_book.multi_thread_download_book()
-    else:
-        print("[warning] Vars.current_book is None")
 
 
 def start_search_book(book_id_list: list):
@@ -63,36 +53,32 @@ def start_search_book(book_id_list: list):
         return
     print("[info] start search book, book_id_list length:", len(book_id_list))
     for book_id in book_id_list:
-        start_download_book(book_id)
+        shell_console(["d", book_id])
 
 
-def shell_console():
-    print("[info] run as shell")
-    print("[info] d | download book by book id")
-    print("[info] s | search book")
-    print("[info] u | update book")
-    print("[info] a | run as app")
-    while True:
-        inputs = get(">").split(" ")
-        if inputs[0] == "d":
-            if len(inputs) >= 2:
-                start_download_book(inputs[1])
-            else:
-                print("[error] please input book id, example: d 12345")
-
-        elif inputs[0] == "s":
-            if len(inputs) >= 2:
-                get_search_list(inputs[1])
-            else:
-                print("[error] please input book name, example: s 红楼梦")
+def shell_console(inputs: list):
+    if inputs[0] == "d" or inputs[0] == "download":
+        Vars.current_book = None if len(inputs) < 2 else get_book_information_template(inputs[1])
+        if Vars.current_book is not None:
+            Vars.current_book = book.Book(Vars.current_book)
+            Vars.current_book.init_content_config()
+            Vars.current_book.multi_thread_download_book()
         else:
-            print("[error] command not found", inputs[0])
+            print("[error] please input book id, example: d 12345")
+    elif inputs[0] == "s" or inputs[0] == "search":
+        if len(inputs) >= 2:
+            get_search_list(inputs[1])
+        else:
+            print("[error] please input book name, example: s 红楼梦")
+    else:
+        print(inputs[0], "command not found, please input again")
 
 
-def command() -> argparse.Namespace:
+def parse_args_command() -> argparse.Namespace:
+    update_config()  # update config file if necessary (for example, add new token)
     parser = argparse.ArgumentParser(description='Downloader for Linovel and Dingdian')
     # parser.add_argument('-u', '--update', help='update config file', action="store_true")
-    parser.add_argument('-s', '--search', help='search book', action="store_true")
+    parser.add_argument('-s', '--search', default=None, nargs=1, help='search book')
     # parser.add_argument('-v', '--version', help='show version', action="store_true")
     parser.add_argument('-i', '--bookid', default=None, nargs=1, help='download book by book id')
     parser.add_argument('-n', '--name', default=None, help='download book by name')
@@ -101,18 +87,19 @@ def command() -> argparse.Namespace:
 
 
 if __name__ == '__main__':
-    update_config()  # update config file if necessary (for example, add new token)
-    args_command = command()
-    shell_open_console = False
-    set_up_app_type(current_book_type=args_command.app[0]) if args_command.app else set_up_app_type()
+    args_command = parse_args_command()
+    if args_command.app:
+        set_up_app_type(current_book_type=args_command.app[0])
+    else:
+        set_up_app_type()  # default app type is Linovel
 
     if args_command.bookid is not None and args_command.bookid != "":
-        start_download_book(args_command.bookid[0])
-        shell_open_console = True
+        shell_console(["d", args_command.bookid[0]])
 
-    if args_command.name:
-        get_search_list(args_command.book_name)
-        shell_open_console = True
+    elif args_command.name is not None and args_command.name != "":
+        shell_console(["s", args_command.name[0]])
 
-    if not shell_open_console:
-        shell_console()
+    else:
+        print("Welcome to use downloader, please input command")
+        while True:
+            shell_console(get(">").strip())
