@@ -37,8 +37,8 @@ class XbookbenAPI:
             api_url=constant.url.Site.Xbookben.book_info_by_keyword
         )
         return list(zip(
-            response.xpath(constant.rule.XbookbenRule.Search.book_name),
             response.xpath(constant.rule.XbookbenRule.Search.book_img),
+            response.xpath(constant.rule.XbookbenRule.Search.book_name),
             response.xpath(constant.rule.XbookbenRule.Search.book_id)
         ))
 

@@ -63,11 +63,15 @@ def shell_console(inputs: list):
             for index, i in enumerate(response):
                 print("index", index, "\t\tbook name:", i[1])
             print("please input index to download book, example: 0")
-            index = get(">").strip()
-            if index.isdigit() and int(index) < len(response):
-                shell_console(["d", re.findall(r"(\d+)", response[int(index)][2])[0]])
-            else:
-                print("[error] index not found")
+            while True:
+                index = get(">").strip()
+                if index == "q" or index == "quit":
+                    break
+                if index.isdigit() and int(index) < len(response):
+                    book_id = re.findall(r"(\d+)", response[int(index)][2])[0]
+                    shell_console(["d", book_id])
+                else:
+                    print("[error] index not found")
         else:
             print("[warning] search result is empty, search keyword:", inputs[1])
     else:
