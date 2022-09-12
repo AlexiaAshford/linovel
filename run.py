@@ -58,12 +58,16 @@ def shell_console(inputs: list):
         else:
             print("[error] please input book id, example: d 12345")
     elif inputs[0] == "s" or inputs[0] == "search":
-        if Vars.current_book_type not in ["Linovel", "Xbookben"]:
-            raise Exception("[error] current book type not found, current book type:", Vars.current_book_type)
         response = Vars.current_book_api.get_book_info_by_keyword(inputs[1]) if len(inputs) >= 2 else []
         if len(response) > 0:
-            print("[info] start search book, book_id_list length:", len(response))
-            [shell_console(["d", book_id]) for book_id in response]
+            for index, i in enumerate(response):
+                print("index", index, "\t\tbook name:", i[1])
+            print("please input index to download book, example: 0")
+            index = get(">").strip()
+            if index.isdigit() and int(index) < len(response):
+                shell_console(["d", re.findall(r"(\d+)", response[int(index)][2])[0]])
+            else:
+                print("[error] index not found")
         else:
             print("[warning] search result is empty, search keyword:", inputs[1])
     else:
@@ -81,6 +85,8 @@ if __name__ == '__main__':
         shell_console(["d", args_command.bookid[0]])
 
     if args_command.download is not None and args_command.download != "":
+        if Vars.current_book_type not in ["Linovel", "Xbookben"]:
+            raise Exception("[error] current book type not found, current book type:", Vars.current_book_type)
         shell_console(["d", args_command.bookid[0]])
 
     elif args_command.search is not None and args_command.search != "":

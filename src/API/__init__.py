@@ -58,9 +58,11 @@ class LinovelAPI:
         params = {'kw': keyword} if page < 2 else {
             'kw': keyword, 'page': page, 'sort': 'hot', 'target': 'complex', 'mio': 1, 'ua': 'Mozilla/5.0'}
         response = get(api_url=constant.url.Site.Linovel.book_info_by_keyword, params=params)
+
         return list(zip(
             response.xpath(constant.rule.LinovelRule.Search.book_img),
-            response.xpath(constant.rule.LinovelRule.Search.book_name)
+            response.xpath(constant.rule.LinovelRule.Search.book_name),
+            response.xpath(constant.rule.LinovelRule.Search.book_id)
         ))
 
 
