@@ -35,13 +35,17 @@ def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and 
         raise Exception("[error] app type not found, app type:", Vars.current_book_type)
 
 
-def start_search_book(book_id_list: list):
-    if len(book_id_list) == 0:
-        print("[error] book_id_list is empty")
-        return
-    print("[info] start search book, book_id_list length:", len(book_id_list))
-    for book_id in book_id_list:
-        shell_console(["d", book_id])
+def parse_args_command() -> argparse.Namespace:
+    update_config()  # update config file if necessary (for example, add new token)
+    parser = argparse.ArgumentParser(description='Downloader for Linovel and Dingdian')
+    # parser.add_argument('-u', '--update', help='update config file', action="store_true")
+    parser.add_argument('-s', '--search', default=None, nargs=1, help='search book')
+    # parser.add_argument('-v', '--version', help='show version', action="store_true")
+    parser.add_argument('-i', '--bookid', default=None, nargs=1, help='download book by book id')
+    parser.add_argument('-d', '--download', default=None, nargs=1, help='download book by book id')
+    parser.add_argument('-n', '--name', default=None, help='download book by name')
+    parser.add_argument('-a', '--app', help='run as app', nargs=1, default=None)
+    return parser.parse_args()
 
 
 def shell_console(inputs: list):
@@ -64,19 +68,6 @@ def shell_console(inputs: list):
             print("[warning] search result is empty, search keyword:", inputs[1])
     else:
         print(inputs[0], "command not found, please input again")
-
-
-def parse_args_command() -> argparse.Namespace:
-    update_config()  # update config file if necessary (for example, add new token)
-    parser = argparse.ArgumentParser(description='Downloader for Linovel and Dingdian')
-    # parser.add_argument('-u', '--update', help='update config file', action="store_true")
-    parser.add_argument('-s', '--search', default=None, nargs=1, help='search book')
-    # parser.add_argument('-v', '--version', help='show version', action="store_true")
-    parser.add_argument('-i', '--bookid', default=None, nargs=1, help='download book by book id')
-    parser.add_argument('-d', '--download', default=None, nargs=1, help='download book by book id')
-    parser.add_argument('-n', '--name', default=None, help='download book by name')
-    parser.add_argument('-a', '--app', help='run as app', nargs=1, default=None)
-    return parser.parse_args()
 
 
 if __name__ == '__main__':
