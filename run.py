@@ -35,18 +35,6 @@ def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and 
         raise Exception("[error] app type not found, app type:", Vars.current_book_type)
 
 
-def get_search_list(search_keyword: str):
-    if Vars.current_book_type not in ["Linovel", "Xbookben"]:
-        raise Exception("[error] current book type not found, current book type:", Vars.current_book_type)
-    search_response = Vars.current_book_api.get_book_info_by_keyword(search_keyword)
-    if len(search_response) > 0:
-        print("[info] start search book, book_id_list length:", len(search_response))
-        for book_id in search_response:
-            shell_console(["d", book_id])
-    else:
-        print("[warning] search result is empty, search keyword:", search_keyword)
-
-
 def start_search_book(book_id_list: list):
     if len(book_id_list) == 0:
         print("[error] book_id_list is empty")
@@ -66,10 +54,14 @@ def shell_console(inputs: list):
         else:
             print("[error] please input book id, example: d 12345")
     elif inputs[0] == "s" or inputs[0] == "search":
-        if len(inputs) >= 2:
-            get_search_list(inputs[1])
+        if Vars.current_book_type not in ["Linovel", "Xbookben"]:
+            raise Exception("[error] current book type not found, current book type:", Vars.current_book_type)
+        response = Vars.current_book_api.get_book_info_by_keyword(inputs[1]) if len(inputs) >= 2 else []
+        if len(response) > 0:
+            print("[info] start search book, book_id_list length:", len(response))
+            [shell_console(["d", book_id]) for book_id in response]
         else:
-            print("[error] please input book name, example: s 红楼梦")
+            print("[warning] search result is empty, search keyword:", inputs[1])
     else:
         print(inputs[0], "command not found, please input again")
 
@@ -81,6 +73,7 @@ def parse_args_command() -> argparse.Namespace:
     parser.add_argument('-s', '--search', default=None, nargs=1, help='search book')
     # parser.add_argument('-v', '--version', help='show version', action="store_true")
     parser.add_argument('-i', '--bookid', default=None, nargs=1, help='download book by book id')
+    parser.add_argument('-d', '--download', default=None, nargs=1, help='download book by book id')
     parser.add_argument('-n', '--name', default=None, help='download book by name')
     parser.add_argument('-a', '--app', help='run as app', nargs=1, default=None)
     return parser.parse_args()
@@ -88,7 +81,7 @@ def parse_args_command() -> argparse.Namespace:
 
 if __name__ == '__main__':
     args_command = parse_args_command()
-    if args_command.app:
+    if args_command.app is not None:
         set_up_app_type(current_book_type=args_command.app[0])
     else:
         set_up_app_type()  # default app type is Linovel
@@ -96,9 +89,11 @@ if __name__ == '__main__':
     if args_command.bookid is not None and args_command.bookid != "":
         shell_console(["d", args_command.bookid[0]])
 
-    elif args_command.name is not None and args_command.name != "":
-        shell_console(["s", args_command.name[0]])
+    if args_command.download is not None and args_command.download != "":
+        shell_console(["d", args_command.bookid[0]])
 
+    elif args_command.search is not None and args_command.search != "":
+        shell_console(["s", args_command.search[0]])
     else:
         print("Welcome to use downloader, please input command")
         while True:
