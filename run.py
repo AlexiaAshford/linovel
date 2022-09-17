@@ -7,32 +7,40 @@ from src import API, get_book_information_template
 
 def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and book type
     # distribution book type and app type
-    if current_book_type == "Xbookben" or current_book_type == "x":
-        Vars.current_book_type = "Xbookben"
-        Vars.current_book_rule = constant.rule.XbookbenRule
-        Vars.current_book_api = API.XbookbenAPI
-    elif current_book_type == "Dingdian" or current_book_type == "d":
-        Vars.current_book_type = "Dingdian"
-        Vars.current_book_rule = constant.rule.DingdianRule
-        Vars.current_book_api = API.DingdianAPI
-    elif current_book_type == "Linovel" or current_book_type == "l":
-        Vars.current_book_type = "Linovel"
-        Vars.current_book_rule = constant.rule.LinovelRule
-        Vars.current_book_api = API.LinovelAPI
-    elif current_book_type == "sfacg" or current_book_type == "s":
-        Vars.current_book_type = "sfacg"
-        Vars.current_book_rule = constant.rule.BoluobaoRule
-        Vars.current_book_api = API.BoluobaoAPI
-    elif current_book_type == "Biquge" or current_book_type == "b":
-        Vars.current_book_type = "Biquge"
-        Vars.current_book_rule = constant.rule.BiqugeRule
-        Vars.current_book_api = API.BiqugeAPI
-    elif current_book_type == "Baling" or current_book_type == "bl":
-        Vars.current_book_type = "Baling"
-        Vars.current_book_rule = constant.rule.BalingRule
-        Vars.current_book_api = API.BalingAPI
-    else:
-        raise Exception("[error] app type not found, app type:", Vars.current_book_type)
+    book_type_list = ["Linovel", "Dingdian", "Xbookben", "Dingdian", "sfacg", "Baling"]
+    for book_type in book_type_list:
+        if current_book_type == book_type or book_type.lower().startswith(current_book_type):
+            Vars.current_book_type = book_type
+            Vars.current_book_rule = constant.rule.WebRule.set_up_rule(book_type)
+            Vars.current_book_api = API.ResponseAPI.set_up_web(book_type)
+            print("已设置为", book_type, "小说下载")
+            break
+    # if current_book_type == "Xbookben" or current_book_type == "x":
+    #     Vars.current_book_type = "Xbookben"
+    #     Vars.current_book_rule = constant.rule.WebRule.XbookbenRule
+    #     Vars.current_book_api = API.ResponseAPI.Xbookben
+    # elif current_book_type == "Dingdian" or current_book_type == "d":
+    #     Vars.current_book_type = "Dingdian"
+    #     Vars.current_book_rule = constant.rule.WebRule.DingdianRule
+    #     Vars.current_book_api = API.ResponseAPI.Dingdian
+    # elif current_book_type == "Linovel" or current_book_type == "l":
+    #     Vars.current_book_type = "Linovel"
+    #     Vars.current_book_rule = constant.rule.WebRule.LinovelRule
+    #     Vars.current_book_api = API.ResponseAPI.Linovel
+    # elif current_book_type == "sfacg" or current_book_type == "s":
+    #     Vars.current_book_type = "sfacg"
+    #     Vars.current_book_rule = constant.rule.WebRule.BoluobaoRule
+    #     Vars.current_book_api = API.ResponseAPI.Boluobao
+    # elif current_book_type == "Biquge" or current_book_type == "b":
+    #     Vars.current_book_type = "Biquge"
+    #     Vars.current_book_rule = constant.rule.WebRule.BiqugeRule
+    #     Vars.current_book_api = API.ResponseAPI.Biquge
+    # elif current_book_type == "Baling" or current_book_type == "bl":
+    #     Vars.current_book_type = "Baling"
+    #     Vars.current_book_rule = constant.rule.WebRule.BalingRule
+    #     Vars.current_book_api = API.ResponseAPI.Baling
+    # else:
+    #     raise Exception("[error] app type not found, app type:", Vars.current_book_type)
 
 
 def parse_args_command() -> argparse.Namespace:
@@ -88,9 +96,7 @@ if __name__ == '__main__':
     if args_command.bookid is not None and args_command.bookid != "":
         shell_console(["d", args_command.bookid[0]])
 
-    if args_command.download is not None and args_command.download != "":
-        if Vars.current_book_type not in ["Linovel", "Xbookben"]:
-            raise Exception("[error] current book type not found, current book type:", Vars.current_book_type)
+    elif args_command.download is not None and args_command.download != "":
         shell_console(["d", args_command.bookid[0]])
 
     elif args_command.search is not None and args_command.search != "":
