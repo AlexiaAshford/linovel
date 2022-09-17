@@ -10,7 +10,7 @@ def update_config():
         Vars.cfg.data['max_thread'] = 16
         change_config = True
     if not isinstance(Vars.cfg.data.get('app_type_list'), list):
-        Vars.cfg.data['app_type_list'] = ["Linovel", "Dingdian", "Xbookben", "BiquPavilion", "sfacg"]
+        Vars.cfg.data['app_type_list'] =  ["Linovel", "Dingdian", "Xbookben", "Dingdian", "sfacg", "Baling"]
         change_config = True
     if not isinstance(Vars.cfg.data.get('config_path'), str):
         Vars.cfg.data['config_path'] = "./Cache/"

@@ -6,9 +6,7 @@ from config import *
 
 
 def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and book type
-    # distribution book type and app type
-    book_type_list = ["Linovel", "Dingdian", "Xbookben", "Dingdian", "sfacg", "Baling"]
-    for book_type in book_type_list:
+    for book_type in Vars.cfg.data['app_type_list']:
         if current_book_type == book_type or book_type.lower().startswith(current_book_type):
             Vars.current_book_type = book_type
             Vars.current_book_rule = constant.rule.WebRule.set_up_rule(book_type)
@@ -46,6 +44,19 @@ def shell_console(inputs: list):
             for index, i in enumerate(response):
                 print("index", index, "\t\tbook name:", i[1])
             print("please input index to download book, example: 0")
+            # def input_index():
+            #     try:
+            #         index = int(input())
+            #         if index < len(response):
+            #             Vars.current_book = book.Book(response[index])
+            #             Vars.current_book.init_content_config()
+            #             Vars.current_book.multi_thread_download_book()
+            #         else:
+            #             print("[error] index out of range, please input again")
+            #             input_index()
+            #     except ValueError:
+            #         print("[error] please input number")
+            #         input_index()
             while True:
                 index = get(">").strip()
                 if index == "q" or index == "quit":
