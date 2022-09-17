@@ -1,8 +1,8 @@
 import argparse
 import constant
 import book
+from src import *
 from config import *
-from src import API, get_book_information_template
 
 
 def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and book type
@@ -15,14 +15,15 @@ def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and 
             Vars.current_book_api = API.ResponseAPI.set_up_web(book_type)
             print("已设置为", book_type, "小说下载")
             break
-        else:
-            print("[error] book type not found, please input again", current_book_type)
+    else:
+        print("[error] book type not found, please input again", current_book_type)
+
+
 def parse_args_command() -> argparse.Namespace:
     update_config()  # update config file if necessary (for example, add new token)
     parser = argparse.ArgumentParser(description='Downloader for Linovel and Dingdian')
     # parser.add_argument('-u', '--update', help='update config file', action="store_true")
     parser.add_argument('-s', '--search', default=None, nargs=1, help='search book')
-    # parser.add_argument('-v', '--version', help='show version', action="store_true")
     parser.add_argument('-i', '--bookid', default=None, nargs=1, help='download book by book id')
     parser.add_argument('-d', '--download', default=None, nargs=1, help='download book by book id')
     parser.add_argument('-n', '--name', default=None, help='download book by name')
