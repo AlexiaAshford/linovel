@@ -9,10 +9,8 @@ def update_config():
     if not isinstance(Vars.cfg.data.get('max_thread'), int):
         Vars.cfg.data['max_thread'] = 16
         change_config = True
-    if not isinstance(Vars.cfg.data.get('app_type_list'), list):
-        Vars.cfg.data['app_type_list'] = [
-            "Linovel", "Dingdian", "Xbookben", "Dingdian", "sfacg", "Baling", "Qbtr", "Trxs", "popo"
-        ]
+    if not isinstance(Vars.cfg.data.get('popo_cookie'), str):
+        Vars.cfg.data['popo_cookie'] = ""
         change_config = True
     if not isinstance(Vars.cfg.data.get('config_path'), str):
         Vars.cfg.data['config_path'] = "./Cache/"
