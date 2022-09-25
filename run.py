@@ -33,7 +33,7 @@ def shell_console(inputs: list):
     if inputs[0] == "d" or inputs[0] == "download":
         Vars.current_book = None if len(inputs) < 2 else get_book_information_template(inputs[1])
         if Vars.current_book is not None:
-            Vars.current_book = book.Book(Vars.current_book)
+            Vars.current_book = book.BookConfig(Vars.current_book)
             Vars.current_book.init_content_config()
             Vars.current_book.multi_thread_download_book()
         else:

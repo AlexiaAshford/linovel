@@ -6,10 +6,6 @@ from config import *
 
 class Book:
     def __init__(self, book_info: dict):
-        self.content_config = []
-        self.threading_list = []
-        self.progress_bar_count = 0
-        self.progress_bar_length = 0
         self.book_info = book_info
         self.book_id = book_info['bookId']
         self.cover = book_info.get('bookCoverUrl')
@@ -17,7 +13,6 @@ class Book:
         self.book_tag = book_info.get('bookTag')
         self.book_intro = book_info.get('bookIntro')
         self.last_chapter_title = book_info.get('lastChapterTitle')
-        self.max_threading = threading.BoundedSemaphore(Vars.cfg.data.get('max_thread'))
 
     @property
     def book_name(self) -> str:
@@ -42,6 +37,16 @@ class Book:
     @property
     def save_config_path(self) -> str:
         return os.path.join(make_dirs(Vars.cfg.data['config_path']), self.book_name + ".json")
+
+
+class BookConfig(Book):
+    def __init__(self, book_info: dict):
+        super().__init__(book_info=book_info)
+        self.content_config = []
+        self.threading_list = []
+        self.progress_bar_count = 0
+        self.progress_bar_length = 0
+        self.max_threading = threading.BoundedSemaphore(Vars.cfg.data.get('max_thread'))
 
     def init_content_config(self):
         if os.path.exists(self.save_config_path):

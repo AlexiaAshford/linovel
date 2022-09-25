@@ -42,12 +42,11 @@ class Chapter:
         )  # return a dict with chapter info
 
     @property
-    def standard_content(self):
-        delete_list = [
-            "&amp;", "amp;", "lt;", "gt;", "一秒记住【八零中文网 www.80zw.net】，精彩小说无弹窗免费阅读！"
-        ]
+    def standard_content(self) -> str:  # return a standard content
         content = "\n".join(self.content)
-        for delete_info in delete_list:
+        for delete_info in [
+            "&amp;", "amp;", "lt;", "gt;", "一秒记住【八零中文网 www.80zw.net】，精彩小说无弹窗免费阅读！"
+        ]:
             content = re.sub(delete_info, '', content)
         return content
 
