@@ -173,7 +173,7 @@ class WebRule:
         book_img = '//*[@id="rs"]/@src'
         book_name = '/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/h3/text()'
         book_author = '/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[1]/a/text()'
-        chapter_url_list = '//*[@id="w0"]/div[3]/div/a/@href'
+        chapter_url_list = '//*[@id="w0"]/div/div/div[2]/a/@href'
         book_state = '/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[3]/text()'
         book_label = '/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[2]/span/text()'
         book_intro = '/html/body/div[4]/div[2]/div[1]/div[5]/p/text()'
@@ -182,6 +182,7 @@ class WebRule:
         book_update_time = '//*[@id="list"]/div[2]/p[2]/span/text()'
         chapter_title = '//*[@id="readmask"]/div/h2/text()'
         chapter_content = '//*[@id="readmask"]/div/p/text()'
+
 
         # chapter_cover = ''
         class Search:

@@ -71,7 +71,5 @@ def get_book_information_template(book_id: str):  # return book info json
         last_chapter_title=last_chapter_title[0] if last_chapter_title else None,
         book_uptime=book_update_time[0] if book_update_time else None,
         chapter_url_list=chapter_url_list if chapter_url_list else []
-    )
-    print(book_info)
-    print(chapter_url_list)
+    )  # book info json
     return book_info
