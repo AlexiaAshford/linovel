@@ -30,3 +30,7 @@ class Site:
     class Qbtr:
         host = "https://www.qbtr.cc"
         book_info_by_book_id = host + "/changgui/{}.html"  # 书籍信息
+
+    class Trxs:
+        host = "http://trxs.cc"
+        book_info_by_book_id = host + "/tongren/{}.html"  # 书籍信息

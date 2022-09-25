@@ -15,6 +15,8 @@ class WebRule:
             book_rule = WebRule.BalingRule
         elif current_book_type == "Qbtr" or current_book_type == "q":
             book_rule = WebRule.QbtrRule
+        elif current_book_type == "Trxs" or current_book_type == "T":
+            book_rule = WebRule.TrxsRule
         else:
             raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
         return book_rule
@@ -148,4 +150,19 @@ class WebRule:
         book_update_time = '/html/body/div[3]/div[2]/div/div[1]/text()'
         chapter_title = '//*[@id="readContent_set"]/div[2]/div[1]/h1/text()'
         chapter_content = '//*[@id="readContent_set"]/div[2]/div[2]/p/text()'
+        # chapter_cover = ''
+
+    class TrxsRule:
+        book_img = '/html/body/div[3]/div[2]/div[1]/img/@src'
+        book_name = '/html/body/div[3]/div[2]/div[2]/h1/text()'
+        book_author = '/html/body/div[3]/div[2]/div[2]/div[1]/span/a/text()'
+        chapter_url_list = '/html/body/div[3]/div[3]/ul/li/a/@href'
+        book_state = '/html/notfound'  # 没有这个信息
+        book_label = '/html/notfound'  # 没有这个信息
+        book_intro = '/html/body/div[3]/div[2]/div[2]/p/text()'
+        last_chapter_title = '//*[@id="list"]/dl/dd[1]/a/text()'
+        book_words = '/html/notfound'  # 没有这个信息
+        book_update_time = '/html/body/div[3]/div[2]/div[2]/div[1]/text()'
+        chapter_title = '/html/body/div[3]/div/div[2]/div[1]/h1/text()'
+        chapter_content = '/html/body/div[3]/div/div[2]/div[2]/p/text()'
         # chapter_cover = ''

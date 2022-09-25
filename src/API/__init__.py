@@ -37,6 +37,8 @@ class ResponseAPI:
             book_api = ResponseAPI.Baling
         elif current_book_type == "Qbtr" or current_book_type == "q":
             book_api = ResponseAPI.Qbtr
+        elif current_book_type == "Trxs" or current_book_type == "t":
+            book_api = ResponseAPI.Trxs
         else:
             raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
         return book_api
@@ -150,11 +152,12 @@ class ResponseAPI:
         def get_chapter_info_by_chapter_id(chapter_url: str):
             return get(api_url=constant.url.Site.Qbtr.host + chapter_url, gbk=True)
 
-# def get_chapter_cover(html_string) -> [list, None]:
-#     img_url_list = [
-#         img_url.get('src') for img_url in html_string.xpath('//div[@class="article-text"]//img')
-#     ]
-#     if isinstance(img_url_list, list) and len(img_url_list) != 0:
-#         return img_url_list
-#     else:
-#         return []
+    class Trxs:
+
+        @staticmethod
+        def get_book_info_by_book_id(book_id: str):
+            return get(api_url=constant.url.Site.Trxs.book_info_by_book_id.format(book_id), gbk=True)
+
+        @staticmethod
+        def get_chapter_info_by_chapter_id(chapter_url: str):
+            return get(api_url=constant.url.Site.Trxs.host + chapter_url, gbk=True)
