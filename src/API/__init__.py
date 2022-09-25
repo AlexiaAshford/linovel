@@ -39,6 +39,8 @@ class ResponseAPI:
             book_api = ResponseAPI.Qbtr
         elif current_book_type == "Trxs" or current_book_type == "t":
             book_api = ResponseAPI.Trxs
+        elif current_book_type == "popo" or current_book_type == "p":
+            book_api = ResponseAPI.Popo
         else:
             raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
         return book_api
