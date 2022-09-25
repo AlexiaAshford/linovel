@@ -15,8 +15,10 @@ class WebRule:
             book_rule = WebRule.BalingRule
         elif current_book_type == "Qbtr" or current_book_type == "q":
             book_rule = WebRule.QbtrRule
-        elif current_book_type == "Trxs" or current_book_type == "T":
+        elif current_book_type == "Trxs" or current_book_type == "t":
             book_rule = WebRule.TrxsRule
+        elif current_book_type == "popo" or current_book_type == "p":
+            book_rule = WebRule.PopoRule
         else:
             raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
         return book_rule
@@ -166,3 +168,23 @@ class WebRule:
         chapter_title = '/html/body/div[3]/div/div[2]/div[1]/h1/text()'
         chapter_content = '/html/body/div[3]/div/div[2]/div[2]/p/text()'
         # chapter_cover = ''
+
+    class PopoRule:
+        book_img = '//*[@id="rs"]/@src'
+        book_name = '/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/h3/text()'
+        book_author = '/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[1]/a/text()'
+        chapter_url_list = '//*[@id="w0"]/div[3]/div/a/@href'
+        book_state = '/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[3]/text()'
+        book_label = '/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[2]/span/text()'
+        book_intro = '/html/body/div[4]/div[2]/div[1]/div[5]/p/text()'
+        last_chapter_title = '/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[3]/span/text()'
+        book_words = '/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/div[2]/table[1]/tbody/tr[3]/td/text()'
+        book_update_time = '//*[@id="list"]/div[2]/p[2]/span/text()'
+        chapter_title = '//*[@id="readmask"]/div/h2/text()'
+        chapter_content = '//*[@id="readmask"]/div/p/text()'
+
+        # chapter_cover = ''
+        class Search:
+            book_name = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@alt'
+            book_img = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@src'
+            book_id = '/html/body/div[4]/div[3]/div[1]/a/@href'

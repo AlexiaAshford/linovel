@@ -11,7 +11,7 @@ def update_config():
         change_config = True
     if not isinstance(Vars.cfg.data.get('app_type_list'), list):
         Vars.cfg.data['app_type_list'] = [
-            "Linovel", "Dingdian", "Xbookben", "Dingdian", "sfacg", "Baling", "Qbtr", "Trxs"
+            "Linovel", "Dingdian", "Xbookben", "Dingdian", "sfacg", "Baling", "Qbtr", "Trxs", "popo"
         ]
         change_config = True
     if not isinstance(Vars.cfg.data.get('config_path'), str):

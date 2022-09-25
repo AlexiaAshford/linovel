@@ -34,3 +34,8 @@ class Site:
     class Trxs:
         host = "http://trxs.cc"
         book_info_by_book_id = host + "/tongren/{}.html"  # 书籍信息
+
+    class Popo:
+        host = "https://www.popo.tw"
+        book_info_by_book_id = host + "/books/"  # 书籍信息
+        catalogue_info_by_book_id = host + "/books/{}/articles"  # 书籍信息

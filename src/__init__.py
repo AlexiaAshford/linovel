@@ -52,11 +52,15 @@ def get_book_information_template(book_id: str):  # return book info json
     if Vars.current_book_type == "sfacg":
         catalogue = Vars.current_book_api.get_catalogue_info_by_book_id(book_id)
         chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list)]
+    elif Vars.current_book_type == "popo":
+        catalogue = Vars.current_book_api.get_catalogue_info_by_book_id(book_id)
+        chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list)]
     else:
         chapter_url_list = [i for i in current_book_info_html.xpath(Vars.current_book_rule.chapter_url_list)]
         if Vars.current_book_type == "Dingdian":
             chapter_url_list = chapter_url_list[6:]  # del first 6 chapter, because the first 6 chapter is not ordered
-    return constant.json.book_json(
+
+    book_info = constant.json.book_json(
         book_id=book_id,
         book_name=book_name[0] if len(book_name) > 0 else None,
         book_words=book_words[0] if book_words else None,
@@ -68,3 +72,6 @@ def get_book_information_template(book_id: str):  # return book info json
         book_uptime=book_update_time[0] if book_update_time else None,
         chapter_url_list=chapter_url_list if chapter_url_list else []
     )
+    print(book_info)
+    print(chapter_url_list)
+    return book_info

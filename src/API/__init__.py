@@ -161,3 +161,17 @@ class ResponseAPI:
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
             return get(api_url=constant.url.Site.Trxs.host + chapter_url, gbk=True)
+
+    class Popo:
+
+        @staticmethod
+        def get_book_info_by_book_id(book_id: str):
+            return get(api_url=constant.url.Site.Popo.book_info_by_book_id + book_id)
+
+        @staticmethod
+        def get_catalogue_info_by_book_id(book_id: str):
+            return get(api_url=constant.url.Site.Popo.catalogue_info_by_book_id.format(book_id))
+
+        @staticmethod
+        def get_chapter_info_by_chapter_id(chapter_url: str):
+            return get(api_url=constant.url.Site.Popo.host + chapter_url)
