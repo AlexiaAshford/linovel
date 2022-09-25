@@ -24,10 +24,8 @@
 
 ## planned development
 
-| 站点名称  | 网址              | 是否正版 | 插图下载 |
-|-------|-----------------|------|------|
-| 哔哩轻小说 | w.linovelib.com | ❌    | ✅    | 
-| 小说网   | www.xsw.com     | ❌    | ✅    |
-| 值得阅读  | www.zdyd.com    | ❌    | ❌    |
+| 站点名称  | 网址                | 是否正版 | 插图下载 |
+|-------|-------------------|------|------|
+| 哔哩轻小说 | www.linovelib.com | ❌    | ✅    |  
 
 ## _Thank you for [edmund-zhao](https://github.com/edmund-zhao/les-novel) contribution._
