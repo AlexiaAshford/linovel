@@ -105,6 +105,9 @@ class Book:
 
     def multi_thread_download_book(self) -> None:
         for index, chapter_url in enumerate(self.chapter_url_list, start=1):
+            if Vars.current_book_type == "sfacg" and "vip/c" in chapter_url:
+                print("sfacg vip chapter is images, not support download:{}".format(chapter_url), end="\r")
+                continue
             if self.test_config_chapter(chapter_url):
                 continue  # chapter already downloaded
             else:

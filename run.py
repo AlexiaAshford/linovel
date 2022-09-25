@@ -81,7 +81,7 @@ if __name__ == '__main__':
         shell_console(["d", args_command.bookid[0]])
 
     elif args_command.download is not None and args_command.download != "":
-        shell_console(["d", args_command.bookid[0]])
+        shell_console(["d", args_command.download[0]])
 
     elif args_command.search is not None and args_command.search != "":
         shell_console(["s", args_command.search[0]])
