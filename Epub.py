@@ -84,7 +84,6 @@ class EpubFile:
     def out_put_epub_file(self):  # save epub file to local
         # the path to save epub file to local
         self.epub.toc = tuple(self.EpubList)
-        self.epub.spine = ['nav']  # add spine to epub file as spine
         self.epub.spine.extend(self.EpubList)
         self.epub.add_item(epub.EpubNcx()), self.epub.add_item(epub.EpubNav())
         epub.write_epub(self.save_epub_file, self.epub, {})  # save epub file to out_path directory with book_name.epub

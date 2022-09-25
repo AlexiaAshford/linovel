@@ -44,19 +44,6 @@ def shell_console(inputs: list):
             for index, i in enumerate(response):
                 print("index", index, "\t\tbook name:", i[1])
             print("please input index to download book, example: 0")
-            # def input_index():
-            #     try:
-            #         index = int(input())
-            #         if index < len(response):
-            #             Vars.current_book = book.Book(response[index])
-            #             Vars.current_book.init_content_config()
-            #             Vars.current_book.multi_thread_download_book()
-            #         else:
-            #             print("[error] index out of range, please input again")
-            #             input_index()
-            #     except ValueError:
-            #         print("[error] please input number")
-            #         input_index()
             while True:
                 index = get(">").strip()
                 if index == "q" or index == "quit":
@@ -89,3 +76,17 @@ if __name__ == '__main__':
         print("Welcome to use downloader, please input command")
         while True:
             shell_console(get(">").strip())
+
+    # def input_index():
+    #     try:
+    #         index = int(input())
+    #         if index < len(response):
+    #             Vars.current_book = book.Book(response[index])
+    #             Vars.current_book.init_content_config()
+    #             Vars.current_book.multi_thread_download_book()
+    #         else:
+    #             print("[error] index out of range, please input again")
+    #             input_index()
+    #     except ValueError:
+    #         print("[error] please input number")
+    #         input_index()
