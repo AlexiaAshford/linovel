@@ -26,3 +26,7 @@ class Site:
         host = "http://www.80zw.net"
         book_info_by_book_id = host + "/article/"
         book_info_by_chapter_id = host + "/article/{}/{}"
+
+    class Qbtr:
+        host = "https://www.qbtr.cc"
+        book_info_by_book_id = host + "/changgui/{}.html"  # 书籍信息

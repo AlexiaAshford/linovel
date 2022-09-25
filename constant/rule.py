@@ -13,6 +13,8 @@ class WebRule:
             book_rule = WebRule.BiqugeRule
         elif current_book_type == "Baling" or current_book_type == "bl":
             book_rule = WebRule.BalingRule
+        elif current_book_type == "Qbtr" or current_book_type == "q":
+            book_rule = WebRule.QbtrRule
         else:
             raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
         return book_rule
@@ -132,3 +134,18 @@ class WebRule:
             book_name = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@alt'
             book_img = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@src'
             book_id = '/html/body/div[4]/div[3]/div[1]/a/@href'
+
+    class QbtrRule:
+        book_img = '/html/notfound'  # 没有这个信息
+        book_name = '/html/body/div[3]/div[2]/div/h1/text()'
+        book_author = '/html/body/div[3]/div[2]/div/div[1]/span/text()'
+        chapter_url_list = '/html/body/div[3]/div[3]/ul/li/a/@href'
+        book_state = '/html/notfound'  # 没有这个信息
+        book_label = '/html/notfound'  # 没有这个信息
+        book_intro = '/html/body/div[3]/div[2]/div/p/text()'
+        last_chapter_title = '//*[@id="list"]/dl/dd[1]/a/text()'
+        book_words = '/html/notfound'  # 没有这个信息
+        book_update_time = '/html/body/div[3]/div[2]/div/div[1]/text()'
+        chapter_title = '//*[@id="readContent_set"]/div[2]/div[1]/h1/text()'
+        chapter_content = '//*[@id="readContent_set"]/div[2]/div[2]/p/text()'
+        # chapter_cover = ''

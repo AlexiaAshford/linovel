@@ -35,6 +35,8 @@ class ResponseAPI:
             book_api = ResponseAPI.Biquge
         elif current_book_type == "Baling" or current_book_type == "bl":
             book_api = ResponseAPI.Baling
+        elif current_book_type == "Qbtr" or current_book_type == "q":
+            book_api = ResponseAPI.Qbtr
         else:
             raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
         return book_api
@@ -137,6 +139,16 @@ class ResponseAPI:
         def get_chapter_info_by_chapter_id(chapter_url: str):
             api_url = constant.url.Site.Baling.book_info_by_chapter_id
             return get(api_url=api_url.format(Vars.current_book.book_id, chapter_url), gbk=True)
+
+    class Qbtr:
+
+        @staticmethod
+        def get_book_info_by_book_id(book_id: str):
+            return get(api_url=constant.url.Site.Qbtr.book_info_by_book_id.format(book_id), gbk=True)
+
+        @staticmethod
+        def get_chapter_info_by_chapter_id(chapter_url: str):
+            return get(api_url=constant.url.Site.Qbtr.host + chapter_url, gbk=True)
 
 # def get_chapter_cover(html_string) -> [list, None]:
 #     img_url_list = [

@@ -52,7 +52,10 @@ class Book:
             self.content_config = []
         Vars.current_epub = Epub.EpubFile()
         Vars.current_epub.save_epub_file = os.path.join(self.out_text_path, self.book_name + '.epub')
-        Vars.current_epub.download_cover_and_add_epub()
+        if self.cover:
+            Vars.current_epub.download_cover_and_add_epub()
+        else:
+            print("cover is None, can't download the epub cover！")
         write_text(
             path_name=os.path.join(self.out_text_path, self.book_name + ".txt"),
             content=Vars.current_epub.add_the_book_information()
