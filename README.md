@@ -1,11 +1,12 @@
 # current support Novel-website:
 
-| 站点名称 | 网址                 | 是否正版 | 插图下载 |
-|------|--------------------|------|------|
-| 轻之文库 | www.linovel.net    | ✅    | ✅    |
-| 顶点小说 | www.booktxt.net    | ❌    | ✅    |
-| 菠萝包  | www.book.sfacg.com | ✅    | ✅    |
-| 书本网站 | www.xbookben.net   | ❌    | ✅    |
+| 站点名称   | 网址                   | 是否正版 | 插图下载 |
+|--------|----------------------|------|------|
+| 轻之文库   | www.linovel.net      | ✅    | ✅    |
+| 顶点小说   | www.booktxt.net      | ❌    | ✅    |
+| 菠萝包    | www.book.sfacg.com   | ✅    | ✅    |
+| 全本同人小说 | https://www.qbtr.cc/ | ❌    | ❌    | 
+| 书本网站   | www.xbookben.net     | ❌    | ✅    |
 
 ## command line
 
@@ -24,8 +25,7 @@
 | 站点名称  | 网址              | 是否正版 | 插图下载 |
 |-------|-----------------|------|------|
 | POPO  | www.popo.tw     | ✅    | ✅    |
-| 哔哩轻小说 | w.linovelib.com | ❌    | ✅    |
-| 笔趣阁   | www.biquge.com  | ❌    | ❌    |
+| 哔哩轻小说 | w.linovelib.com | ❌    | ✅    | 
 | 小说网   | www.xsw.com     | ❌    | ✅    |
 | 值得阅读  | www.zdyd.com    | ❌    | ❌    |
 
