@@ -1,7 +1,10 @@
+from concurrent.futures import ThreadPoolExecutor
+
 import Epub
-import threading
-import constant
+# import threading
+# import constant
 from config import *
+from tqdm import tqdm
 
 
 class Book:
@@ -70,13 +73,13 @@ class Chapter:
     @property
     def chapter_json(self):
         self.chapter_page = Vars.current_book_api.get_chapter_info_by_chapter_id(self.chapter_id)
-        return constant.json.chapter_json(
-            index=self.chapter_index,
-            url=self.chapter_id,
-            content=self.standard_content,
-            title=self.chapter_title,
-            image_list=self.image_list if self.image_list is not None else []
-        )  # return a dict with chapter info
+        return {
+            "chapterIndex": self.chapter_index,
+            "chapter_url": self.chapter_id,
+            "chapterTitle": self.chapter_title,
+            "chapterContent": self.standard_content,
+            "imageList": self.image_list if self.image_list is not None else []
+        }
 
     @property
     def standard_content(self) -> str:  # return a standard content
@@ -97,9 +100,9 @@ class BookConfig(Book):
         super().__init__(book_info=book_info)
         self.content_config = []
         self.threading_list = []
-        self.progress_bar_count = 0
-        self.progress_bar_length = 0
-        self.max_threading = threading.BoundedSemaphore(Vars.cfg.data.get('max_thread'))
+        # self.progress_bar_count = 0
+        # self.progress_bar_length = 0
+        # self.max_threading = threading.BoundedSemaphore(Vars.cfg.data.get('max_thread'))
 
     def init_content_config(self):
         if os.path.exists(self.save_config_path):
@@ -136,51 +139,57 @@ class BookConfig(Book):
         Vars.current_epub.out_put_epub_file()
 
     def test_config_chapter(self, chapter_url: str) -> bool:
+        if not self.content_config:
+            return False
         for i in self.content_config:
             if i.get("chapter_url").split("/")[-1] == chapter_url.split("/")[-1]:
                 return True
         return False
 
     def download_book_content(self, chapter_url, index) -> None:
-        self.max_threading.acquire()  # acquire semaphore to prevent multi threading
+        # self.max_threading.acquire()  # acquire semaphore to prevent multi threading
         try:
             chapter_info = Chapter(chapter_id=chapter_url, index=index)
-            if isinstance(chapter_info.chapter_json, dict):
-                self.content_config.append(chapter_info.chapter_json)
-                self.progress_bar(chapter_info.chapter_title)
+            chapter_info_json = chapter_info.chapter_json
+            if isinstance(chapter_info_json, dict):
+                self.content_config.append(chapter_info_json)
             else:
-                print("chapter_info.chapter_json is not dict", chapter_info.chapter_json)
+                print("chapter_info.chapter_json is not dict", chapter_info_json)
         except:
             self.save_content_json()  # save content_config if error
-        finally:
-            self.max_threading.release()  # release threading semaphore when threading is finished
+        # finally:
+        #     self.max_threading.release()  # release threading semaphore when threading is finished
 
     def multi_thread_download_book(self) -> None:
-        for index, chapter_url in enumerate(self.chapter_url_list, start=1):
-            if Vars.current_book_type == "sfacg" and "vip/c" in chapter_url:
-                print("sfacg vip chapter is images, not support download:{}".format(chapter_url), end="\r")
-                continue
-            if self.test_config_chapter(chapter_url):
-                continue  # chapter already downloaded
-            else:
-                self.threading_list.append(
-                    threading.Thread(target=self.download_book_content, args=(chapter_url, index,))
-                )  # create threading to download book content
+        with ThreadPoolExecutor(max_workers=Vars.cfg.data.get('max_thread')) as executor:
+            for index, chapter_url in enumerate(self.chapter_url_list, start=1):
+                if Vars.current_book_type == "sfacg" and "vip/c" in chapter_url:
+                    continue  # sfacg web vip chapter is images, not support download
+                if self.test_config_chapter(chapter_url):
+                    continue  # chapter already downloaded
+                else:
+                    self.threading_list.append(
+                        executor.submit(self.download_book_content, chapter_url, index)
+                    )
 
+                    # executor.submit(self.download_book_content, chapter_url, index)
+                    # self.threading_list.append(
+                    #     threading.Thread(target=self.download_book_content, args=(chapter_url, index,))
+                    # )  # create threading to download book content
         if len(self.threading_list) != 0:  # if threading_list is not empty
-            self.progress_bar_length = len(self.threading_list)
-            for thread in self.threading_list:  # start all thread in threading_list
-                thread.start()
-            for thread in self.threading_list:  # wait for all threading_list to finish
-                thread.join()
-            self.threading_list.clear()  # clear threading_list for next chapter
+            print("start download book content, length: {}".format(len(self.threading_list)))
+            # wait for all threading finished
+            for thread in tqdm(self.threading_list, ncols=100, desc='download book content'):
+                thread.result()
         else:
             print(self.book_name, "is no chapter to download.\n\n")
+
         self.save_content_json()
+
         self.merge_text_file()
 
-    def progress_bar(self, title: str = "") -> None:  # progress bar
-        self.progress_bar_count += 1  # increase progress_bar_count
-        print("\r{}/{} title:{}".format(
-            self.progress_bar_count, self.progress_bar_length, title), end="\r"
-        )  # print progress bar and title
+    # def progress_bar(self, title: str = "") -> None:  # progress bar
+    #     self.progress_bar_count += 1  # increase progress_bar_count
+    #     print("\r{}/{} title:{}".format(
+    #         self.progress_bar_count, self.progress_bar_length, title), end="\r"
+    #     )  # print progress bar and title
