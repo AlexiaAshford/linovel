@@ -24,19 +24,33 @@ def get_cover_image(cover_url: str):
 
 class EpubHtml:
     def __init__(self):
+        self.description = ""
         self.html_template = epub.EpubHtml
 
-    def set_description(self, content: str):
-        description = self.html_template(title='小说简介', file_name='0000-000000-intro.xhtml', lang='zh-CN')
-        description.content = '<html><head></head><body>\n<h1>小说简介</h1><p>书籍书名:{}</p><p>书籍序号:{}</p>{}' \
-                              '\n'.format(Vars.current_book.book_name, Vars.current_book.book_id, content)
-        book_detailed = re.sub(r"\n+", "\n", re.sub('<[^>]+>|<p>|</p>', "\n", description.content).strip())
-        write_text(
-            path_name=os.path.join(Vars.current_book.out_text_path, Vars.current_book.book_name + ".txt"),
-            content=book_detailed + "\n\n"
-        )  # write book information to text file in downloads folder and show book name, author and chapter count
-        print(book_detailed)  # print book detailed information to console
-        return description
+    def set_description(self):
+        self.description = "<html><head></head><body>\n<h1>小说简介</h1>"
+        if Vars.current_book.book_name is not None:
+            self.description += '<p>书籍书名:{}</p>'.format(Vars.current_book.book_name)
+        if Vars.current_book.book_id is not None:
+            self.description += '<p>书籍序号:{}</p>'.format(Vars.current_book.book_id)
+        if Vars.current_book.book_author is not None:
+            self.description += '<p>书籍作者:{}</p>\n'.format(Vars.current_book.book_author)
+        if Vars.current_book.book_status is not None:
+            self.description += '<p>书籍状态:{}</p>\n'.format(Vars.current_book.book_status)
+        if Vars.current_book.book_words is not None:
+            self.description += '<p>字数信息:</p>{}\n'.format(Vars.current_book.book_words.replace("字数：", ""))
+        if Vars.current_book.last_chapter_title is not None:
+            self.description += '<p>最新章节:{}</p>\n'.format(Vars.current_book.last_chapter_title)
+        if Vars.current_book.book_tag is not None:
+            self.description += '<p>系统标签:{}</p>\n'.format(Vars.current_book.book_tag)
+        if Vars.current_book.book_intro is not None:
+            self.description += '<p>简介信息:</p>{}\n'.format(Vars.current_book.book_intro)
+        self.description += '</body></html>'
+        data_template = self.html_template(
+            title='小说简介', file_name='0000-000000-intro.xhtml', lang='zh-CN'
+        )
+        data_template.content = self.description
+        return data_template
 
     def set_chapter(self, chapter_title: str, content: str, serial_number: str):
         chapter = self.html_template(
@@ -51,29 +65,25 @@ class EpubFile(epub.EpubBook):
     def __init__(self):
         super().__init__()
         self.toc = []
-        self.html_template = ""
         self.EpubList = list()
         self.template = EpubHtml()
 
-    def add_the_book_information(self):
+    def set_epub_book_info(self):
         self.set_language('zh-CN')  # set epub file language
         self.set_identifier(Vars.current_book.book_id)
         self.set_title(Vars.current_book.book_name)
         self.add_author(Vars.current_book.book_author)
-        if Vars.current_book.book_author is not None:
-            self.html_template += '<p>书籍作者:{}</p>\n'.format(Vars.current_book.book_author)
-        if Vars.current_book.book_status is not None:
-            self.html_template += '<p>书籍状态:{}</p>\n'.format(Vars.current_book.book_status)
-        if Vars.current_book.book_words is not None:
-            self.html_template += '<p>字数信息:</p>{}\n'.format(Vars.current_book.book_words)
-        if Vars.current_book.last_chapter_title is not None:
-            self.html_template += '<p>最新章节:{}</p>\n'.format(Vars.current_book.last_chapter_title)
-        if Vars.current_book.book_tag is not None:
-            self.html_template += '<p>系统标签:{}</p>\n'.format(Vars.current_book.book_tag)
-        if Vars.current_book.book_intro is not None:
-            self.html_template += '<p>简介信息:</p>{}\n'.format(Vars.current_book.book_intro)
-        self.html_template += '</body></html>'
-        description = self.template.set_description(self.html_template)
+        if Vars.current_book.cover:
+            Vars.current_epub.download_cover_and_add_epub()
+        else:
+            print("cover is None, can't download the epub cover！")
+        description = self.template.set_description()
+        book_detailed = re.sub(r"\n+", "\n", re.sub('<[^>]+>|<p>|</p>', "\n", description.content).strip())
+        write_text(
+            path_name=os.path.join(Vars.current_book.out_text_path, Vars.current_book.book_name + ".txt"),
+            content=book_detailed + "\n\n"
+        )  # write book information to text file in downloads folder and show book name, author and chapter count
+        print(book_detailed)  # print book detailed information to console
         self.add_item(description)
         self.EpubList.append(description)
 

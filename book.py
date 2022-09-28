@@ -108,12 +108,9 @@ class BookConfig(Book):
                 self.content_config = []
         else:
             self.content_config = []
+
         Vars.current_epub = Epub.EpubFile()
-        if self.cover:
-            Vars.current_epub.download_cover_and_add_epub()
-        else:
-            print("cover is None, can't download the epub cover！")
-        Vars.current_epub.add_the_book_information()
+        Vars.current_epub.set_epub_book_info()
 
     def save_content_json(self) -> None:
         try:
