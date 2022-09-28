@@ -1,8 +1,5 @@
 from concurrent.futures import ThreadPoolExecutor
-
 import Epub
-# import threading
-# import constant
 from config import *
 from tqdm import tqdm
 
@@ -100,9 +97,6 @@ class BookConfig(Book):
         super().__init__(book_info=book_info)
         self.content_config = []
         self.threading_list = []
-        # self.progress_bar_count = 0
-        # self.progress_bar_length = 0
-        # self.max_threading = threading.BoundedSemaphore(Vars.cfg.data.get('max_thread'))
 
     def init_content_config(self):
         if os.path.exists(self.save_config_path):
@@ -147,7 +141,6 @@ class BookConfig(Book):
         return False
 
     def download_book_content(self, chapter_url, index) -> None:
-        # self.max_threading.acquire()  # acquire semaphore to prevent multi threading
         try:
             chapter_info = Chapter(chapter_id=chapter_url, index=index)
             chapter_info_json = chapter_info.chapter_json
@@ -155,10 +148,9 @@ class BookConfig(Book):
                 self.content_config.append(chapter_info_json)
             else:
                 print("chapter_info.chapter_json is not dict", chapter_info_json)
-        except:
+        except Exception as err:
+            print("download_book_content error: {}".format(err), end="\r")
             self.save_content_json()  # save content_config if error
-        # finally:
-        #     self.max_threading.release()  # release threading semaphore when threading is finished
 
     def multi_thread_download_book(self) -> None:
         with ThreadPoolExecutor(max_workers=Vars.cfg.data.get('max_thread')) as executor:
@@ -171,25 +163,14 @@ class BookConfig(Book):
                     self.threading_list.append(
                         executor.submit(self.download_book_content, chapter_url, index)
                     )
-
-                    # executor.submit(self.download_book_content, chapter_url, index)
-                    # self.threading_list.append(
-                    #     threading.Thread(target=self.download_book_content, args=(chapter_url, index,))
-                    # )  # create threading to download book content
-        if len(self.threading_list) != 0:  # if threading_list is not empty
-            print("start download book content, length: {}".format(len(self.threading_list)))
-            # wait for all threading finished
-            for thread in tqdm(self.threading_list, ncols=100, desc='download book content'):
-                thread.result()
-        else:
-            print(self.book_name, "is no chapter to download.\n\n")
+            if len(self.threading_list) != 0:  # if threading_list is not empty
+                print("start download book content, length: {}".format(len(self.threading_list)))
+                # wait for all threading finished
+                for thread in tqdm(self.threading_list, ncols=100, desc='download book content'):
+                    thread.result()
+            else:
+                print(self.book_name, "is no chapter to download.\n\n")
 
         self.save_content_json()
 
         self.merge_text_file()
-
-    # def progress_bar(self, title: str = "") -> None:  # progress bar
-    #     self.progress_bar_count += 1  # increase progress_bar_count
-    #     print("\r{}/{} title:{}".format(
-    #         self.progress_bar_count, self.progress_bar_length, title), end="\r"
-    #     )  # print progress bar and title
