@@ -38,12 +38,12 @@ def parse_args_command() -> argparse.Namespace:
 def shell_console(inputs: list):
     if inputs[0] == "d" or inputs[0] == "download":
         Vars.current_book = None if len(inputs) < 2 else get_book_information_template(inputs[1])
-        if Vars.current_book is not None:
+        if Vars.current_book.get("bookName") is not None:
             Vars.current_book = book.BookConfig(Vars.current_book)
             Vars.current_book.init_content_config()
             Vars.current_book.multi_thread_download_book()
         else:
-            print("[error] please input book id, example: d 12345")
+            print("download error,please  check your input app name or book id")
     elif inputs[0] == "s" or inputs[0] == "search":
         response = Vars.current_book_api.get_book_info_by_keyword(inputs[1]) if len(inputs) >= 2 else []
         if len(response) > 0:
