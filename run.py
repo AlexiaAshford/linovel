@@ -18,10 +18,10 @@ def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and 
             Vars.current_book_rule = constant.rule.WebRule.set_up_rule(book_type)
             Vars.current_book_api = API.ResponseAPI.set_up_web(book_type)
             print("已设置为", book_type, "小说下载")
-            break
+            return True
     else:
         print("[error] book type not found, please input again", current_book_type)
-
+        return False
 
 def parse_args_command() -> argparse.Namespace:
     update_config()  # update config file if necessary (for example, add new token)
@@ -37,8 +37,8 @@ def parse_args_command() -> argparse.Namespace:
 
 def shell_console(inputs: list):
     if inputs[0] == "d" or inputs[0] == "download":
-        Vars.current_book = None if len(inputs) < 2 else get_book_information_template(inputs[1])
-        if Vars.current_book.get("bookName") is not None:
+        Vars.current_book = get_book_information_template(inputs[1])
+        if Vars.current_book and Vars.current_book.get("bookName") is not None:
             Vars.current_book = book.BookConfig(Vars.current_book)
             Vars.current_book.init_content_config()
             Vars.current_book.multi_thread_download_book()
@@ -67,9 +67,8 @@ def shell_console(inputs: list):
 
 if __name__ == '__main__':
     args_command = parse_args_command()
-
-    set_up_app_type(args_command.app[0]) if args_command.app is not None else set_up_app_type()
-
+    if not (set_up_app_type(args_command.app[0]) if args_command.app is not None else set_up_app_type()):
+        exit(1)
     if args_command.bookid is not None and args_command.bookid != "":
         shell_console(["d", args_command.bookid[0]])
 
