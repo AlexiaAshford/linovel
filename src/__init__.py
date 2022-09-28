@@ -1,7 +1,5 @@
-# import constant
 import requests
 from config import *
-# from tenacity import *
 import fake_useragent
 
 __all__ = ["API", "request", "get_book_information_template"]
@@ -31,16 +29,17 @@ def request(api_url: str, method: str = "GET", params: dict = None, gbk: bool = 
         response.encoding = 'gbk'
     else:
         response.encoding = 'utf-8'
-
     if response.status_code == 200:
         return response
-    else:
-        raise Exception("[error] status code is not 200, status code is {}".format(response.status_code))
 
 
 def get_book_information_template(book_id: str):  # return book info json
     book_id = book_id if "_" in book_id else re.findall(r"\d+", book_id)[-1]  # del book url suffix
-    current_book_info_html = Vars.current_book_api.get_book_info_by_book_id(book_id)  # get book info html
+    if Vars.current_book_api is None:
+        return print("current book api is None, you need to set up web")
+    else:
+        current_book_info_html = Vars.current_book_api.get_book_info_by_book_id(book_id)  # get book info html
+
     book_img = current_book_info_html.xpath(Vars.current_book_rule.book_img)
     book_name = current_book_info_html.xpath(Vars.current_book_rule.book_name)
     book_author = current_book_info_html.xpath(Vars.current_book_rule.book_author)
@@ -76,4 +75,3 @@ def get_book_information_template(book_id: str):  # return book info json
         "bookUptime": book_update_time[0] if book_update_time else None,
         "chapUrl": chapter_url_list,
     }
-    # return book_info
