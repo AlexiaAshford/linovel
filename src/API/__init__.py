@@ -1,14 +1,12 @@
 import constant
 from lxml import etree
 from .. import request
-from tenacity import *
 from config import *
 
 
-@retry(stop=stop_after_attempt(4))
 def get(api_url: str, method: str = "GET", gbk: bool = False, params: dict = None, re_type: str = "html"):
-    response = request(method=method, api_url=api_url, gbk=gbk, params=params)
-    if response is not None:
+    try:
+        response = request(method=method, api_url=api_url, gbk=gbk, params=params)
         if re_type == "html":
             return etree.HTML(str(response.text))
         elif re_type == "json":
@@ -17,8 +15,8 @@ def get(api_url: str, method: str = "GET", gbk: bool = False, params: dict = Non
             return response.text
         elif re_type == "content":
             return response.content
-    else:
-        raise print("response is None, api_url is {}".format(api_url), end="\r")
+    except Exception as e:
+        print("response is None, api_url is {}".format(api_url), end="\r")
 
 
 class ResponseAPI:

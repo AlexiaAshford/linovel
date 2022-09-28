@@ -1,12 +1,14 @@
 import requests
 from config import *
 import fake_useragent
+from tenacity import *
 
 __all__ = ["API", "request", "get_book_information_template"]
 
 session = requests.Session()
 
 
+@retry(stop=stop_after_attempt(4))
 def request(api_url: str, method: str = "GET", params: dict = None, gbk: bool = False):
     headers = {
         "User-Agent": fake_useragent.UserAgent().random,
@@ -24,7 +26,6 @@ def request(api_url: str, method: str = "GET", params: dict = None, gbk: bool = 
         response = session.request(url=api_url, method="GET", params=params, headers=headers)
     else:
         response = session.request(url=api_url, method=method, data=params, headers=headers)
-
     if gbk is True:
         response.encoding = 'gbk'
     else:
@@ -35,11 +36,9 @@ def request(api_url: str, method: str = "GET", params: dict = None, gbk: bool = 
 
 def get_book_information_template(book_id: str):  # return book info json
     book_id = book_id if "_" in book_id else re.findall(r"\d+", book_id)[-1]  # del book url suffix
-    if Vars.current_book_api is None:
-        return print("current book api is None, you need to set up web")
-    else:
-        current_book_info_html = Vars.current_book_api.get_book_info_by_book_id(book_id)  # get book info html
-
+    current_book_info_html = Vars.current_book_api.get_book_info_by_book_id(book_id)  # get book info html
+    if current_book_info_html is None:
+        return print("\nthis book is not exist, book_id is {}\n".format(book_id))
     book_img = current_book_info_html.xpath(Vars.current_book_rule.book_img)
     book_name = current_book_info_html.xpath(Vars.current_book_rule.book_name)
     book_author = current_book_info_html.xpath(Vars.current_book_rule.book_author)
