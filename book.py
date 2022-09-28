@@ -109,15 +109,11 @@ class BookConfig(Book):
         else:
             self.content_config = []
         Vars.current_epub = Epub.EpubFile()
-        Vars.current_epub.save_epub_file = os.path.join(self.out_text_path, self.book_name + '.epub')
         if self.cover:
             Vars.current_epub.download_cover_and_add_epub()
         else:
             print("cover is None, can't download the epub cover！")
-        write_text(
-            path_name=os.path.join(self.out_text_path, self.book_name + ".txt"),
-            content=Vars.current_epub.add_the_book_information()
-        )  # write book information to text file in downloads folder and show book name, author and chapter count
+        Vars.current_epub.add_the_book_information()
 
     def save_content_json(self) -> None:
         try:
@@ -133,9 +129,7 @@ class BookConfig(Book):
             chapter_title = "第{}章: {}\n".format(chapter_info['chapterIndex'], chapter_info['chapterTitle'])
             chapter_content = ["　　" + i for i in chapter_info.get('chapterContent').split("\n")]
             Vars.current_epub.add_chapter_in_epub_file(
-                chapter_title=chapter_title,
-                content_lines_list=chapter_content,
-                serial_number=chapter_info['chapterIndex']
+                title=chapter_title, content=chapter_content, index=chapter_info['chapterIndex']
             )
             write_text(
                 path_name=os.path.join(self.out_text_path, self.book_name + ".txt"),

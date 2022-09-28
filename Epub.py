@@ -1,6 +1,7 @@
 from ebooklib import epub
 from config import *
 import requests
+import uuid
 
 
 def get_cover_image(cover_url: str):
@@ -21,39 +22,60 @@ def get_cover_image(cover_url: str):
                 return None
 
 
-class EpubFile:
+class EpubHtml:
     def __init__(self):
-        self.epub = epub.EpubBook()
-        self.EpubList = list()
-        self.epub.set_language('zh-CN')
-        self.save_epub_file = ""
-        self.epub.set_identifier(Vars.current_book.book_id)
-        self.epub.set_title(Vars.current_book.book_name)
-        self.epub.add_author(Vars.current_book.book_author)
+        self.html_template = epub.EpubHtml
 
-    def add_the_book_information(self) -> str:
-        description = epub.EpubHtml(title='简介信息', file_name='0000-000000-intro.xhtml', lang='zh-CN')
-        description.content = '<html><head></head><body>\n'
-        description.content += '<h1>小说简介</h1>\n'
-        description.content += '<p>书籍书名:{}</p>\n'.format(Vars.current_book.book_name)
-        description.content += '<p>书籍序号:{}</p>\n'.format(Vars.current_book.book_id)
-        description.content += '<p>书籍作者:{}</p>\n'.format(Vars.current_book.book_author)
-        if Vars.current_book.book_status is not None:
-            description.content += '<p>书籍状态:{}</p>\n'.format(Vars.current_book.book_status)
-        if Vars.current_book.book_words is not None:
-            description.content += '<p>字数信息:</p>{}\n'.format(Vars.current_book.book_words)
-        if Vars.current_book.last_chapter_title is not None:
-            description.content += '<p>最新章节:{}</p>\n'.format(Vars.current_book.last_chapter_title)
-        if Vars.current_book.book_tag is not None:
-            description.content += '<p>系统标签:{}</p>\n'.format(Vars.current_book.book_tag)
-        if Vars.current_book.book_intro is not None:
-            description.content += '<p>简介信息:</p>{}\n'.format(Vars.current_book.book_intro)
-        description.content += '</body></html>'
-        self.epub.add_item(description)
-        self.EpubList.append(description)
+    def set_description(self, content: str):
+        description = self.html_template(title='description', file_name='0000-000000-intro.xhtml', lang='zh-CN')
+        description.content = '<html><head></head><body>\n<h1>小说简介</h1><p>书籍书名:{}</p><p>书籍序号:{}</p>{}' \
+                              '\n'.format(Vars.current_book.book_name, Vars.current_book.book_id, content)
         book_detailed = re.sub(r"\n+", "\n", re.sub('<[^>]+>|<p>|</p>', "\n", description.content).strip())
+        write_text(
+            path_name=os.path.join(Vars.current_book.out_text_path, Vars.current_book.book_name + ".txt"),
+            content=book_detailed
+        )  # write book information to text file in downloads folder and show book name, author and chapter count
         print(book_detailed)  # print book detailed information to console
-        return book_detailed + "\n\n"  # return book detailed information as string
+        return description
+
+    def set_chapter(self, chapter_title: str, content: str, serial_number: str):
+        chapter = self.html_template(
+            title=chapter_title, file_name=str(serial_number).rjust(4, "0") + '.xhtml', lang='zh-CN',
+            uid=uuid.uuid4().hex
+        )  # create chapter object and set chapter title, file name, language, uid
+        chapter.content = '</p>\r\n<p>'.join(content)
+        return chapter
+
+
+class EpubFile(epub.EpubBook):
+    def __init__(self):
+        super().__init__()
+        self.toc = []
+        self.html_template = ""
+        self.EpubList = list()
+        self.template = EpubHtml()
+
+    def add_the_book_information(self):
+        self.set_language('zh-CN')  # set epub file language
+        self.set_identifier(Vars.current_book.book_id)
+        self.set_title(Vars.current_book.book_name)
+        self.add_author(Vars.current_book.book_author)
+        if Vars.current_book.book_author is not None:
+            self.html_template += '<p>书籍作者:{}</p>\n'.format(Vars.current_book.book_author)
+        if Vars.current_book.book_status is not None:
+            self.html_template += '<p>书籍状态:{}</p>\n'.format(Vars.current_book.book_status)
+        if Vars.current_book.book_words is not None:
+            self.html_template += '<p>字数信息:</p>{}\n'.format(Vars.current_book.book_words)
+        if Vars.current_book.last_chapter_title is not None:
+            self.html_template += '<p>最新章节:{}</p>\n'.format(Vars.current_book.last_chapter_title)
+        if Vars.current_book.book_tag is not None:
+            self.html_template += '<p>系统标签:{}</p>\n'.format(Vars.current_book.book_tag)
+        if Vars.current_book.book_intro is not None:
+            self.html_template += '<p>简介信息:</p>{}\n'.format(Vars.current_book.book_intro)
+        self.html_template += '</body></html>'
+        description = self.template.set_description(self.html_template)
+        self.add_item(description)
+        self.EpubList.append(description)
 
     def download_cover_and_add_epub(self):  # download cover image and add to epub file as cover
         if Vars.current_book_type == "Dingdian":
@@ -67,25 +89,20 @@ class EpubFile:
             open(cover_file_path, 'wb').write(get_cover_image(Vars.current_book.cover))
         cover_image = open(cover_file_path, 'rb').read()
         if cover_image is not None:  # if cover image is not None ,then add to epub file
-            self.epub.set_cover("cover.png", cover_image)  # add cover image to epub file
+            self.set_cover("cover.png", cover_image)  # add cover image to epub file
         else:
             self.download_cover_and_add_epub()
 
-    def add_chapter_in_epub_file(self, chapter_title: str, content_lines_list: str, serial_number: str):
-        import uuid
-        chapter_serial = epub.EpubHtml(
-            title=chapter_title,
-            file_name=str(serial_number).rjust(4, "0") + '.xhtml',
-            lang='zh-CN',
-            uid=uuid.uuid4().hex
-        )  # create chapter object and set chapter title, file name, language, uid
-        chapter_serial.content = '</p>\r\n<p>'.join(content_lines_list)
-        self.epub.add_item(chapter_serial)  # add chapter to epub file as item
+    def add_chapter_in_epub_file(self, **kwargs):
+        chapter_serial = self.template.set_chapter(
+            kwargs.get("title"), kwargs.get("content"), kwargs.get("index"))
+        self.add_item(chapter_serial)  # add chapter to epub file as item
         self.EpubList.append(chapter_serial)  # add chapter to epub list
 
     def out_put_epub_file(self):  # save epub file to local
         # the path to save epub file to local
-        self.epub.toc = tuple(self.EpubList)
-        self.epub.spine.extend(self.EpubList)
-        self.epub.add_item(epub.EpubNcx()), self.epub.add_item(epub.EpubNav())
-        epub.write_epub(self.save_epub_file, self.epub, {})  # save epub file to out_path directory with book_name.epub
+        self.toc = tuple(self.EpubList)
+        self.spine.extend(self.EpubList)
+        self.add_item(epub.EpubNcx()), self.add_item(epub.EpubNav())
+        save_epub_file = os.path.join(Vars.current_book.out_text_path, Vars.current_book.book_name + '.epub')
+        epub.write_epub(save_epub_file, self)  # save epub file to out_path directory with book_name.epub
