@@ -5,7 +5,7 @@ from tenacity import *
 from config import *
 
 
-@retry(stop=stop_after_attempt(7), wait=wait_fixed(0.1))
+@retry(stop=stop_after_attempt(4))
 def get(api_url: str, method: str = "GET", gbk: bool = False, params: dict = None, re_type: str = "html"):
     response = request(method=method, api_url=api_url, gbk=gbk, params=params)
     if re_type == "html":

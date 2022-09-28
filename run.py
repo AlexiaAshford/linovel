@@ -8,10 +8,9 @@ from config import *
 def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and book type
     app_type_list = [
         "Linovel", "Dingdian",
-        "Xbookben", "Dingdian",
-        "sfacg", "Baling",
-        "Qbtr", "Trxs",
-        "popo"
+        "Xbookben", "sfacg",
+        "Baling", "Qbtr",
+        "Trxs", "popo"
     ]
     for book_type in app_type_list:
         if current_book_type == book_type or book_type.lower().startswith(current_book_type):

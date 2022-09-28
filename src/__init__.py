@@ -13,7 +13,6 @@ __all__ = [
 session = requests.Session()
 
 
-@retry(stop=stop_after_attempt(5))
 def request(api_url: str, method: str = "GET", params: dict = None, gbk: bool = False):
     headers = {
         "User-Agent": fake_useragent.UserAgent().random,

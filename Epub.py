@@ -27,13 +27,13 @@ class EpubHtml:
         self.html_template = epub.EpubHtml
 
     def set_description(self, content: str):
-        description = self.html_template(title='description', file_name='0000-000000-intro.xhtml', lang='zh-CN')
+        description = self.html_template(title='小说简介', file_name='0000-000000-intro.xhtml', lang='zh-CN')
         description.content = '<html><head></head><body>\n<h1>小说简介</h1><p>书籍书名:{}</p><p>书籍序号:{}</p>{}' \
                               '\n'.format(Vars.current_book.book_name, Vars.current_book.book_id, content)
         book_detailed = re.sub(r"\n+", "\n", re.sub('<[^>]+>|<p>|</p>', "\n", description.content).strip())
         write_text(
             path_name=os.path.join(Vars.current_book.out_text_path, Vars.current_book.book_name + ".txt"),
-            content=book_detailed
+            content=book_detailed + "\n\n"
         )  # write book information to text file in downloads folder and show book name, author and chapter count
         print(book_detailed)  # print book detailed information to console
         return description
