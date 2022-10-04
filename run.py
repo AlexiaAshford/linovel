@@ -5,12 +5,41 @@ from src import *
 from config import *
 
 
-# app_type_list = [
-#     "Linovel", "Dingdian",
-#     "Xbookben", "sfacg",
-#     "Baling", "Qbtr",
-#     "Trxs", "popo", "bilibili"
-# ]
+def set_up_web():
+    if Vars.current_book_type == "Dingdian":
+        book_api = API.ResponseAPI.Dingdian
+        book_rule = constant.rule.WebRule.DingdianRule
+    elif Vars.current_book_type == "Xbookben":
+        book_api = API.ResponseAPI.Xbookben
+        book_rule = constant.rule.WebRule.XbookbenRule
+    elif Vars.current_book_type == "Linovel":
+        book_api = API.ResponseAPI.Linovel
+        book_rule = constant.rule.WebRule.LinovelRule
+    elif Vars.current_book_type == "sfacg":
+        book_api = API.ResponseAPI.Boluobao
+        book_rule = constant.rule.WebRule.BoluobaoRule
+    elif Vars.current_book_type == "Biquge":
+        book_api = API.ResponseAPI.Biquge
+        book_rule = constant.rule.WebRule.BiqugeRule
+    elif Vars.current_book_type == "Baling":
+        book_api = API.ResponseAPI.Baling
+        book_rule = constant.rule.WebRule.BalingRule
+    elif Vars.current_book_type == "Qbtr":
+        book_api = API.ResponseAPI.Qbtr
+        book_rule = constant.rule.WebRule.QbtrRule
+    elif Vars.current_book_type == "Trxs":
+        book_api = API.ResponseAPI.Trxs
+        book_rule = constant.rule.WebRule.TrxsRule
+    elif Vars.current_book_type == "popo":
+        book_api = API.ResponseAPI.Popo
+        book_rule = constant.rule.WebRule.PopoRule
+    elif Vars.current_book_type == "bilibili":
+        book_api = API.ResponseAPI.Linovelib
+        book_rule = constant.rule.WebRule.LinovelibRule
+    else:
+        raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
+    return book_api, book_rule
+
 
 def set_up_app_type(current_book_type: str = "0"):  # set up app type and book type
     book_type_dict = {
@@ -20,8 +49,7 @@ def set_up_app_type(current_book_type: str = "0"):  # set up app type and book t
     }
     if book_type_dict.get(current_book_type):
         Vars.current_book_type = book_type_dict.get(current_book_type)
-        Vars.current_book_rule = constant.rule.WebRule.set_up_rule()
-        Vars.current_book_api = API.ResponseAPI.set_up_web()
+        Vars.current_book_api, Vars.current_book_rule = set_up_web()
         print("已设置为", Vars.current_book_type, "小说下载")
         return True
 
@@ -31,17 +59,6 @@ def set_up_app_type(current_book_type: str = "0"):  # set up app type and book t
             print("index:", index, "\t\tbook type:", book_type)
         print("please input index to select book type, example: 0")
         return False
-
-    # for book_type in app_type_list:
-    #     if current_book_type == book_type or book_type.lower().startswith(current_book_type):
-    #         Vars.current_book_type = book_type
-    #         Vars.current_book_rule = constant.rule.WebRule.set_up_rule()
-    #         Vars.current_book_api = API.ResponseAPI.set_up_web(Vars.current_book_type)
-    #         print("已设置为", Vars.current_book_type, "小说下载")
-    #         return True
-    # else:
-    #     print("[error] book type not found, please input again", current_book_type)
-    #     return False
 
 
 def parse_args_command() -> argparse.Namespace:

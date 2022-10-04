@@ -149,7 +149,8 @@ class BookConfig(Book):
             else:
                 print("chapter_info.chapter_json is not dict", chapter_info_json)
         except Exception as err:
-            print("download_book_content error: {}".format(err), end="\r")
+            self.download_book_content(chapter_url=chapter_url, index=index)
+            # print("download_book_content error: {}".format(err), end="\r")
             self.save_content_json()  # save content_config if error
 
     def multi_thread_download_book(self) -> None:

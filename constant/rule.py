@@ -2,32 +2,6 @@ from config import *
 
 
 class WebRule:
-    @staticmethod
-    def set_up_rule():
-        if Vars.current_book_type == "Xbookben":
-            book_rule = WebRule.XbookbenRule
-        elif Vars.current_book_type == "Dingdian":
-            book_rule = WebRule.DingdianRule
-        elif Vars.current_book_type == "Linovel":
-            book_rule = WebRule.LinovelRule
-        elif Vars.current_book_type == "sfacg":
-            book_rule = WebRule.BoluobaoRule
-        elif Vars.current_book_type == "Biquge":
-            book_rule = WebRule.BiqugeRule
-        elif Vars.current_book_type == "Baling":
-            book_rule = WebRule.BalingRule
-        elif Vars.current_book_type == "Qbtr":
-            book_rule = WebRule.QbtrRule
-        elif Vars.current_book_type == "Trxs":
-            book_rule = WebRule.TrxsRule
-        elif Vars.current_book_type == "popo":
-            book_rule = WebRule.PopoRule
-        elif Vars.current_book_type == "bilibili":
-            book_rule = WebRule.LinovelibRule
-        else:
-            raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
-        return book_rule
-
     class XbookbenRule:
         book_img = '/html/body/div/div[2]/div/div/div[1]/span/img/@src'
         book_name = '/html/body/div/div[2]/div/div/div[2]/h1/text()'

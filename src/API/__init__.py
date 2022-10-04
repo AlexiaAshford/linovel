@@ -34,32 +34,6 @@ def get(api_url: str, method: str = "GET", gbk: bool = False, params: dict = Non
 
 
 class ResponseAPI:
-    @staticmethod
-    def set_up_web( ):
-        if Vars.current_book_type == "Dingdian":
-            book_api = ResponseAPI.Dingdian
-        elif Vars.current_book_type == "Xbookben":
-            book_api = ResponseAPI.Xbookben
-        elif Vars.current_book_type == "Linovel":
-            book_api = ResponseAPI.Linovel
-        elif Vars.current_book_type == "sfacg":
-            book_api = ResponseAPI.Boluobao
-        elif Vars.current_book_type == "Biquge":
-            book_api = ResponseAPI.Biquge
-        elif Vars.current_book_type == "Baling":
-            book_api = ResponseAPI.Baling
-        elif Vars.current_book_type == "Qbtr":
-            book_api = ResponseAPI.Qbtr
-        elif Vars.current_book_type == "Trxs":
-            book_api = ResponseAPI.Trxs
-        elif Vars.current_book_type == "popo":
-            book_api = ResponseAPI.Popo
-        elif Vars.current_book_type == "bilibili":
-            book_api = ResponseAPI.Linovelib
-        else:
-            raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
-        return book_api
-
     class Xbookben:
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
