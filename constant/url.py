@@ -42,5 +42,5 @@ class Site:
 
     class Linovelib:
         host = "https://www.linovelib.com"
-        book_info_by_book_id = host + "novel/{}.html"  # 书籍信息
+        book_info_by_book_id = host + "/novel/{}.html"  # 书籍信息
         catalogue_info_by_book_id = host + "/novel/{}/catalog"  # 书籍信息

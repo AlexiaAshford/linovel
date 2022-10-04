@@ -2,6 +2,20 @@ import constant
 from lxml import etree
 from .. import request
 from config import *
+import logging
+
+# Creating and Configuring Logger
+
+Log_Format = "%(levelname)s %(asctime)s - %(message)s"
+
+logging.basicConfig(
+    filename="logfile.log",
+    filemode="w",
+    format=Log_Format,
+    level=logging.ERROR
+)
+
+logger = logging.getLogger()
 
 
 def get(api_url: str, method: str = "GET", gbk: bool = False, params: dict = None, re_type: str = "html"):
@@ -15,8 +29,8 @@ def get(api_url: str, method: str = "GET", gbk: bool = False, params: dict = Non
             return response.text
         elif re_type == "content":
             return response.content
-    except Exception as e:
-        print("response is None, api_url is {}".format(api_url), end="\r")
+    except Exception as error:
+        logger.error("response is None, api_url is {}\t\terror:{}".format(api_url, error))
 
 
 class ResponseAPI:
@@ -40,6 +54,8 @@ class ResponseAPI:
             book_api = ResponseAPI.Trxs
         elif current_book_type == "popo" or current_book_type == "p":
             book_api = ResponseAPI.Popo
+        elif current_book_type == "bilibili" or current_book_type == "bi":
+            book_api = ResponseAPI.Linovelib
         else:
             raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
         return book_api
