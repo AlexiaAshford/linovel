@@ -12,7 +12,7 @@ def set_up_web():
     elif Vars.current_book_type == "Xbookben":
         book_api = API.ResponseAPI.Xbookben
         book_rule = constant.rule.WebRule.XbookbenRule
-    elif Vars.current_book_type == "Linovel":
+    elif Vars.current_book_type == "https://www.linovel.net":
         book_api = API.ResponseAPI.Linovel
         book_rule = constant.rule.WebRule.LinovelRule
     elif Vars.current_book_type == "sfacg":
@@ -43,7 +43,7 @@ def set_up_web():
 
 def set_up_app_type(current_book_type: str = "0"):  # set up app type and book type
     book_type_dict = {
-        '0': 'Linovel', '1': 'Dingdian', '2': 'Xbookben',
+        '0': 'https://www.linovel.net', '1': 'Dingdian', '2': 'Xbookben',
         '3': 'sfacg', '4': 'Baling', '5': 'Qbtr',
         '6': 'Trxs', '7': 'popo', '8': 'bilibili'
     }
