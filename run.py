@@ -27,7 +27,7 @@ def set_up_web():
     elif Vars.current_book_type == "https://www.qbtr.cc":
         book_api = API.ResponseAPI.Qbtr
         book_rule = constant.rule.WebRule.QbtrRule
-    elif Vars.current_book_type == "Trxs":
+    elif Vars.current_book_type == "http://trxs.cc":
         book_api = API.ResponseAPI.Trxs
         book_rule = constant.rule.WebRule.TrxsRule
     elif Vars.current_book_type == "popo":
@@ -45,7 +45,7 @@ def set_up_app_type(current_book_type: str = "0"):  # set up app type and book t
     book_type_dict = {
         '0': 'https://www.linovel.net', '1': 'https://www.ddyueshu.com', '2': 'https://www.xbookben.net',
         '3': 'sfacg', '4': 'bilibili', '5': 'https://www.qbtr.cc',
-        '6': 'Trxs', '7': 'popo', '8': 'http://www.80zw.net', '9': 'https://www.qu-la.com'
+        '6': 'http://trxs.cc', '7': 'popo', '8': 'http://www.80zw.net', '9': 'https://www.qu-la.com'
     }
     if book_type_dict.get(current_book_type):
         if current_book_type == "5" or current_book_type == "6":

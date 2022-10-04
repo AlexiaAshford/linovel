@@ -165,11 +165,11 @@ class ResponseAPI:
 
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return get(api_url=Site.Trxs.book_info_by_book_id.format(book_id), gbk=True)
+            return get(api_url=get_web_url("/{}/{}.html".format(Vars.current_book_classify_name, book_id)), gbk=True)
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
-            return get(api_url=Site.Trxs.host + chapter_url, gbk=True)
+            return get(api_url=get_web_url(chapter_url), gbk=True)
 
     class Popo:
 

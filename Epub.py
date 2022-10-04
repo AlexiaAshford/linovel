@@ -92,7 +92,7 @@ class EpubFile(epub.EpubBook):
             Vars.current_book.cover = "https://www.ddyueshu.com" + Vars.current_book.cover
         elif Vars.current_book_type == "https://www.qu-la.com":
             Vars.current_book.cover = "https://www.qu-la.com" + Vars.current_book.cover
-        elif Vars.current_book_type == "Trxs":
+        elif Vars.current_book_type == "http://trxs.cc":
             Vars.current_book.cover = "http://trxs.cc" + Vars.current_book.cover
         cover_file_path = os.path.join(make_dirs("cover"), Vars.current_book.book_name + ".png")
         if not os.path.exists(cover_file_path):
