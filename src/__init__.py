@@ -64,16 +64,18 @@ def get_book_information_template(book_id: str):  # return book info json
             chapter_url_list = chapter_url_list[6:]  # del first 6 chapter, because the first 6 chapter is not ordered
     if not chapter_url_list:
         print("目录请求失败")
-    return {
-        "bookId": book_id,
-        "bookName": book_name[0] if len(book_name) > 0 else None,
-        "authorName": book_author[0] if book_author else None,
-        "bookCoverUrl": book_img[0] if book_img else None,
-        "bookWords": book_words[0] if book_words else None,
-        "bookTag": book_label[0] if book_label else None,
-        "bookIntro": book_intro[0] if book_intro else None,
-        "bookStatus": book_state[0] if book_state else None,
-        "lastChapterTitle": last_chapter_title[0] if last_chapter_title else None,
-        "bookUptime": book_update_time[0] if book_update_time else None,
-        "chapUrl": chapter_url_list,
-    }
+        return get_book_information_template(book_id)
+    else:
+        return {
+            "bookId": book_id,
+            "bookName": book_name[0] if len(book_name) > 0 else None,
+            "authorName": book_author[0] if book_author else None,
+            "bookCoverUrl": book_img[0] if book_img else None,
+            "bookWords": book_words[0] if book_words else None,
+            "bookTag": book_label[0] if book_label else None,
+            "bookIntro": book_intro[0] if book_intro else None,
+            "bookStatus": book_state[0] if book_state else None,
+            "lastChapterTitle": last_chapter_title[0] if last_chapter_title else None,
+            "bookUptime": book_update_time[0] if book_update_time else None,
+            "chapUrl": chapter_url_list,
+        }

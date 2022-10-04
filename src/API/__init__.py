@@ -35,26 +35,26 @@ def get(api_url: str, method: str = "GET", gbk: bool = False, params: dict = Non
 
 class ResponseAPI:
     @staticmethod
-    def set_up_web(current_book_type: str):
-        if current_book_type == "Dingdian" or current_book_type == "d":
+    def set_up_web( ):
+        if Vars.current_book_type == "Dingdian":
             book_api = ResponseAPI.Dingdian
-        elif current_book_type == "Xbookben" or current_book_type == "x":
+        elif Vars.current_book_type == "Xbookben":
             book_api = ResponseAPI.Xbookben
-        elif current_book_type == "Linovel" or current_book_type == "l":
+        elif Vars.current_book_type == "Linovel":
             book_api = ResponseAPI.Linovel
-        elif current_book_type == "sfacg" or current_book_type == "s":
+        elif Vars.current_book_type == "sfacg":
             book_api = ResponseAPI.Boluobao
-        elif current_book_type == "Biquge" or current_book_type == "b":
+        elif Vars.current_book_type == "Biquge":
             book_api = ResponseAPI.Biquge
-        elif current_book_type == "Baling" or current_book_type == "bl":
+        elif Vars.current_book_type == "Baling":
             book_api = ResponseAPI.Baling
-        elif current_book_type == "Qbtr" or current_book_type == "q":
+        elif Vars.current_book_type == "Qbtr":
             book_api = ResponseAPI.Qbtr
-        elif current_book_type == "Trxs" or current_book_type == "t":
+        elif Vars.current_book_type == "Trxs":
             book_api = ResponseAPI.Trxs
-        elif current_book_type == "popo" or current_book_type == "p":
+        elif Vars.current_book_type == "popo":
             book_api = ResponseAPI.Popo
-        elif current_book_type == "bilibili" or current_book_type == "bi":
+        elif Vars.current_book_type == "bilibili":
             book_api = ResponseAPI.Linovelib
         else:
             raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"

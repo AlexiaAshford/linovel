@@ -5,23 +5,43 @@ from src import *
 from config import *
 
 
-def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and book type
-    app_type_list = [
-        "Linovel", "Dingdian",
-        "Xbookben", "sfacg",
-        "Baling", "Qbtr",
-        "Trxs", "popo", "bilibili"
-    ]
-    for book_type in app_type_list:
-        if current_book_type == book_type or book_type.lower().startswith(current_book_type):
-            Vars.current_book_type = book_type
-            Vars.current_book_rule = constant.rule.WebRule.set_up_rule()
-            Vars.current_book_api = API.ResponseAPI.set_up_web(Vars.current_book_type)
-            print("已设置为", Vars.current_book_type, "小说下载")
-            return True
+# app_type_list = [
+#     "Linovel", "Dingdian",
+#     "Xbookben", "sfacg",
+#     "Baling", "Qbtr",
+#     "Trxs", "popo", "bilibili"
+# ]
+
+def set_up_app_type(current_book_type: str = "0"):  # set up app type and book type
+    book_type_dict = {
+        '0': 'Linovel', '1': 'Dingdian', '2': 'Xbookben',
+        '3': 'sfacg', '4': 'Baling', '5': 'Qbtr',
+        '6': 'Trxs', '7': 'popo', '8': 'bilibili'
+    }
+    if book_type_dict.get(current_book_type):
+        Vars.current_book_type = book_type_dict.get(current_book_type)
+        Vars.current_book_rule = constant.rule.WebRule.set_up_rule()
+        Vars.current_book_api = API.ResponseAPI.set_up_web()
+        print("已设置为", Vars.current_book_type, "小说下载")
+        return True
+
     else:
         print("[error] book type not found, please input again", current_book_type)
+        for index, book_type in book_type_dict.items():
+            print("index:", index, "\t\tbook type:", book_type)
+        print("please input index to select book type, example: 0")
         return False
+
+    # for book_type in app_type_list:
+    #     if current_book_type == book_type or book_type.lower().startswith(current_book_type):
+    #         Vars.current_book_type = book_type
+    #         Vars.current_book_rule = constant.rule.WebRule.set_up_rule()
+    #         Vars.current_book_api = API.ResponseAPI.set_up_web(Vars.current_book_type)
+    #         print("已设置为", Vars.current_book_type, "小说下载")
+    #         return True
+    # else:
+    #     print("[error] book type not found, please input again", current_book_type)
+    #     return False
 
 
 def parse_args_command() -> argparse.Namespace:
