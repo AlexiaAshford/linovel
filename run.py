@@ -15,7 +15,7 @@ def set_up_app_type(current_book_type: str = "Linovel"):  # set up app type and 
     for book_type in app_type_list:
         if current_book_type == book_type or book_type.lower().startswith(current_book_type):
             Vars.current_book_type = book_type
-            Vars.current_book_rule = constant.rule.WebRule.set_up_rule(Vars.current_book_type)
+            Vars.current_book_rule = constant.rule.WebRule.set_up_rule()
             Vars.current_book_api = API.ResponseAPI.set_up_web(Vars.current_book_type)
             print("已设置为", Vars.current_book_type, "小说下载")
             return True

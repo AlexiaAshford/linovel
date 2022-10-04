@@ -1,25 +1,28 @@
+from config import *
+
+
 class WebRule:
     @staticmethod
-    def set_up_rule(current_book_type):
-        if current_book_type == "Xbookben" or current_book_type == "x":
+    def set_up_rule():
+        if Vars.current_book_type == "Xbookben" or Vars.current_book_type == "x":
             book_rule = WebRule.XbookbenRule
-        elif current_book_type == "Dingdian" or current_book_type == "d":
+        elif Vars.current_book_type == "Dingdian" or Vars.current_book_type == "d":
             book_rule = WebRule.DingdianRule
-        elif current_book_type == "Linovel" or current_book_type == "l":
+        elif Vars.current_book_type == "Linovel" or Vars.current_book_type == "l":
             book_rule = WebRule.LinovelRule
-        elif current_book_type == "sfacg" or current_book_type == "s":
+        elif Vars.current_book_type == "sfacg" or Vars.current_book_type == "s":
             book_rule = WebRule.BoluobaoRule
-        elif current_book_type == "Biquge" or current_book_type == "b":
+        elif Vars.current_book_type == "Biquge" or Vars.current_book_type == "b":
             book_rule = WebRule.BiqugeRule
-        elif current_book_type == "Baling" or current_book_type == "bl":
+        elif Vars.current_book_type == "Baling" or Vars.current_book_type == "bl":
             book_rule = WebRule.BalingRule
-        elif current_book_type == "Qbtr" or current_book_type == "q":
+        elif Vars.current_book_type == "Qbtr" or Vars.current_book_type == "q":
             book_rule = WebRule.QbtrRule
-        elif current_book_type == "Trxs" or current_book_type == "t":
+        elif Vars.current_book_type == "Trxs" or Vars.current_book_type == "t":
             book_rule = WebRule.TrxsRule
-        elif current_book_type == "popo" or current_book_type == "p":
+        elif Vars.current_book_type == "popo" or Vars.current_book_type == "p":
             book_rule = WebRule.PopoRule
-        elif current_book_type == "bilibili" or current_book_type == "bi":
+        elif Vars.current_book_type == "bilibili" or Vars.current_book_type == "bi":
             book_rule = WebRule.LinovelibRule
         else:
             raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
