@@ -28,12 +28,7 @@ def get(api_url: str, method: str = "GET", gbk: bool = False, params: dict = Non
         logger.error("response is None, api_url is {}\t\terror:{}".format(api_url, error))
 
 
-class Site:
-    class Xbookben:
-        host = "https://www.xbookben.net"
-        book_info_by_book_id = host + "/txt/{}.html"
-        book_info_by_keyword = host + "/search"
-
+class Site:  # 站点类
     class Linovel:
         host = "https://www.linovel.net"
         book_info_by_book_id = host + "/book/{}.html"
@@ -76,22 +71,23 @@ class Site:
         catalogue_info_by_book_id = host + "/novel/{}/catalog"  # 书籍信息
 
 
+def get_web_url(url: str):
+    return Vars.current_book_type + url.replace(Vars.current_book_type, "")
+
+
 class ResponseAPI:
     class Xbookben:
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return get(api_url=Site.Xbookben.book_info_by_book_id.format(book_id))
+            return get(api_url=get_web_url("/txt/{}.html".format(book_id)))
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
-            return get(api_url=Vars.current_book_type + chapter_url)
+            return get(api_url=get_web_url(chapter_url))
 
         @staticmethod
         def get_book_info_by_keyword(keyword: str):
-            response = get(
-                method="POST", params={"searchkey": keyword},
-                api_url=Site.Xbookben.book_info_by_keyword
-            )
+            response = get(method="POST", params={"searchkey": keyword}, api_url=get_web_url("/search"))
             return list(zip(
                 response.xpath(Vars.current_book_rule.Search.book_img),
                 response.xpath(Vars.current_book_rule.Search.book_name),
