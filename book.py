@@ -60,7 +60,7 @@ class Chapter:
 
     @property
     def content_page_html(self):
-        if Vars.current_book_type == "Xbookben":
+        if Vars.current_book_type == "https://www.xbookben.net":
             next_page = Vars.current_book_api.get_chapter_info_by_chapter_id(self.next_url)
             return self.chapter_page.xpath(Vars.current_book_rule.chapter_content) + next_page.xpath(
                 Vars.current_book_rule.chapter_content)

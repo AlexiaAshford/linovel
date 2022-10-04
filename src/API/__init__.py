@@ -1,17 +1,12 @@
-import constant
 from lxml import etree
 from .. import request
 from config import *
 import logging
 
-# Creating and Configuring Logger
-
-Log_Format = "%(levelname)s %(asctime)s - %(message)s"
-
 logging.basicConfig(
     filename="logfile.log",
     filemode="w",
-    format=Log_Format,
+    format="%(levelname)s %(asctime)s - %(message)s",
     level=logging.ERROR
 )
 
@@ -33,21 +28,69 @@ def get(api_url: str, method: str = "GET", gbk: bool = False, params: dict = Non
         logger.error("response is None, api_url is {}\t\terror:{}".format(api_url, error))
 
 
+class Site:
+    class Xbookben:
+        host = "https://www.xbookben.net"
+        book_info_by_book_id = host + "/txt/{}.html"
+        book_info_by_keyword = host + "/search"
+
+    class Linovel:
+        host = "https://www.linovel.net"
+        book_info_by_book_id = host + "/book/{}.html"
+        book_info_by_keyword = host + "/search/"
+
+    class Dingdian:
+        host = "https://www.ddyueshu.com/"
+
+    class Boluobao:
+        host = "https://book.sfacg.com"
+        book_info_by_book_id = host + "/Novel/{}/"
+        catalogue_info_by_book_id = host + "/Novel/{}/MainIndex/"
+        book_info_by_keyword = "https://s.sfacg.com/"
+
+    class Biquge:
+        host = "https://www.qu-la.com"
+        book_info_by_book_id = host + "/booktxt/"
+
+    class Baling:
+        host = "http://www.80zw.net"
+        book_info_by_book_id = host + "/article/"
+        book_info_by_chapter_id = host + "/article/{}/{}"
+
+    class Qbtr:
+        host = "https://www.qbtr.cc"
+        book_info_by_book_id = host + "/changgui/{}.html"  # 书籍信息
+
+    class Trxs:
+        host = "http://trxs.cc"
+        book_info_by_book_id = host + "/tongren/{}.html"  # 书籍信息
+
+    class Popo:
+        host = "https://www.popo.tw"
+        book_info_by_book_id = host + "/books/"  # 书籍信息
+        catalogue_info_by_book_id = host + "/books/{}/articles"  # 书籍信息
+
+    class Linovelib:
+        host = "https://www.linovelib.com"
+        book_info_by_book_id = host + "/novel/{}.html"  # 书籍信息
+        catalogue_info_by_book_id = host + "/novel/{}/catalog"  # 书籍信息
+
+
 class ResponseAPI:
     class Xbookben:
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return get(api_url=constant.url.Site.Xbookben.book_info_by_book_id.format(book_id))
+            return get(api_url=Site.Xbookben.book_info_by_book_id.format(book_id))
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
-            return get(api_url=constant.url.Site.Xbookben.host + chapter_url)
+            return get(api_url=Vars.current_book_type + chapter_url)
 
         @staticmethod
         def get_book_info_by_keyword(keyword: str):
             response = get(
                 method="POST", params={"searchkey": keyword},
-                api_url=constant.url.Site.Xbookben.book_info_by_keyword
+                api_url=Site.Xbookben.book_info_by_keyword
             )
             return list(zip(
                 response.xpath(Vars.current_book_rule.Search.book_img),
@@ -59,17 +102,17 @@ class ResponseAPI:
 
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return get(constant.url.Site.Linovel.book_info_by_book_id.format(book_id))
+            return get(Site.Linovel.book_info_by_book_id.format(book_id))
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
-            return get(api_url=constant.url.Site.Linovel.host + chapter_url)
+            return get(api_url=Vars.current_book_type + chapter_url)
 
         @staticmethod
         def get_book_info_by_keyword(keyword: str, page: int = 1):
             params = {'kw': keyword} if page < 2 else {
                 'kw': keyword, 'page': page, 'sort': 'hot', 'target': 'complex', 'mio': 1, 'ua': 'Mozilla/5.0'}
-            response = get(api_url=constant.url.Site.Linovel.book_info_by_keyword, params=params)
+            response = get(api_url=Site.Linovel.book_info_by_keyword, params=params)
 
             return list(zip(
                 response.xpath(Vars.current_book_rule.Search.book_img),
@@ -80,29 +123,29 @@ class ResponseAPI:
     class Dingdian:
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return get(api_url=constant.url.Site.Dingdian.host + book_id, gbk=True)
+            return get(api_url=Site.Dingdian.host + book_id, gbk=True)
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url):
-            return get(api_url=constant.url.Site.Dingdian.host + chapter_url, gbk=True)
+            return get(api_url=Site.Dingdian.host + chapter_url, gbk=True)
 
     class Boluobao:
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return get(api_url=constant.url.Site.Boluobao.book_info_by_book_id.format(book_id))
+            return get(api_url=Site.Boluobao.book_info_by_book_id.format(book_id))
 
         @staticmethod
         def get_catalogue_info_by_book_id(book_id: str):
-            return get(api_url=constant.url.Site.Boluobao.catalogue_info_by_book_id.format(book_id))
+            return get(api_url=Site.Boluobao.catalogue_info_by_book_id.format(book_id))
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
-            return get(api_url=constant.url.Site.Boluobao.host + chapter_url)
+            return get(api_url=Site.Boluobao.host + chapter_url)
 
         @staticmethod
         def get_book_info_by_keyword(keyword: str):
             response = get(params={"Key": keyword, "S": 1, "SS": 0},
-                           api_url=constant.url.Site.Boluobao.book_info_by_keyword)
+                           api_url=Site.Boluobao.book_info_by_keyword)
             print(response.xpath(Vars.current_book_rule.Search.book_id))
             for i in response.xpath(Vars.current_book_rule.Search.book_id):
                 print(i)
@@ -116,67 +159,67 @@ class ResponseAPI:
 
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return get(api_url=constant.url.Site.Biquge.book_info_by_book_id + book_id, gbk=True)
+            return get(api_url=Site.Biquge.book_info_by_book_id + book_id, gbk=True)
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
-            return get(api_url=constant.url.Site.Biquge.host + chapter_url, gbk=True)
+            return get(api_url=Site.Biquge.host + chapter_url, gbk=True)
 
     class Baling:
 
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return get(api_url=constant.url.Site.Baling.book_info_by_book_id + book_id, gbk=True)
+            return get(api_url=Site.Baling.book_info_by_book_id + book_id, gbk=True)
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
-            api_url = constant.url.Site.Baling.book_info_by_chapter_id
+            api_url = Site.Baling.book_info_by_chapter_id
             return get(api_url=api_url.format(Vars.current_book.book_id, chapter_url), gbk=True)
 
     class Qbtr:
 
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return get(api_url=constant.url.Site.Qbtr.book_info_by_book_id.format(book_id), gbk=True)
+            return get(api_url=Site.Qbtr.book_info_by_book_id.format(book_id), gbk=True)
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
-            return get(api_url=constant.url.Site.Qbtr.host + chapter_url, gbk=True)
+            return get(api_url=Site.Qbtr.host + chapter_url, gbk=True)
 
     class Trxs:
 
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return get(api_url=constant.url.Site.Trxs.book_info_by_book_id.format(book_id), gbk=True)
+            return get(api_url=Site.Trxs.book_info_by_book_id.format(book_id), gbk=True)
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
-            return get(api_url=constant.url.Site.Trxs.host + chapter_url, gbk=True)
+            return get(api_url=Site.Trxs.host + chapter_url, gbk=True)
 
     class Popo:
 
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return get(api_url=constant.url.Site.Popo.book_info_by_book_id + book_id)
+            return get(api_url=Site.Popo.book_info_by_book_id + book_id)
 
         @staticmethod
         def get_catalogue_info_by_book_id(book_id: str):
-            return get(api_url=constant.url.Site.Popo.catalogue_info_by_book_id.format(book_id))
+            return get(api_url=Site.Popo.catalogue_info_by_book_id.format(book_id))
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
-            return get(api_url=constant.url.Site.Popo.host + chapter_url)
+            return get(api_url=Site.Popo.host + chapter_url)
 
     class Linovelib:
 
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return get(api_url=constant.url.Site.Linovelib.book_info_by_book_id.format(book_id))
+            return get(api_url=Site.Linovelib.book_info_by_book_id.format(book_id))
 
         @staticmethod
         def get_catalogue_info_by_book_id(book_id: str):
-            return get(api_url=constant.url.Site.Linovelib.catalogue_info_by_book_id.format(book_id))
+            return get(api_url=Site.Linovelib.catalogue_info_by_book_id.format(book_id))
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
-            return get(api_url=constant.url.Site.Linovelib.host + chapter_url)
+            return get(api_url=Site.Linovelib.host + chapter_url)
