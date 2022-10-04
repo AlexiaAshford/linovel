@@ -44,11 +44,6 @@ class Site:  # 站点类 用于存储站点信息
         book_info_by_book_id = host + "/books/"  # 书籍信息
         catalogue_info_by_book_id = host + "/books/{}/articles"  # 书籍信息
 
-    class Linovelib:
-        host = "https://www.linovelib.com"
-        book_info_by_book_id = host + "/novel/{}.html"  # 书籍信息
-        catalogue_info_by_book_id = host + "/novel/{}/catalog"  # 书籍信息
-
 
 def get_web_url(url: str):
     if url[0] != "/":
@@ -189,12 +184,12 @@ class ResponseAPI:
 
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return get(api_url=Site.Linovelib.book_info_by_book_id.format(book_id))
+            return get(api_url=get_web_url("/novel/{}.html".format(book_id)))
 
         @staticmethod
         def get_catalogue_info_by_book_id(book_id: str):
-            return get(api_url=Site.Linovelib.catalogue_info_by_book_id.format(book_id))
+            return get(api_url=get_web_url("/novel/{}/catalog".format(book_id)))
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
-            return get(api_url=Site.Linovelib.host + chapter_url)
+            return get(api_url=get_web_url(chapter_url))

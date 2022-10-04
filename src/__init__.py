@@ -55,13 +55,16 @@ def get_book_information_template(book_id: str):  # return book info json
     elif Vars.current_book_type == "popo":
         catalogue = Vars.current_book_api.get_catalogue_info_by_book_id(book_id)
         chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list)]
-    elif Vars.current_book_type == "bilibili":
-        catalogue = Vars.current_book_api.get_catalogue_info_by_book_id(book_id)
-        chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list)]
+    elif Vars.current_book_type == "https://www.linovelib.com":
+        chapter_url_list = [
+            chapter_url for chapter_url in Vars.current_book_api.get_catalogue_info_by_book_id(book_id).xpath(
+                Vars.current_book_rule.chapter_url_list) if "novel" in chapter_url
+        ]
     else:
         chapter_url_list = [i for i in current_book_info_html.xpath(Vars.current_book_rule.chapter_url_list)]
         if Vars.current_book_type == "https://www.ddyueshu.com":
             chapter_url_list = chapter_url_list[6:]  # del first 6 chapter, because the first 6 chapter is not ordered
+
     if not chapter_url_list:
         print("目录请求失败")
         return get_book_information_template(book_id)

@@ -33,7 +33,7 @@ def set_up_web():
     elif Vars.current_book_type == "popo":
         book_api = API.ResponseAPI.Popo
         book_rule = constant.rule.WebRule.PopoRule
-    elif Vars.current_book_type == "bilibili":
+    elif Vars.current_book_type == "https://www.linovelib.com":
         book_api = API.ResponseAPI.Linovelib
         book_rule = constant.rule.WebRule.LinovelibRule
     else:
@@ -44,7 +44,7 @@ def set_up_web():
 def set_up_app_type(current_book_type: str = "0"):  # set up app type and book type
     book_type_dict = {
         '0': 'https://www.linovel.net', '1': 'https://www.ddyueshu.com', '2': 'https://www.xbookben.net',
-        '3': 'sfacg', '4': 'bilibili', '5': 'https://www.qbtr.cc',
+        '3': 'sfacg', '4': 'https://www.linovelib.com', '5': 'https://www.qbtr.cc',
         '6': 'http://trxs.cc', '7': 'popo', '8': 'http://www.80zw.net', '9': 'https://www.qu-la.com'
     }
     if book_type_dict.get(current_book_type):
