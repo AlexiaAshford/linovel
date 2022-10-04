@@ -28,11 +28,7 @@ def get(api_url: str, method: str = "GET", gbk: bool = False, params: dict = Non
         logger.error("response is None, api_url is {}\t\terror:{}".format(api_url, error))
 
 
-class Site:  # 站点类
-
-    class Dingdian:
-        host = "https://www.ddyueshu.com/"
-
+class Site:  # 站点类 用于存储站点信息
     class Boluobao:
         host = "https://book.sfacg.com"
         book_info_by_book_id = host + "/Novel/{}/"
@@ -68,6 +64,8 @@ class Site:  # 站点类
 
 
 def get_web_url(url: str):
+    if url[0] != "/":
+        url = "/" + url
     return Vars.current_book_type + url.replace(Vars.current_book_type, "")
 
 
@@ -115,11 +113,11 @@ class ResponseAPI:
     class Dingdian:
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return get(api_url=Site.Dingdian.host + book_id, gbk=True)
+            return get(api_url=get_web_url(book_id), gbk=True)
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url):
-            return get(api_url=Site.Dingdian.host + chapter_url, gbk=True)
+            return get(api_url=get_web_url(chapter_url), gbk=True)
 
     class Boluobao:
         @staticmethod

@@ -6,7 +6,7 @@ from config import *
 
 def set_up_web():
     import constant
-    if Vars.current_book_type == "Dingdian":
+    if Vars.current_book_type == "https://www.ddyueshu.com":
         book_api = API.ResponseAPI.Dingdian
         book_rule = constant.rule.WebRule.DingdianRule
     elif Vars.current_book_type == "https://www.xbookben.net":
@@ -43,7 +43,7 @@ def set_up_web():
 
 def set_up_app_type(current_book_type: str = "0"):  # set up app type and book type
     book_type_dict = {
-        '0': 'https://www.linovel.net', '1': 'Dingdian', '2': 'https://www.xbookben.net',
+        '0': 'https://www.linovel.net', '1': 'https://www.ddyueshu.com', '2': 'https://www.xbookben.net',
         '3': 'sfacg', '4': 'Baling', '5': 'Qbtr',
         '6': 'Trxs', '7': 'popo', '8': 'bilibili'
     }

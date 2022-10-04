@@ -60,7 +60,7 @@ def get_book_information_template(book_id: str):  # return book info json
         chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list)]
     else:
         chapter_url_list = [i for i in current_book_info_html.xpath(Vars.current_book_rule.chapter_url_list)]
-        if Vars.current_book_type == "Dingdian":
+        if Vars.current_book_type == "https://www.ddyueshu.com":
             chapter_url_list = chapter_url_list[6:]  # del first 6 chapter, because the first 6 chapter is not ordered
     if not chapter_url_list:
         print("目录请求失败")
