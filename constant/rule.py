@@ -183,9 +183,22 @@ class WebRule:
         chapter_title = '//*[@id="readmask"]/div/h2/text()'
         chapter_content = '//*[@id="readmask"]/div/p/text()'
 
-
         # chapter_cover = ''
         class Search:
             book_name = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@alt'
             book_img = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@src'
             book_id = '/html/body/div[4]/div[3]/div[1]/a/@href'
+
+    class LinovelibRule:
+        book_img = '/html/body/div[2]/div[3]/div[1]/div[1]/div[1]/img/@src'
+        book_name = '/html/body/div[2]/div[3]/div[1]/div[1]/div[2]/h1/text()'
+        book_author = '/html/body/div[2]/div[3]/div[2]/div[1]/div[2]/a/text()'
+        chapter_url_list = '/html/body/div[2]/div[3]/div[2]/div[2]/div/ul/li/a/@href'
+        book_state = '/html/body/div[2]/div[3]/div[1]/div[1]/div[2]/div[1]/a[1]/text()'
+        book_label = '/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[2]/span/text()'
+        book_intro = '/html/body/div[2]/div[3]/div[1]/div[1]/div[2]/div[3]/p/text()'
+        last_chapter_title = '/html/body/div[2]/div[3]/div[1]/div[2]/div[1]/a/text()'
+        book_words = '/html/body/div[2]/div[3]/div[1]/div[1]/div[2]/div[2]/span[2]/i/text()'
+        book_update_time = '/html/body/div[2]/div[3]/div[1]/div[1]/div[2]/div[2]/span[1]/i/text()'
+        chapter_title = '//*[@id="mlfy_main_text"]/h1/text()'
+        chapter_content = '//*[@id="TextContent"]/p/text()'
