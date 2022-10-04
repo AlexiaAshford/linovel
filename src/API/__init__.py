@@ -29,10 +29,6 @@ def get(api_url: str, method: str = "GET", gbk: bool = False, params: dict = Non
 
 
 class Site:  # 站点类
-    class Linovel:
-        host = "https://www.linovel.net"
-        book_info_by_book_id = host + "/book/{}.html"
-        book_info_by_keyword = host + "/search/"
 
     class Dingdian:
         host = "https://www.ddyueshu.com/"
@@ -98,18 +94,18 @@ class ResponseAPI:
 
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return get(Site.Linovel.book_info_by_book_id.format(book_id))
+            return get(api_url=get_web_url("/book/{}.html".format(book_id)))
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
-            return get(api_url=Vars.current_book_type + chapter_url)
+            return get(api_url=get_web_url(chapter_url))
 
         @staticmethod
         def get_book_info_by_keyword(keyword: str, page: int = 1):
-            params = {'kw': keyword} if page < 2 else {
-                'kw': keyword, 'page': page, 'sort': 'hot', 'target': 'complex', 'mio': 1, 'ua': 'Mozilla/5.0'}
-            response = get(api_url=Site.Linovel.book_info_by_keyword, params=params)
-
+            params = {'kw': keyword}
+            if page > 1:
+                params.update({'page': page, 'sort': 'hot', 'target': 'complex', 'mio': 1, 'ua': 'Mozilla/5.0'})
+            response = get(api_url=get_web_url("/search/"), params=params)  # get search result page
             return list(zip(
                 response.xpath(Vars.current_book_rule.Search.book_img),
                 response.xpath(Vars.current_book_rule.Search.book_name),
