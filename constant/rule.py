@@ -4,25 +4,25 @@ from config import *
 class WebRule:
     @staticmethod
     def set_up_rule():
-        if Vars.current_book_type == "Xbookben" or Vars.current_book_type == "x":
+        if Vars.current_book_type == "Xbookben":
             book_rule = WebRule.XbookbenRule
-        elif Vars.current_book_type == "Dingdian" or Vars.current_book_type == "d":
+        elif Vars.current_book_type == "Dingdian":
             book_rule = WebRule.DingdianRule
-        elif Vars.current_book_type == "Linovel" or Vars.current_book_type == "l":
+        elif Vars.current_book_type == "Linovel":
             book_rule = WebRule.LinovelRule
-        elif Vars.current_book_type == "sfacg" or Vars.current_book_type == "s":
+        elif Vars.current_book_type == "sfacg":
             book_rule = WebRule.BoluobaoRule
-        elif Vars.current_book_type == "Biquge" or Vars.current_book_type == "b":
+        elif Vars.current_book_type == "Biquge":
             book_rule = WebRule.BiqugeRule
-        elif Vars.current_book_type == "Baling" or Vars.current_book_type == "bl":
+        elif Vars.current_book_type == "Baling":
             book_rule = WebRule.BalingRule
-        elif Vars.current_book_type == "Qbtr" or Vars.current_book_type == "q":
+        elif Vars.current_book_type == "Qbtr":
             book_rule = WebRule.QbtrRule
-        elif Vars.current_book_type == "Trxs" or Vars.current_book_type == "t":
+        elif Vars.current_book_type == "Trxs":
             book_rule = WebRule.TrxsRule
-        elif Vars.current_book_type == "popo" or Vars.current_book_type == "p":
+        elif Vars.current_book_type == "popo":
             book_rule = WebRule.PopoRule
-        elif Vars.current_book_type == "bilibili" or Vars.current_book_type == "bi":
+        elif Vars.current_book_type == "bilibili":
             book_rule = WebRule.LinovelibRule
         else:
             raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"

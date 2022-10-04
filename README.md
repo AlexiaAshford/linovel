@@ -8,6 +8,7 @@
 | 菠萝包    | www.book.sfacg.com | ✅    | ✅    |
 | 全本同人小说 | www.qbtr.cc        | ❌    | ❌    | 
 | 同人小说网  | www.trxs.cc        | ❌    | ❌    | 
+| 哔哩轻小说  | www.linovelib.com  | ❌    | ✅    |  
 | 书本网站   | www.xbookben.net   | ❌    | ✅    |
 
 ## command line
@@ -22,10 +23,14 @@
 
 ```
 
-## planned development
+[//]: # (## planned development)
 
-| 站点名称  | 网址                | 是否正版 | 插图下载 |
-|-------|-------------------|------|------|
-| 哔哩轻小说 | www.linovelib.com | ❌    | ✅    |  
+[//]: # ()
+[//]: # (| 站点名称  | 网址                | 是否正版 | 插图下载 |)
 
+[//]: # (|-------|-------------------|------|------|)
+
+[//]: # (| 哔哩轻小说 | www.linovelib.com | ❌    | ✅    |  )
+
+[//]: # ()
 ## _Thank you for [edmund-zhao](https://github.com/edmund-zhao/les-novel) contribution._
