@@ -24,7 +24,7 @@ def set_up_web():
     elif Vars.current_book_type == "http://www.80zw.net":
         book_api = API.ResponseAPI.Baling
         book_rule = constant.rule.WebRule.BalingRule
-    elif Vars.current_book_type == "Qbtr":
+    elif Vars.current_book_type == "https://www.qbtr.cc":
         book_api = API.ResponseAPI.Qbtr
         book_rule = constant.rule.WebRule.QbtrRule
     elif Vars.current_book_type == "Trxs":
@@ -44,10 +44,15 @@ def set_up_web():
 def set_up_app_type(current_book_type: str = "0"):  # set up app type and book type
     book_type_dict = {
         '0': 'https://www.linovel.net', '1': 'https://www.ddyueshu.com', '2': 'https://www.xbookben.net',
-        '3': 'sfacg', '4': 'bilibili', '5': 'Qbtr',
+        '3': 'sfacg', '4': 'bilibili', '5': 'https://www.qbtr.cc',
         '6': 'Trxs', '7': 'popo', '8': 'http://www.80zw.net', '9': 'https://www.qu-la.com'
     }
     if book_type_dict.get(current_book_type):
+        if current_book_type == "5" or current_book_type == "6":
+            print("index:1\t\t常规小说\nindex:2\t\t同人小说")
+            Vars.current_book_classify_name = {"1": "changgui", "2": "tongren"}.get(
+                get("please input your classify index:").strip()
+            )
         Vars.current_book_type = book_type_dict.get(current_book_type)
         Vars.current_book_api, Vars.current_book_rule = set_up_web()
         print("已设置为", Vars.current_book_type, "小说下载")

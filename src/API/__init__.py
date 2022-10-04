@@ -35,10 +35,6 @@ class Site:  # 站点类 用于存储站点信息
         catalogue_info_by_book_id = host + "/Novel/{}/MainIndex/"
         book_info_by_keyword = "https://s.sfacg.com/"
 
-    class Qbtr:
-        host = "https://www.qbtr.cc"
-        book_info_by_book_id = host + "/changgui/{}.html"  # 书籍信息
-
     class Trxs:
         host = "http://trxs.cc"
         book_info_by_book_id = host + "/tongren/{}.html"  # 书籍信息
@@ -159,11 +155,11 @@ class ResponseAPI:
     class Qbtr:
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return get(api_url=Site.Qbtr.book_info_by_book_id.format(book_id), gbk=True)
+            return get(api_url=get_web_url("/{}/{}.html".format(Vars.current_book_classify_name, book_id)), gbk=True)
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
-            return get(api_url=Site.Qbtr.host + chapter_url, gbk=True)
+            return get(api_url=get_web_url(chapter_url), gbk=True)
 
     class Trxs:
 

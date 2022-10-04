@@ -62,6 +62,7 @@ class Vars:
     current_book = None
     current_epub = None
     current_book_type = None
+    current_book_classify_name = None
     current_book_rule = None
     current_book_api = None
 
