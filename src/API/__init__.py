@@ -176,3 +176,17 @@ class ResponseAPI:
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
             return get(api_url=constant.url.Site.Popo.host + chapter_url)
+
+    class Linovelib:
+
+        @staticmethod
+        def get_book_info_by_book_id(book_id: str):
+            return get(api_url=constant.url.Site.Linovelib.book_info_by_book_id.format(book_id))
+
+        @staticmethod
+        def get_catalogue_info_by_book_id(book_id: str):
+            return get(api_url=constant.url.Site.Linovelib.catalogue_info_by_book_id.format(book_id))
+
+        @staticmethod
+        def get_chapter_info_by_chapter_id(chapter_url: str):
+            return get(api_url=constant.url.Site.Linovelib.host + chapter_url)

@@ -19,6 +19,8 @@ class WebRule:
             book_rule = WebRule.TrxsRule
         elif current_book_type == "popo" or current_book_type == "p":
             book_rule = WebRule.PopoRule
+        elif current_book_type == "bilibili" or current_book_type == "bi":
+            book_rule = WebRule.LinovelibRule
         else:
             raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
         return book_rule

@@ -39,3 +39,8 @@ class Site:
         host = "https://www.popo.tw"
         book_info_by_book_id = host + "/books/"  # 书籍信息
         catalogue_info_by_book_id = host + "/books/{}/articles"  # 书籍信息
+
+    class Linovelib:
+        host = "https://www.linovelib.com"
+        book_info_by_book_id = host + "novel/{}.html"  # 书籍信息
+        catalogue_info_by_book_id = host + "/novel/{}/catalog"  # 书籍信息
