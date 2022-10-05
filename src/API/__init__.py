@@ -76,7 +76,7 @@ class ResponseAPI:
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
-            return src.http_utils.get(api_url=Site.Boluobao.host + chapter_url)
+            return src.http_utils.get(api_url=get_web_url(chapter_url))
 
         @staticmethod
         def get_book_info_by_keyword(keyword: str):
@@ -136,11 +136,11 @@ class ResponseAPI:
 
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return src.http_utils.get(api_url=Site.Popo.book_info_by_book_id + book_id)
+            return src.http_utils.get(api_url=get_web_url("/books/" + book_id))
 
         @staticmethod
         def get_catalogue_info_by_book_id(book_id: str):
-            return src.http_utils.get(api_url=Site.Popo.catalogue_info_by_book_id.format(book_id))
+            return src.http_utils.get(api_url=get_web_url("/books/{}/articles".format(book_id)))
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):

@@ -43,7 +43,7 @@ def request(api_url: str, method: str = "GET", params: dict = None, gbk: bool = 
         "Accept-Encoding": "gzip, deflate",
         "Connection": "keep-alive",
     }
-    if Vars.current_book_type == "popo":
+    if Vars.current_book_type == "https://www.popo.tw":
         if Vars.cfg.data['popo_cookie'] == "":
             print("popo cookie is empty,you need to set it in config.json")
         else:
