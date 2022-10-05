@@ -3,16 +3,6 @@ from config import *
 
 
 class Site:  # 站点类 用于存储站点信息
-    class Boluobao:
-        host = "https://book.sfacg.com"
-        book_info_by_book_id = host + "/Novel/{}/"
-        catalogue_info_by_book_id = host + "/Novel/{}/MainIndex/"
-        book_info_by_keyword = "https://s.sfacg.com/"
-
-    class Trxs:
-        host = "http://trxs.cc"
-        book_info_by_book_id = host + "/tongren/{}.html"  # 书籍信息
-
     class Popo:
         host = "https://www.popo.tw"
         book_info_by_book_id = host + "/books/"  # 书籍信息
@@ -78,11 +68,11 @@ class ResponseAPI:
     class Boluobao:
         @staticmethod
         def get_book_info_by_book_id(book_id: str):
-            return src.http_utils.get(api_url=Site.Boluobao.book_info_by_book_id.format(book_id))
+            return src.http_utils.get(api_url=get_web_url("/Novel/{}/".format(book_id)))
 
         @staticmethod
         def get_catalogue_info_by_book_id(book_id: str):
-            return src.http_utils.get(api_url=Site.Boluobao.catalogue_info_by_book_id.format(book_id))
+            return src.http_utils.get(api_url=get_web_url("/Novel/{}/MainIndex/".format(book_id)))
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
@@ -90,9 +80,7 @@ class ResponseAPI:
 
         @staticmethod
         def get_book_info_by_keyword(keyword: str):
-            response = src.http_utils.get(
-                params={"Key": keyword, "S": 1, "SS": 0}, api_url=Site.Boluobao.book_info_by_keyword
-            )
+            response = src.http_utils.get(params={"Key": keyword, "S": 1, "SS": 0}, api_url="https://s.sfacg.com/")
             # print(response.xpath(Vars.current_book_rule.Search.book_id))
             # for i in response.xpath(Vars.current_book_rule.Search.book_id):
             #     print(i)

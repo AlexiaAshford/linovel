@@ -1,8 +1,8 @@
-from concurrent.futures import ThreadPoolExecutor
 import Epub
 import src
 from config import *
 from tqdm import tqdm
+from concurrent.futures import ThreadPoolExecutor
 
 
 class Book:
@@ -86,7 +86,8 @@ class Chapter:
             content = src.decodes.decode_content_text(content)  # decode content text
         for delete_info in [
             "&amp;", "amp;", "lt;", "gt;", "一秒记住【八零中文网 www.80zw.net】，精彩小说无弹窗免费阅读！"
-            "<br>", "<br/>", "<br />", "<p>", "</p>", "<div>", "</div>", "<span>", "</span>", "<strong>", "</strong>",
+                                           "<br>", "<br/>", "<br />", "<p>", "</p>", "<div>", "</div>", "<span>",
+            "</span>", "<strong>", "</strong>",
         ]:
             content = re.sub(delete_info, '', content)
         return content
@@ -160,7 +161,7 @@ class BookConfig(Book):
     def multi_thread_download_book(self) -> None:
         with ThreadPoolExecutor(max_workers=Vars.cfg.data.get('max_thread')) as executor:
             for index, chapter_url in enumerate(self.chapter_url_list, start=1):
-                if Vars.current_book_type == "sfacg" and "vip/c" in chapter_url:
+                if Vars.current_book_type == "https://book.sfacg.com" and "vip/c" in chapter_url:
                     continue  # sfacg web vip chapter is images, not support download
                 if self.test_config_chapter(chapter_url):
                     continue  # chapter already downloaded
