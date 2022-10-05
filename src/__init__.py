@@ -1,5 +1,6 @@
 import requests
 from config import *
+from .decodes import decode_content_text
 import fake_useragent
 from tenacity import *
 
