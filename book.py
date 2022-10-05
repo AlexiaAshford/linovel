@@ -83,7 +83,7 @@ class Chapter:
     def standard_content(self) -> str:  # return a standard content
         content = "\n".join(self.content)
         if Vars.current_book_type == "https://www.linovelib.com":
-            content = src.decode_content_text(content)  # decode content text
+            content = src.decodes.decode_content_text(content)  # decode content text
         for delete_info in [
             "&amp;", "amp;", "lt;", "gt;", "一秒记住【八零中文网 www.80zw.net】，精彩小说无弹窗免费阅读！"
             "<br>", "<br/>", "<br />", "<p>", "</p>", "<div>", "</div>", "<span>", "</span>", "<strong>", "</strong>",

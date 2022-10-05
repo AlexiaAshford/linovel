@@ -1,38 +1,5 @@
-import requests
 from config import *
-from .decodes import decode_content_text
-import fake_useragent
-from tenacity import *
-
-__all__ = ["API", "request", "get_book_information_template"]
-
-session = requests.Session()
-
-
-@retry(stop=stop_after_attempt(4))
-def request(api_url: str, method: str = "GET", params: dict = None, gbk: bool = False):
-    headers = {
-        "User-Agent": fake_useragent.UserAgent().random,
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9",
-        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-        "Accept-Encoding": "gzip, deflate",
-        "Connection": "keep-alive",
-    }
-    if Vars.current_book_type == "popo":
-        if Vars.cfg.data['popo_cookie'] == "":
-            print("popo cookie is empty,you need to set it in config.json")
-        else:
-            headers["cookie"] = Vars.cfg.data['popo_cookie']
-    if method == "GET":
-        response = session.request(url=api_url, method="GET", params=params, headers=headers)
-    else:
-        response = session.request(url=api_url, method=method, data=params, headers=headers)
-    if gbk is True:
-        response.encoding = 'gbk'
-    else:
-        response.encoding = 'utf-8'
-    if response.status_code == 200:
-        return response
+from . import decodes, API
 
 
 def get_book_information_template(book_id: str):  # return book info json
