@@ -91,14 +91,14 @@ def shell_console(inputs: list):
         response = Vars.current_book_api.get_book_info_by_keyword(inputs[1]) if len(inputs) >= 2 else []
         if len(response) > 0:
             for index, i in enumerate(response):
-                print("index", index, "\t\tbook name:", i[1])
+                print("index", index, "\t\tbook name:", i[0])
             print("please input index to download book, example: 0")
             while True:
                 index = get(">").strip()
                 if index == "q" or index == "quit":
                     break
                 if index.isdigit() and int(index) < len(response):
-                    book_id = re.findall(r"(\d+)", response[int(index)][2])[0]
+                    book_id = re.findall(r"(\d+)", response[int(index)][1])[0]
                     shell_console(["d", book_id])
                 else:
                     print("[error] index not found")

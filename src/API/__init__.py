@@ -22,7 +22,6 @@ class ResponseAPI:
         def get_book_info_by_keyword(keyword: str):
             response = src.http_utils.get(method="POST", params={"searchkey": keyword}, api_url=get_web_url("/search"))
             return list(zip(
-                response.xpath(Vars.current_book_rule.Search.book_img),
                 response.xpath(Vars.current_book_rule.Search.book_name),
                 response.xpath(Vars.current_book_rule.Search.book_id)
             ))
