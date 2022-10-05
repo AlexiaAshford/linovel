@@ -2,13 +2,6 @@ import src.http_utils
 from config import *
 
 
-class Site:  # 站点类 用于存储站点信息
-    class Popo:
-        host = "https://www.popo.tw"
-        book_info_by_book_id = host + "/books/"  # 书籍信息
-        catalogue_info_by_book_id = host + "/books/{}/articles"  # 书籍信息
-
-
 def get_web_url(url: str):
     if url[0] != "/":
         url = "/" + url
@@ -144,7 +137,7 @@ class ResponseAPI:
 
         @staticmethod
         def get_chapter_info_by_chapter_id(chapter_url: str):
-            return src.http_utils.get(api_url=Site.Popo.host + chapter_url)
+            return src.http_utils.get(api_url=get_web_url(chapter_url))
 
     class Linovelib:
 
