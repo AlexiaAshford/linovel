@@ -12,5 +12,12 @@
     "book_update_time": "//*[@id=\"info\"]/p[3]/text()",
     "chapter_title": "//div[@class=\"bookname\"]/h1/text()",
     "chapter_content": "//*[@id=\"content\"]/text()"
+  },
+  "url": {
+    "host_site": "https://www.ddyueshu.com",
+    "book_info": "/{}",
+    "chapter_info": "",
+    "search_info": "",
+    "catalogue_info": ""
   }
 }

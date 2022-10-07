@@ -12,5 +12,12 @@
     "book_update_time": "/html/body/div[3]/div[2]/div[1]/div[5]/div[2]/div[3]/div[2]/div[1]/small/text()",
     "chapter_title": "//div[@class=\"article-title\"]/text()",
     "chapter_content": "//div[@class=\"article-text\"]/p/text()"
+  },
+  "url": {
+    "host_site": "https://www.linovel.net",
+    "book_info": "/book/{}.html",
+    "chapter_info": "",
+    "search_info": "/search",
+    "catalogue_info": ""
   }
 }
