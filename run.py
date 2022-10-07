@@ -8,17 +8,19 @@ def get_book_source():
     import json
     file_name = Vars.current_book_type.split(".")[-2]
     with open(f"./book_source/{file_name}.json", "r", encoding="utf-8") as f:
-        return json.loads(f.read()).get("data")
+        return json.loads(f.read())
 
 
 def set_up_web():
     import constant
+    book_source = get_book_source()
+    Vars.current_book_rul_rule = book_source.get("url")
     if Vars.current_book_type == "https://www.ddyueshu.com":
         book_api = API.ResponseAPI.Dingdian
     elif Vars.current_book_type == "https://www.xbookben.net":
-        book_api = API.ResponseAPI.Xbookben
+        book_api = API.Response
     elif Vars.current_book_type == "https://www.linovel.net":
-        book_api = API.ResponseAPI.Linovel
+        book_api = API.Response
     elif Vars.current_book_type == "https://book.sfacg.com":
         book_api = API.ResponseAPI.Boluobao
     elif Vars.current_book_type == "https://www.qu-la.com":
@@ -35,7 +37,7 @@ def set_up_web():
         book_api = API.ResponseAPI.Linovelib
     else:
         raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
-    return book_api, constant.rule.NovelRule(get_book_source())
+    return book_api, constant.rule.NovelRule(book_source.get("data"))
 
 
 def set_up_app_type(current_book_type: str = "0"):  # set up app type and book type

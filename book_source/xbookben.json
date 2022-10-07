@@ -16,7 +16,7 @@
   "url": {
     "host_site": "https://www.xbookben.net",
     "book_info": "https://www.xbookben.net/txt/{}.html",
-    "chapter_info": "https://www.xbookben.net/{}",
+    "chapter_info": "https://www.xbookben.net{}",
     "search_info": "https://www.xbookben.net/search",
     "catalogue_info": ""
   }
