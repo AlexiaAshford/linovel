@@ -1,0 +1,14 @@
+{
+  "book_img": "//*[@id=\"hasTicket\"]/div[1]/div/div[1]/a/img/@src",
+  "book_name": "/html/body/div[1]/div[4]/div/div[1]/div[1]/a[3]/text()",
+  "book_author": "/html/body/div[1]/div[5]/div/div[1]/div[2]/div[2]/div[2]/p[1]/text()",
+  "chapter_url_list": "/html/body/div[1]/div[3]/div/div/ul/li/a/@href",
+  "book_state": "/html/body/div[1]/div[3]/div/div/div[1]/div[1]/div[2]/div[1]/span[2]/text()",
+  "book_label": "/html/body/div[1]/div[4]/div/div[1]/ul/text()",
+  "book_intro": "/html/body/div[1]/div[4]/div/div[1]/div[2]/p/text()",
+  "last_chapter_title": "/html/body/div[1]/div[4]/div/div[1]/div[2]/h3/a/text()",
+  "book_words": "/html/body/div[1]/div[3]/div/div/div[1]/div[1]/div[2]/div[1]/span[2]/text()",
+  "book_update_time": "/html/body/div[1]/div[3]/div/div/div[1]/div[1]/div[2]/div[2]/span/text()",
+  "chapter_title": "//*[@id=\"article\"]/div[1]/h1/text()",
+  "chapter_content": "//*[@id=\"ChapterBody\"]/p/text()"
+}

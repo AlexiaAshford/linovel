@@ -1,0 +1,14 @@
+{
+  "book_img": "//*[@id=\"fengmian\"]/a/img/@src",
+  "book_name": "//*[@id=\"list\"]/div[1]/div[2]/h1/text()",
+  "book_author": "//*[@id=\"list\"]/div[1]/div[2]/span/text()",
+  "chapter_url_list": "//*[@id=\"list\"]/div[3]/ul[2]/li/a/@href",
+  "book_state": "//*[@id=\"list\"]/div[1]/div[2]/div[1]/span[2]/text()",
+  "book_label": "/html/body/div[1]/div[4]/div/div[1]/ul/text()",
+  "book_intro": "//*[@id=\"list\"]/div[1]/div[2]/div[2]/text()",
+  "last_chapter_title": "//*[@id=\"list\"]/div[2]/p[2]/a/text()",
+  "book_words": "/html/body/div[1]/div[3]/div/div/div[1]/div[1]/div[2]/div[1]/span[2]/text()",
+  "book_update_time": "//*[@id=\"list\"]/div[2]/p[2]/span/text()",
+  "chapter_title": "//*[@id=\"chapter-title\"]/h1/text()",
+  "chapter_content": "//*[@id=\"txt\"]/text()"
+}

@@ -1,0 +1,14 @@
+{
+  "book_img": "/html/body/div/div[2]/div/div/div[1]/span/img/@src",
+  "book_name": "/html/body/div/div[2]/div/div/div[2]/h1/text()",
+  "book_author": "/html/body/div/div[2]/div/div/div[2]/p/strong[1]/span/text()",
+  "chapter_url_list": "//*[@id=\"chapterList\"]/li/a/@href",
+  "book_state": "/html/body/div/div[2]/div/div/div[2]/p/strong[3]/span/text()",
+  "book_label": "/html/body/div/div[2]/div/div/div[2]/p/strong[2]/span/text()",
+  "book_intro": "/html/body/div/div[2]/div/div/div[2]/div[1]/p/text()",
+  "last_chapter_title": "//*[@id=\"Contents\"]/div[1]/p/a/text()",
+  "book_words": "/html/body/div/div[2]/div/div/div[2]/p/strong[4]/span/text()",
+  "book_update_time": "//*[@id=\"Contents\"]/div[1]/p/small/text()",
+  "chapter_title": "//*[@id=\"mlfy_main_text\"]/h1/text()",
+  "chapter_content": "//*[@id=\"TextContent\"]/p/text()"
+}
