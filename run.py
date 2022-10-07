@@ -16,15 +16,15 @@ def set_up_web():
     book_source = get_book_source()
     Vars.current_book_rul_rule = book_source.get("url")
     if Vars.current_book_type == "https://www.ddyueshu.com":
-        book_api = API.ResponseAPI.Dingdian
+        book_api = API.Response
     elif Vars.current_book_type == "https://www.xbookben.net":
         book_api = API.Response
     elif Vars.current_book_type == "https://www.linovel.net":
         book_api = API.Response
     elif Vars.current_book_type == "https://book.sfacg.com":
-        book_api = API.ResponseAPI.Boluobao
+        book_api = API.Response
     elif Vars.current_book_type == "https://www.qu-la.com":
-        book_api = API.ResponseAPI.Biquge
+        book_api = API.Response
     elif Vars.current_book_type == "http://www.80zw.net":
         book_api = API.ResponseAPI.Baling
     elif Vars.current_book_type == "https://www.qbtr.cc":
