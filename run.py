@@ -4,6 +4,12 @@ from src import *
 from config import *
 
 
+def get_book_source(file_name: str):
+    import json
+    with open(f"./book_source/{file_name}", "r", encoding="utf-8") as f:
+        return json.loads(f.read())
+
+
 def set_up_web():
     import constant
     if Vars.current_book_type == "https://www.ddyueshu.com":
@@ -11,7 +17,7 @@ def set_up_web():
         book_rule = constant.rule.WebRule.DingdianRule
     elif Vars.current_book_type == "https://www.xbookben.net":
         book_api = API.ResponseAPI.Xbookben
-        book_rule = constant.rule.WebRule.XbookbenRule
+        book_rule = constant.rule.NovelRule(get_book_source("xbookben.json"))
     elif Vars.current_book_type == "https://www.linovel.net":
         book_api = API.ResponseAPI.Linovel
         book_rule = constant.rule.WebRule.LinovelRule
