@@ -15,37 +15,27 @@ def set_up_web():
     import constant
     if Vars.current_book_type == "https://www.ddyueshu.com":
         book_api = API.ResponseAPI.Dingdian
-        book_rule = constant.rule.NovelRule(get_book_source())
     elif Vars.current_book_type == "https://www.xbookben.net":
         book_api = API.ResponseAPI.Xbookben
-        book_rule = constant.rule.NovelRule(get_book_source())
     elif Vars.current_book_type == "https://www.linovel.net":
         book_api = API.ResponseAPI.Linovel
-        book_rule = constant.rule.NovelRule(get_book_source())
     elif Vars.current_book_type == "https://book.sfacg.com":
         book_api = API.ResponseAPI.Boluobao
-        book_rule = constant.rule.NovelRule(get_book_source())
     elif Vars.current_book_type == "https://www.qu-la.com":
         book_api = API.ResponseAPI.Biquge
-        book_rule = constant.rule.NovelRule(get_book_source())
     elif Vars.current_book_type == "http://www.80zw.net":
         book_api = API.ResponseAPI.Baling
-        book_rule = constant.rule.NovelRule(get_book_source())
     elif Vars.current_book_type == "https://www.qbtr.cc":
         book_api = API.ResponseAPI.Qbtr
-        book_rule = constant.rule.NovelRule(get_book_source())
     elif Vars.current_book_type == "http://www.trxs.cc":
         book_api = API.ResponseAPI.Trxs
-        book_rule = constant.rule.NovelRule(get_book_source())
     elif Vars.current_book_type == "https://www.popo.tw":
         book_api = API.ResponseAPI.Popo
-        book_rule = constant.rule.WebRule.PopoRule
     elif Vars.current_book_type == "https://www.linovelib.com":
         book_api = API.ResponseAPI.Linovelib
-        book_rule = constant.rule.NovelRule(get_book_source())
     else:
         raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
-    return book_api, book_rule
+    return book_api, constant.rule.NovelRule(get_book_source())
 
 
 def set_up_app_type(current_book_type: str = "0"):  # set up app type and book type
