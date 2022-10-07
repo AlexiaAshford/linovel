@@ -65,6 +65,7 @@ class Vars:
     current_book_classify_name = None
     current_book_rule = None
     current_book_api = None
+    current_book_rul_rule = None
 
 
 class Current:
