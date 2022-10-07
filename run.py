@@ -13,15 +13,9 @@ def get_book_source():
 
 
 def set_up_app_type(current_book_type: str = "0"):  # set up app type and book type
-    book_type_dict = {
-        '0': 'https://www.linovel.net', '1': 'https://www.ddyueshu.com', '2': 'https://www.xbookben.net',
-        '3': 'https://book.sfacg.com', '4': 'https://www.linovelib.com', '5': 'https://www.qbtr.cc',
-        '6': 'http://www.trxs.cc', '7': 'https://www.popo.tw', '8': 'http://www.80zw.net', '9': 'https://www.qu-la.com'
-    }
-    if book_type_dict.get(current_book_type):
-        if book_type_dict.get(current_book_type) in ['https://www.ddyueshu.com', 'https://www.qu-la.com',
-                                                     'https://www.qbtr.cc', 'http://www.trxs.cc', 'http://www.80zw.net',
-                                                     ]:
+    if Msg.book_type_dict.get(current_book_type):
+        Vars.current_book_type = Msg.book_type_dict.get(current_book_type)
+        if Vars.current_book_type in Msg.gbk_book_type:
             Vars.current_book_gbk = True
         else:
             Vars.current_book_gbk = False
@@ -30,8 +24,6 @@ def set_up_app_type(current_book_type: str = "0"):  # set up app type and book t
             Vars.current_book_classify_name = {"1": "changgui", "2": "tongren"}.get(
                 get("please input your classify index:").strip()
             )
-
-        Vars.current_book_type = book_type_dict.get(current_book_type)
 
         book_source = get_book_source()
         Vars.current_book_rul_rule = book_source.get("url")
@@ -42,7 +34,7 @@ def set_up_app_type(current_book_type: str = "0"):  # set up app type and book t
 
     else:
         print("[error] book type not found, please input again", current_book_type)
-        for index, book_type in book_type_dict.items():
+        for index, book_type in Vars.current_book_type.items():
             print("index:", index, "\t\tbook type:", book_type)
         print("please input index to select book type, example: 0")
         return False
