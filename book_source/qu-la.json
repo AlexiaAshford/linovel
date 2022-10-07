@@ -14,5 +14,10 @@
     "chapter_content": "//*[@id=\"txt\"]/text()"
   },
   "url": {
+    "host_site": "https://www.qu-la.com",
+    "book_info": "https://www.qu-la.com/booktxt/{}",
+    "chapter_info": "https://www.qu-la.com/{}",
+    "search_info": "",
+    "catalogue_info": ""
   }
 }
