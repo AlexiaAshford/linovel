@@ -12,5 +12,7 @@
     "book_update_time": "/html/body/div[1]/div[3]/div/div/div[1]/div[1]/div[2]/div[2]/span/text()",
     "chapter_title": "//*[@id=\"article\"]/div[1]/h1/text()",
     "chapter_content": "//*[@id=\"ChapterBody\"]/p/text()"
+  },
+  "url": {
   }
 }

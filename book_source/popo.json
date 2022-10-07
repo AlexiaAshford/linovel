@@ -12,5 +12,7 @@
     "book_update_time": "//*[@id=\"list\"]/div[2]/p[2]/span/text()",
     "chapter_title": "//*[@id=\"readmask\"]/div/h2/text()",
     "chapter_content": "//*[@id=\"readmask\"]/div/p/text()"
+  },
+  "url": {
   }
 }
