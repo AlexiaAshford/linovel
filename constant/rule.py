@@ -19,30 +19,25 @@ class WebRule:
     class XbookbenRule:
         class Search:
             book_name = '//*[@id="hism"]/a/img/@alt'
-            book_img = '//*[@id="hism"]/a/img/@src'
             book_id = '//*[@id="hism"]/h3/a/@href'
 
     class LinovelRule:
         class Search:
             book_name = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@alt'
-            book_img = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@src'
             book_id = '/html/body/div[4]/div[3]/div[1]/a/@href'
 
     class BoluobaoRule:
         class Search:
             book_name = '/html/body/form/table[5]/tbody/tr/td/ul[1]/li/strong/a/text()'
-            book_img = '//*[@id="SearchResultList1___ResultList_Cover_0"]/img/@src'
             book_id = '/html/body/form/table[5]/tbody/tr/td/ul[1]/li[2]/strong/a'
             '/html/body/form/table[5]/tbody/tr/td/ul[1]/li[2]/strong/a'
 
     class BiqugeRule:
         class Search:
             book_name = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@alt'
-            book_img = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@src'
             book_id = '/html/body/div[4]/div[3]/div[1]/a/@href'
 
     class BalingRule:
         class Search:
             book_name = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@alt'
-            book_img = '/html/body/div[4]/div[3]/div[1]/a/div/div/img/@src'
             book_id = '/html/body/div[4]/div[3]/div[1]/a/@href'

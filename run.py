@@ -1,5 +1,6 @@
 import argparse
 import book
+import constant
 from src import *
 from config import *
 
@@ -11,35 +12,6 @@ def get_book_source():
         return json.loads(f.read())
 
 
-def set_up_web():
-    import constant
-    book_source = get_book_source()
-    Vars.current_book_rul_rule = book_source.get("url")
-    if Vars.current_book_type == "https://www.ddyueshu.com":
-        book_api = API.Response
-    elif Vars.current_book_type == "https://www.xbookben.net":
-        book_api = API.Response
-    elif Vars.current_book_type == "https://www.linovel.net":
-        book_api = API.Response
-    elif Vars.current_book_type == "https://book.sfacg.com":
-        book_api = API.Response
-    elif Vars.current_book_type == "https://www.qu-la.com":
-        book_api = API.Response
-    elif Vars.current_book_type == "http://www.80zw.net":
-        book_api = API.Response
-    elif Vars.current_book_type == "https://www.qbtr.cc":
-        book_api = API.Response
-    elif Vars.current_book_type == "http://www.trxs.cc":
-        book_api = API.Response
-    elif Vars.current_book_type == "https://www.popo.tw":
-        book_api = API.Response
-    elif Vars.current_book_type == "https://www.linovelib.com":
-        book_api = API.Response
-    else:
-        raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
-    return book_api, constant.rule.NovelRule(book_source.get("data"))
-
-
 def set_up_app_type(current_book_type: str = "0"):  # set up app type and book type
     book_type_dict = {
         '0': 'https://www.linovel.net', '1': 'https://www.ddyueshu.com', '2': 'https://www.xbookben.net',
@@ -47,13 +19,24 @@ def set_up_app_type(current_book_type: str = "0"):  # set up app type and book t
         '6': 'http://www.trxs.cc', '7': 'https://www.popo.tw', '8': 'http://www.80zw.net', '9': 'https://www.qu-la.com'
     }
     if book_type_dict.get(current_book_type):
+        if book_type_dict.get(current_book_type) in ['https://www.ddyueshu.com', 'https://www.qu-la.com',
+                                                     'https://www.qbtr.cc', 'http://www.trxs.cc', 'http://www.80zw.net',
+                                                     ]:
+            Vars.current_book_gbk = True
+        else:
+            Vars.current_book_gbk = False
         if current_book_type == "5" or current_book_type == "6":
             print("index:1\t\t常规小说\nindex:2\t\t同人小说")
             Vars.current_book_classify_name = {"1": "changgui", "2": "tongren"}.get(
                 get("please input your classify index:").strip()
             )
+
         Vars.current_book_type = book_type_dict.get(current_book_type)
-        Vars.current_book_api, Vars.current_book_rule = set_up_web()
+
+        book_source = get_book_source()
+        Vars.current_book_rul_rule = book_source.get("url")
+        Vars.current_book_api = API.Response
+        Vars.current_book_rule = constant.rule.NovelRule(book_source.get("data"))
         print("已设置为", Vars.current_book_type, "小说下载")
         return True
 
