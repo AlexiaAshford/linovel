@@ -1,0 +1,14 @@
+{
+  "book_img": "/html/notfound",
+  "book_name": "/html/body/div[3]/div[2]/div/h1/text()",
+  "book_author": "/html/body/div[3]/div[2]/div/div[1]/span/text()",
+  "chapter_url_list": "/html/body/div[3]/div[3]/ul/li/a/@href",
+  "book_state": "/html/notfound",
+  "book_label": "/html/notfound",
+  "book_intro": "/html/body/div[3]/div[2]/div/p/text()",
+  "last_chapter_title": "//*[@id=\"list\"]/dl/dd[1]/a/text()",
+  "book_words": "/html/notfound",
+  "book_update_time": "/html/body/div[3]/div[2]/div/div[1]/text()",
+  "chapter_title": "//*[@id=\"readContent_set\"]/div[2]/div[1]/h1/text()",
+  "chapter_content": "//*[@id=\"readContent_set\"]/div[2]/div[2]/p/text()"
+}
