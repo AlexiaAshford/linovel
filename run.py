@@ -6,8 +6,8 @@ from config import *
 
 def get_book_source():
     import json
-    file_name = Vars.current_book_type.split(".")[-2] + ".json"
-    with open(f"./book_source/{file_name}", "r", encoding="utf-8") as f:
+    file_name = Vars.current_book_type.split(".")[-2]
+    with open(f"./book_source/{file_name}.json", "r", encoding="utf-8") as f:
         return json.loads(f.read())
 
 
@@ -21,28 +21,28 @@ def set_up_web():
         book_rule = constant.rule.NovelRule(get_book_source())
     elif Vars.current_book_type == "https://www.linovel.net":
         book_api = API.ResponseAPI.Linovel
-        book_rule = constant.rule.WebRule.LinovelRule
+        book_rule = constant.rule.NovelRule(get_book_source())
     elif Vars.current_book_type == "https://book.sfacg.com":
         book_api = API.ResponseAPI.Boluobao
-        book_rule = constant.rule.WebRule.BoluobaoRule
+        book_rule = constant.rule.NovelRule(get_book_source())
     elif Vars.current_book_type == "https://www.qu-la.com":
         book_api = API.ResponseAPI.Biquge
-        book_rule = constant.rule.WebRule.BiqugeRule
+        book_rule = constant.rule.NovelRule(get_book_source())
     elif Vars.current_book_type == "http://www.80zw.net":
         book_api = API.ResponseAPI.Baling
-        book_rule = constant.rule.WebRule.BalingRule
+        book_rule = constant.rule.NovelRule(get_book_source())
     elif Vars.current_book_type == "https://www.qbtr.cc":
         book_api = API.ResponseAPI.Qbtr
-        book_rule = constant.rule.WebRule.QbtrRule
-    elif Vars.current_book_type == "http://trxs.cc":
+        book_rule = constant.rule.NovelRule(get_book_source())
+    elif Vars.current_book_type == "http://www.trxs.cc":
         book_api = API.ResponseAPI.Trxs
-        book_rule = constant.rule.WebRule.TrxsRule
+        book_rule = constant.rule.NovelRule(get_book_source())
     elif Vars.current_book_type == "https://www.popo.tw":
         book_api = API.ResponseAPI.Popo
         book_rule = constant.rule.WebRule.PopoRule
     elif Vars.current_book_type == "https://www.linovelib.com":
         book_api = API.ResponseAPI.Linovelib
-        book_rule = constant.rule.WebRule.LinovelibRule
+        book_rule = constant.rule.NovelRule(get_book_source())
     else:
         raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
     return book_api, book_rule
@@ -52,7 +52,7 @@ def set_up_app_type(current_book_type: str = "0"):  # set up app type and book t
     book_type_dict = {
         '0': 'https://www.linovel.net', '1': 'https://www.ddyueshu.com', '2': 'https://www.xbookben.net',
         '3': 'https://book.sfacg.com', '4': 'https://www.linovelib.com', '5': 'https://www.qbtr.cc',
-        '6': 'http://trxs.cc', '7': 'https://www.popo.tw', '8': 'http://www.80zw.net', '9': 'https://www.qu-la.com'
+        '6': 'http://www.trxs.cc', '7': 'https://www.popo.tw', '8': 'http://www.80zw.net', '9': 'https://www.qu-la.com'
     }
     if book_type_dict.get(current_book_type):
         if current_book_type == "5" or current_book_type == "6":

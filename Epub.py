@@ -92,11 +92,15 @@ class EpubFile(epub.EpubBook):
             Vars.current_book.cover = "https://www.ddyueshu.com" + Vars.current_book.cover
         elif Vars.current_book_type == "https://www.qu-la.com":
             Vars.current_book.cover = "https://www.qu-la.com" + Vars.current_book.cover
-        elif Vars.current_book_type == "http://trxs.cc":
-            Vars.current_book.cover = "http://trxs.cc" + Vars.current_book.cover
+        elif Vars.current_book_type == "http://www.trxs.cc":
+            Vars.current_book.cover = "http://www.trxs.cc" + Vars.current_book.cover
         cover_file_path = os.path.join(make_dirs("cover"), Vars.current_book.book_name + ".png")
         if not os.path.exists(cover_file_path):
-            open(cover_file_path, 'wb').write(get_cover_image(Vars.current_book.cover))
+            image_file = get_cover_image(Vars.current_book.cover)
+            if image_file:
+                open(cover_file_path, 'wb').write(image_file)
+            else:
+                print("download cover image failed, can't download the epub cover！")
         cover_image = open(cover_file_path, 'rb').read()
         if cover_image is not None:  # if cover image is not None ,then add to epub file
             self.set_cover("cover.png", cover_image)  # add cover image to epub file
