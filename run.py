@@ -8,7 +8,7 @@ def get_book_source():
     import json
     file_name = Vars.current_book_type.split(".")[-2]
     with open(f"./book_source/{file_name}.json", "r", encoding="utf-8") as f:
-        return json.loads(f.read())
+        return json.loads(f.read()).get("data")
 
 
 def set_up_web():
