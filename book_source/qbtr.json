@@ -12,5 +12,12 @@
     "book_update_time": "/html/body/div[3]/div[2]/div/div[1]/text()",
     "chapter_title": "//*[@id=\"readContent_set\"]/div[2]/div[1]/h1/text()",
     "chapter_content": "//*[@id=\"readContent_set\"]/div[2]/div[2]/p/text()"
+  },
+  "url": {
+    "host_site": "https://www.qbtr.cc",
+    "book_info": "https://www.qbtr.cc/{}/{}.html",
+    "chapter_info": "https://www.qbtr.cc{}",
+    "search_info": "",
+    "catalogue_info": ""
   }
 }
