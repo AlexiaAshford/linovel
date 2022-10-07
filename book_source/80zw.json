@@ -14,5 +14,10 @@
     "chapter_content": "//*[@id=\"htmlContent\"]/text()"
   },
   "url": {
+    "host_site": "http://www.80zw.net",
+    "book_info": "http://www.80zw.net/article/{}",
+    "chapter_info": "http://www.80zw.net/article/{}/{}",
+    "search_info": "",
+    "catalogue_info": ""
   }
 }

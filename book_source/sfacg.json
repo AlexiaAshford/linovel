@@ -14,5 +14,10 @@
     "chapter_content": "//*[@id=\"ChapterBody\"]/p/text()"
   },
   "url": {
+    "host_site": "https://book.sfacg.com",
+    "book_info": "https://book.sfacg.com/Novel/{}/",
+    "chapter_info": "https://book.sfacg.com/{}",
+    "search_info": "https://s.sfacg.com/",
+    "catalogue_info": "https://book.sfacg.com/Novel/{}/MainIndex/"
   }
 }
