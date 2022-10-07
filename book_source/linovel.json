@@ -15,9 +15,9 @@
   },
   "url": {
     "host_site": "https://www.linovel.net",
-    "book_info": "/book/{}.html",
-    "chapter_info": "",
-    "search_info": "/search",
+    "book_info": "https://www.linovel.net/book/{}.html",
+    "chapter_info": "https://www.linovel.net{}",
+    "search_info": "https://www.linovel.net/search",
     "catalogue_info": ""
   }
 }

@@ -12,5 +12,12 @@
     "book_update_time": "/html/body/div[2]/div[3]/div[1]/div[1]/div[2]/div[2]/span[1]/i/text()",
     "chapter_title": "//*[@id=\"mlfy_main_text\"]/h1/text()",
     "chapter_content": "//*[@id=\"TextContent\"]/p/text()"
+  },
+  "url": {
+    "host_site": "https://www.linovelib.com",
+    "book_info": "https://www.linovelib.com/novel/{}.html",
+    "chapter_info": "https://www.linovelib.com{}",
+    "search_info": "",
+    "catalogue_info": "https://www.linovelib.com/novel/{}/catalog"
   }
 }
