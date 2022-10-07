@@ -16,7 +16,7 @@
   "url": {
     "host_site": "https://www.popo.tw",
     "book_info": "https://www.popo.tw/books/{}",
-    "chapter_info": "https://www.popo.tw/{}",
+    "chapter_info": "https://www.popo.tw{}",
     "search_info": "",
     "catalogue_info": "https://www.popo.tw/books/{}/articles"
   }

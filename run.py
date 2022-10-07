@@ -26,15 +26,15 @@ def set_up_web():
     elif Vars.current_book_type == "https://www.qu-la.com":
         book_api = API.Response
     elif Vars.current_book_type == "http://www.80zw.net":
-        book_api = API.ResponseAPI.Baling
+        book_api = API.Response
     elif Vars.current_book_type == "https://www.qbtr.cc":
-        book_api = API.ResponseAPI.Qbtr
+        book_api = API.Response
     elif Vars.current_book_type == "http://www.trxs.cc":
-        book_api = API.ResponseAPI.Trxs
+        book_api = API.Response
     elif Vars.current_book_type == "https://www.popo.tw":
-        book_api = API.ResponseAPI.Popo
+        book_api = API.Response
     elif Vars.current_book_type == "https://www.linovelib.com":
-        book_api = API.ResponseAPI.Linovelib
+        book_api = API.Response
     else:
         raise "Error: current_book_type is not in Xbookben, Dingdian, Linovel, sfacg, Biquge, Baling"
     return book_api, constant.rule.NovelRule(book_source.get("data"))
