@@ -16,7 +16,7 @@
   "url": {
     "host_site": "https://www.aabook.xyz",
     "book_info": "https://www.aabook.xyz/book-{}.html",
-    "chapter_info": "https://www.aabook.xyz{",
+    "chapter_info": "https://www.aabook.xyz{}",
     "search_info": "",
     "catalogue_info": "https://www.aabook.xyz/chapterList-{}.html"
   }
