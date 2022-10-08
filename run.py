@@ -96,7 +96,8 @@ if __name__ == '__main__':
     elif args_command.search is not None and args_command.search != "":
         shell_console(["s", args_command.search[0]])
     else:
-        print("Welcome to use downloader, please input command")
+        print("[input]d + book id\t\t\tddownload book by book id")
+        print("[input]s + search keyword\t\tsearch book by keyword")
         while True:
             shell_console(get(">").strip().split(" "))
 
