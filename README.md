@@ -24,16 +24,47 @@
 
 ```
 
-[//]: # (## planned development)
-
-[//]: # ()
-
-[//]: # (| 站点名称  | 网址                | 是否正版 | 插图下载 |)
-
-[//]: # (|-------|-------------------|------|------|)
-
-[//]: # (| 哔哩轻小说 | www.linovelib.com | ❌    | ✅    |  )
-
-[//]: # ()
-
-## _Thank you for [edmund-zhao](https://github.com/edmund-zhao/les-novel) contribution._
+## book source
+```
+{
+  "data": {
+    "book_img": "",
+    "book_name": "",
+    "book_author": "",
+    "chapter_url_list": "",
+    "book_state": "",
+    "book_label": "",
+    "book_intro": "",
+    "last_chapter_title": "",
+    "book_words": "",
+    "book_update_time": "",
+    "chapter_title": "",
+    "chapter_content": ""
+  },
+  "url": {
+    "host_site": "",
+    "book_info": "",
+    "chapter_info": "",
+    "search_info": "",
+    "catalogue_info": ""
+  }
+}
+```
+- book_img: 封面图片
+- book_name: 书名
+- book_author: 作者
+- chapter_url_list: 章节列表
+- book_state: 书籍状态
+- book_label: 书籍标签
+- book_intro: 书籍简介
+- last_chapter_title: 最新章节
+- book_words: 字数
+- book_update_time: 更新时间
+- chapter_title: 章节标题
+- chapter_content: 章节内容
+- host_site: 站点地址
+- book_info: 书籍详细地址
+- chapter_info: 章节详细地址
+- search_info: 搜索地址
+- catalogue_info: 目录地址
+- book_id: 书籍id
