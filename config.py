@@ -80,6 +80,12 @@ class Msg:
         'https://www.ddyueshu.com', 'https://www.qu-la.com', 'https://www.qbtr.cc', 'http://www.trxs.cc',
         'http://www.80zw.net', 'https://www.qb5.la',
     ]
+    del_chapter_advertisement_list = [
+        "&amp;", "amp;", "lt;",
+        "gt;", "一秒记住【八零中文网 www.80zw.net】，精彩小说无弹窗免费阅读！",
+        "<br>", "<br/>", "<br />", "<p>", "</p>", "<div>", "</div>", "<span>",
+        "</span>", "<strong>", "</strong>", "全本小说网 www.qb5.la，最快更新", "最新章节免费阅读！"
+    ]
 
 
 class Current:

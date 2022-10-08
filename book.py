@@ -85,14 +85,10 @@ class Chapter:
 
     @property
     def standard_content(self) -> str:  # return a standard content
-        content = "\n".join(self.content)
+        content = "\n".join(self.content)  # list to str
         if Vars.current_book_type == "https://www.linovelib.com":
             content = src.decodes.decode_content_text(content)  # decode content text
-        for delete_info in [
-            "&amp;", "amp;", "lt;", "gt;", "一秒记住【八零中文网 www.80zw.net】，精彩小说无弹窗免费阅读！"
-                                           "<br>", "<br/>", "<br />", "<p>", "</p>", "<div>", "</div>", "<span>",
-            "</span>", "<strong>", "</strong>", "全本小说网 www.qb5.la，最快更新", "最新章节免费阅读！"
-        ]:
+        for delete_info in Msg.del_chapter_advertisement_list:  # delete chapter advertisement text
             content = re.sub(delete_info, '', content)
         return content
 
