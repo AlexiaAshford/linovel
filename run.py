@@ -14,17 +14,19 @@ def init_config_book_source():
         Vars.current_book_api = API.Response
         Vars.current_book_rule = constant.rule.NovelRule(book_source.get("data"))
         print("下载源已设置为: {}".format(Vars.current_book_type))
+        return True
     else:
-        print("[error] book source not found, please check your book type, book type:", Vars.current_book_type)
+        return False
 
 
-def set_up_app_type(current_book_type):  # set up app type and book type
-    if Msg.book_type_dict.get(current_book_type):
-        Vars.current_book_type = Msg.book_type_dict.get(current_book_type)
-        init_config_book_source()
+def set_up_app_type(book_type: str):  # set up app type and book type
+    if Msg.book_type_dict.get(book_type):
+        Vars.current_book_type = Msg.book_type_dict.get(book_type)
+        if not init_config_book_source():
+            raise Exception("book source not found, please check your book type, book type:", Vars.current_book_type)
         Vars.current_book_gbk = Vars.current_book_type in Msg.gbk_book_type
 
-        if current_book_type == "5" or current_book_type == "6":
+        if book_type == "5" or book_type == "6":
             print("index:1\t\t常规小说\nindex:2\t\t同人小说")
             while Vars.current_book_classify_name is None:
                 Vars.current_book_classify_name = {"1": "tongren", "2": "changgui"}.get(get(">").strip())
@@ -32,7 +34,7 @@ def set_up_app_type(current_book_type):  # set up app type and book type
                 print("set up classify name:", Vars.current_book_classify_name)
 
     else:
-        print("[error] book type not found, please input again", current_book_type)
+        print("[error] book type not found, please input again", book_type)
         for index, book_type in Msg.book_type_dict.items():
             print("index:", index, "\t\tbook type:", book_type)
         print("please input index to select book type, example: 0")
