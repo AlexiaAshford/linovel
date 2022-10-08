@@ -1,0 +1,23 @@
+{
+  "data": {
+    "book_img": "/html/body/div[3]/div/div/div[1]/mip-img/img/@src",
+    "book_name": "/html/body/div[3]/div/div/div[2]/h1/text()",
+    "book_author": "/html/body/div[3]/div/div/div[2]/div[1]/a/text()",
+    "chapter_url_list": "//*[@id=\"showmore01\"]/dd/a/@href",
+    "book_state": "/html/body/div[3]/div/div/div[2]/div[1]/span/text()",
+    "book_label": "/html/body/div[3]/div/div/div[2]/div[5]/a/text()",
+    "book_intro": "/html/body/div[3]/div/div/div[2]/div[2]/div/p/text()",
+    "last_chapter_title": "/html/body/div[3]/div/div/div[2]/div[3]/a/text()",
+    "book_words": "/html/body/notfound",
+    "book_update_time": "/html/body/div[3]/div/div/div[2]/div[4]",
+    "chapter_title": "//*[@id=\"top\"]/div[4]/div/div/p/text()",
+    "chapter_content": "//*[@id=\"BookText\"]/text()"
+  },
+  "url": {
+    "host_site": "https://www.52dus.cc/kehuan",
+    "book_info": "https://www.52dus.cc/kehuan/{}",
+    "chapter_info": "https://www.52dus.cc{}",
+    "search_info": "",
+    "catalogue_info": ""
+  }
+}

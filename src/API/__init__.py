@@ -25,7 +25,8 @@ class Response:
             url = Vars.current_book_rul_rule.get("chapter_info").format(Vars.current_book.book_id, chapter_url)
         else:
             url = Vars.current_book_rul_rule.get("chapter_info").format(chapter_url)
-        return src.http_utils.get(api_url=url, gbk=Vars.current_book_gbk)
+        result = src.http_utils.get(api_url=url, gbk=Vars.current_book_gbk)
+        return result
 
     @staticmethod
     def get_catalogue_info_by_book_id(book_id: str):
@@ -42,7 +43,6 @@ class Response:
             response.xpath(Vars.current_book_rule.Search.book_name),
             response.xpath(Vars.current_book_rule.Search.book_id)
         ))
-
 
 # class ResponseAPI:
 #     class Xbookben:
