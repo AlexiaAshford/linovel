@@ -5,16 +5,23 @@ from src import *
 from config import *
 
 
-def get_book_source():
+def init_config_book_source():
     import json
-    file_name = Vars.current_book_type.split(".")[-2]
-    with open(f"./book_source/{file_name}.json", "r", encoding="utf-8") as f:
-        return json.loads(f.read())
+    book_source_path = "./book_source/{}.json".format(Vars.current_book_type.split(".")[-2])
+    if os.path.exists(book_source_path):
+        book_source = json.loads(open(book_source_path, "r", encoding="utf-8").read())
+        Vars.current_book_rul_rule = book_source.get("url")
+        Vars.current_book_api = API.Response
+        Vars.current_book_rule = constant.rule.NovelRule(book_source.get("data"))
+        print("下载源已设置为: {}".format(Vars.current_book_type))
+    else:
+        print("[error] book source not found, please check your book type, book type:", Vars.current_book_type)
 
 
-def set_up_app_type(current_book_type: str = "0"):  # set up app type and book type
+def set_up_app_type(current_book_type):  # set up app type and book type
     if Msg.book_type_dict.get(current_book_type):
         Vars.current_book_type = Msg.book_type_dict.get(current_book_type)
+        init_config_book_source()
         if Vars.current_book_type in Msg.gbk_book_type:
             Vars.current_book_gbk = True
         else:
@@ -25,19 +32,12 @@ def set_up_app_type(current_book_type: str = "0"):  # set up app type and book t
                 get("please input your classify index:").strip()
             )
 
-        book_source = get_book_source()
-        Vars.current_book_rul_rule = book_source.get("url")
-        Vars.current_book_api = API.Response
-        Vars.current_book_rule = constant.rule.NovelRule(book_source.get("data"))
-        print("已设置为", Vars.current_book_type, "小说下载")
-        return True
-
     else:
         print("[error] book type not found, please input again", current_book_type)
-        for index, book_type in Vars.current_book_type.items():
+        for index, book_type in Msg.book_type_dict.items():
             print("index:", index, "\t\tbook type:", book_type)
         print("please input index to select book type, example: 0")
-        return False
+        set_up_app_type(get(">"))
 
 
 def parse_args_command() -> argparse.Namespace:
@@ -54,7 +54,7 @@ def parse_args_command() -> argparse.Namespace:
 
 def shell_console(inputs: list):
     if inputs[0] == "d" or inputs[0] == "download":
-        Vars.current_book = get_book_information_template(inputs[1])
+        Vars.current_book = init_book_info_template(inputs[1])
         if Vars.current_book and Vars.current_book.get("bookName") is not None:
             Vars.current_book = book.BookConfig(Vars.current_book)
             Vars.current_book.init_content_config()
@@ -84,8 +84,8 @@ def shell_console(inputs: list):
 
 if __name__ == '__main__':
     args_command = parse_args_command()
-    if not (set_up_app_type(args_command.app[0]) if args_command.app is not None else set_up_app_type()):
-        exit(1)
+    set_up_app_type(args_command.app[0]) if args_command.app else set_up_app_type("")
+
     if args_command.bookid is not None and args_command.bookid != "":
         shell_console(["d", args_command.bookid[0]])
 
@@ -97,7 +97,7 @@ if __name__ == '__main__':
     else:
         print("Welcome to use downloader, please input command")
         while True:
-            shell_console(get(">").strip())
+            shell_console(get(">").strip().split(" "))
 
     # def input_index():
     #     try:

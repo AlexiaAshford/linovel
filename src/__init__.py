@@ -2,7 +2,7 @@ from config import *
 from . import decodes, API
 
 
-def get_book_information_template(book_id: str):  # return book info json
+def init_book_info_template(book_id: str):  # return book info json 
     book_id = book_id if "_" in book_id else re.findall(r"\d+", book_id)[-1]  # del book url suffix
     current_book_info_html = Vars.current_book_api.get_book_info_by_book_id(book_id)  # get book info html
     if current_book_info_html is None:
@@ -35,7 +35,7 @@ def get_book_information_template(book_id: str):  # return book info json
 
     if not chapter_url_list:
         print("目录请求失败")
-        return get_book_information_template(book_id)
+        return init_book_info_template(book_id)
     else:
         return {
             "bookId": book_id,
