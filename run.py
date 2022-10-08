@@ -28,10 +28,10 @@ def set_up_app_type(current_book_type):  # set up app type and book type
             Vars.current_book_gbk = False
         if current_book_type == "5" or current_book_type == "6":
             print("index:1\t\t常规小说\nindex:2\t\t同人小说")
-            Vars.current_book_classify_name = {"1": "changgui", "2": "tongren"}.get(
-                get("please input your classify index:").strip()
-            )
-
+            while Vars.current_book_classify_name is None:
+                Vars.current_book_classify_name = {"1": "changgui", "2": "tongren"}.get(
+                    get("please input your classify index:").strip()
+                )
     else:
         print("[error] book type not found, please input again", current_book_type)
         for index, book_type in Msg.book_type_dict.items():
