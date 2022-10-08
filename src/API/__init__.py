@@ -17,6 +17,7 @@ class Response:
             url = Vars.current_book_rul_rule.get("book_info").format(Vars.current_book_classify_name, book_id)
         else:
             url = Vars.current_book_rul_rule.get("book_info").format(book_id)
+        Vars.current_book["bookId"] = book_id
         return src.http_utils.get(api_url=url, gbk=Vars.current_book_gbk)
 
     @staticmethod

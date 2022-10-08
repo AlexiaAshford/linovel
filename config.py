@@ -1,6 +1,7 @@
 import json
 import os
 import re
+from rich import print
 
 
 def update_config():
@@ -59,7 +60,7 @@ class Config:
 
 class Vars:
     cfg = Config(os.getcwd() + '/config.json', os.getcwd())
-    current_book = None
+    current_book = {}
     current_epub = None
     current_book_type = None
     current_book_gbk = False

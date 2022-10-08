@@ -53,15 +53,28 @@ def parse_args_command() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def get_book_id_by_url(i: str):
+    try:
+        return i if "_" in i else re.findall(r"\d+", i)[-1]  # del book url suffix
+    except Exception as error:
+        return print(error)
+
+
 def shell_console(inputs: list):
     if inputs[0] == "d" or inputs[0] == "download":
-        Vars.current_book = init_book_info_template(inputs[1])
-        if Vars.current_book and Vars.current_book.get("bookName") is not None:
-            Vars.current_book = book.BookConfig(Vars.current_book)
-            Vars.current_book.init_content_config()
-            Vars.current_book.multi_thread_download_book()
+        book_info_html = Vars.current_book_api.get_book_info_by_book_id(get_book_id_by_url(inputs[1]))
+        if book_info_html is None:
+            print("<error>", "[red]Get book info error, please check your book id.[/red]")
         else:
-            print("download error,please  check your input app name or book id")
+            init_book_info_template(book_info_html=book_info_html)
+            init_chapter_url_list(book_info_html=book_info_html)
+            if Vars.current_book and Vars.current_book.get("bookName") is not None:
+                Vars.current_book = book.BookConfig(Vars.current_book)
+                Vars.current_book.init_content_config()
+                Vars.current_book.multi_thread_download_book()
+            else:
+                print("<error>", "[red]Download book error,please check your input app type name.[/red]")
+
     elif inputs[0] == "s" or inputs[0] == "search":
         response = Vars.current_book_api.get_book_info_by_keyword(inputs[1]) if len(inputs) >= 2 else []
         if len(response) > 0:
