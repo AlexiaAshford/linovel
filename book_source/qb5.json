@@ -1,0 +1,23 @@
+{
+  "data": {
+    "book_img": "//*[@id=\"picbox\"]/div/img/@src",
+    "book_name": "//*[@id=\"info\"]/h1/text()",
+    "book_author": "//*[@id=\"info\"]/h1/small/a/text()",
+    "chapter_url_list": "/html/body/div[4]/dl/dd/a/@href",
+    "book_state": "//*[@id=\"info\"]/p/span[2]/text()",
+    "book_label": "//notfound",
+    "book_intro": "//*[@id=\"intro\"]/text()",
+    "last_chapter_title": "//*[@id=\"info\"]/div[1]/a/text()",
+    "book_words": "//notfound",
+    "book_update_time": "//*[@id=\"info\"]/div[1]/text()[2]",
+    "chapter_title": "//*[@id=\"main\"]/h1/text()",
+    "chapter_content": "//*[@id=\"content\"]/text()"
+  },
+  "url": {
+    "host_site": "https://www.qb5.la",
+    "book_info": "https://www.qb5.la/book_{}",
+    "chapter_info": "https://www.qb5.la/book_{}/{}",
+    "search_info": "",
+    "catalogue_info": ""
+  }
+}
