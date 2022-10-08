@@ -10,9 +10,9 @@ class Book:
         self.book_info = book_info
         self.book_id = book_info['bookId']
         self.cover = book_info.get('bookCoverUrl')
-        self.chapter_url_list = book_info['chapUrl']
+        self.chapter_url_list = book_info['chapter_url_list']
         self.book_tag = book_info.get('bookTag')
-        self.last_chapter_title = book_info.get('lastChapterTitle')
+        self.last_chapter_title = book_info.get('last_chapter_title')
 
     @property
     def book_intro(self) -> str:
