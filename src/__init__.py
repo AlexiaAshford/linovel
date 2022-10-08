@@ -25,22 +25,16 @@ def init_book_info_template(book_info_html):  # return book info json book info 
 
 
 def init_chapter_url_list(book_info_html, max_retry: int = 3):
-    if Vars.current_book_type == "https://book.sfacg.com":
+    if Vars.current_book_source.get("url").get("catalogue_info") != "":
         catalogue = Vars.current_book_api.get_catalogue_info_by_book_id(Vars.current_book["bookId"])
-        chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list)]
-    elif Vars.current_book_type == "https://www.popo.tw":
-        catalogue = Vars.current_book_api.get_catalogue_info_by_book_id(Vars.current_book["bookId"])
-        chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list)]
-    elif Vars.current_book_type == "https://www.linovelib.com":
-        chapter_url_list = [
-            chapter_url for chapter_url in
-            Vars.current_book_api.get_catalogue_info_by_book_id(Vars.current_book["bookId"]).xpath(
-                Vars.current_book_rule.chapter_url_list) if "novel" in chapter_url
-        ]
+        if Vars.current_book_type == "https://www.linovelib.com":
+            chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list) if "novel" in i]
+        else:
+            chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list)]
     else:
         chapter_url_list = [i for i in book_info_html.xpath(Vars.current_book_rule.chapter_url_list)]
-    if Vars.current_book_type == "https://www.ddyueshu.com":
-        chapter_url_list = chapter_url_list[6:]  # del first 6 chapter, because the first 6 chapter is not ordered
+        if Vars.current_book_type == "https://www.ddyueshu.com":
+            chapter_url_list = chapter_url_list[6:]  # del first 6 chapter, because the first 6 chapter is not ordered
 
     if not chapter_url_list:
         if max_retry >= 0:
