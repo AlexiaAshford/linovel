@@ -12,8 +12,12 @@ class Book:
         self.cover = book_info.get('bookCoverUrl')
         self.chapter_url_list = book_info['chapUrl']
         self.book_tag = book_info.get('bookTag')
-        self.book_intro = book_info.get('bookIntro')
         self.last_chapter_title = book_info.get('lastChapterTitle')
+
+    @property
+    def book_intro(self) -> str:
+        intro_list = [line for line in self.book_info.get('bookIntro').splitlines() if line.strip()]
+        return re.sub(r' |\r|\s', '', '\n'.join(intro_list))
 
     @property
     def book_name(self) -> str:
