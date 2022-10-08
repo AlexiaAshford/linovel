@@ -1,26 +1,7 @@
 from ebooklib import epub
+from src import http_utils
 from config import *
-import requests
 import uuid
-
-
-def get_cover_image(cover_url: str):
-    retry = 0
-    while True:
-        try:
-            response = requests.get(cover_url, headers={
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '})
-            if response.status_code == 304 or response.status_code == 200:
-                return response.content
-            retry += 1
-            if retry > 5:
-                return None
-        except Exception as error:
-            retry += 1
-            if retry > 5:
-                print("get_cover_image", error)
-                return None
-
 
 class EpubHtml:
     def __init__(self):
@@ -98,7 +79,7 @@ class EpubFile(epub.EpubBook):
             Vars.current_book.cover = "http://www.trxs.cc" + Vars.current_book.cover
         cover_file_path = os.path.join(make_dirs("cover"), Vars.current_book.book_name + ".png")
         if not os.path.exists(cover_file_path):
-            image_file = get_cover_image(Vars.current_book.cover)
+            image_file = http_utils.get(api_url=Vars.current_book.cover, re_type="content")
             if image_file:
                 open(cover_file_path, 'wb').write(image_file)
             else:
