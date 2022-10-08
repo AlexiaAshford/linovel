@@ -91,7 +91,7 @@ class Chapter:
         for delete_info in [
             "&amp;", "amp;", "lt;", "gt;", "一秒记住【八零中文网 www.80zw.net】，精彩小说无弹窗免费阅读！"
                                            "<br>", "<br/>", "<br />", "<p>", "</p>", "<div>", "</div>", "<span>",
-            "</span>", "<strong>", "</strong>",
+            "</span>", "<strong>", "</strong>", "全本小说网 www.qb5.la，最快更新", "最新章节免费阅读！"
         ]:
             content = re.sub(delete_info, '', content)
         return content

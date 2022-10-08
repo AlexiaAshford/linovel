@@ -28,23 +28,25 @@ class EpubHtml:
         self.html_template = epub.EpubHtml
 
     def set_description(self):
-        self.description = "<html><head></head><body>\n<h1>小说简介</h1>"
+        self.description = "<html><head></head><body>"
+        if Vars.current_book.cover is not None:
+            self.description += f'<img src="cover.png" alt="{Vars.current_book.book_name} 封面">'
         if Vars.current_book.book_name is not None:
-            self.description += '<p>书籍书名:{}</p>'.format(Vars.current_book.book_name)
-        if Vars.current_book.book_id is not None:
-            self.description += '<p>书籍序号:{}</p>'.format(Vars.current_book.book_id)
+            self.description += '<h1>书籍书名:{}</h1>'.format(Vars.current_book.book_name)
         if Vars.current_book.book_author is not None:
-            self.description += '<p>书籍作者:{}</p>\n'.format(Vars.current_book.book_author)
+            self.description += '<h2>书籍作者:{}</h2>\n'.format(Vars.current_book.book_author)
+        if Vars.current_book.book_id is not None:
+            self.description += '<h3>书籍序号:{}</h3>'.format(Vars.current_book.book_id)
         if Vars.current_book.book_status is not None:
-            self.description += '<p>书籍状态:{}</p>\n'.format(Vars.current_book.book_status)
+            self.description += '<h4>书籍状态:{}</h4>\n'.format(Vars.current_book.book_status)
         if Vars.current_book.book_words is not None:
-            self.description += '<p>字数信息:</p>{}\n'.format(Vars.current_book.book_words.replace("字数：", ""))
+            self.description += '<h4>字数信息:</h4>{}\n'.format(Vars.current_book.book_words.replace("字数：", ""))
         if Vars.current_book.last_chapter_title is not None:
-            self.description += '<p>最新章节:{}</p>\n'.format(Vars.current_book.last_chapter_title)
+            self.description += '<h4>最新章节:{}</h4>\n'.format(Vars.current_book.last_chapter_title)
         if Vars.current_book.book_tag is not None:
-            self.description += '<p>系统标签:{}</p>\n'.format(Vars.current_book.book_tag)
+            self.description += '<h4>系统标签:{}</h4>\n'.format(Vars.current_book.book_tag)
         if Vars.current_book.book_intro is not None:
-            self.description += '<p>简介信息:</p>{}\n'.format(Vars.current_book.book_intro)
+            self.description += '<h5>简介信息:</h5>{}\n'.format(Vars.current_book.book_intro)
         self.description += '</body></html>'
         data_template = self.html_template(
             title='小说简介', file_name='0000-000000-intro.xhtml', lang='zh-CN'
