@@ -15,6 +15,8 @@ class Response:
             url = Vars.current_book_source.get("url").get("book_info").format(Vars.current_book_classify_name, book_id)
         elif Vars.current_book_type == "http://www.trxs.cc":
             url = Vars.current_book_source.get("url").get("book_info").format(Vars.current_book_classify_name, book_id)
+        elif Vars.current_book_type == "https://www.xbiquge.la":
+            url = Vars.current_book_source.get("url").get("book_info").format(book_id[:2], book_id)
         else:
             url = Vars.current_book_source.get("url").get("book_info").format(book_id)
         Vars.current_book["bookId"] = book_id

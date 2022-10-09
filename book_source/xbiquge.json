@@ -1,0 +1,24 @@
+
+{
+  "data": {
+    "book_img": "//*[@id=\"fmimg\"]/img/@src",
+    "book_name": "//*[@id=\"info\"]/h1/text()",
+    "book_author": "//*[@id=\"info\"]/p[1]/text()",
+    "chapter_url_list": "//*[@id=\"list\"]/dl/dd/a/@href",
+    "book_state": "//html/notfound",
+    "book_label": "//html/notfound",
+    "book_intro": "//*[@id=\"intro\"]/p[2]/text()",
+    "last_chapter_title": "//*[@id=\"info\"]/p[4]/a/text()",
+    "book_words": "//html/notfound",
+    "book_update_time": "//*[@id=\"info\"]/p[3]/text()",
+    "chapter_title": "//*[@id=\"wrapper\"]/div[4]/div/div[2]/h1/text()",
+    "chapter_content": "//*[@id=\"content\"]/text()"
+  },
+  "url": {
+    "host_site": "https://www.xbiquge.la",
+    "book_info": "https://www.xbiquge.la/{}/{}/",
+    "chapter_info": "https://www.xbiquge.la{}",
+    "search_info": "",
+    "catalogue_info": ""
+  }
+}
