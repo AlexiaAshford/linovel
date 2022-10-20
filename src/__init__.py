@@ -18,14 +18,14 @@ def init_book_info_template(book_info_html):  # return book info json book info 
     Vars.current_book["bookCoverUrl"] = book_img[0] if book_img else None
     Vars.current_book["bookWords"] = book_words[0] if book_words else None
     Vars.current_book["bookTag"] = book_label[0] if book_label else None
-    Vars.current_book["bookIntro"] = book_intro[0] if book_intro else None
+    Vars.current_book["bookIntro"] = book_intro[0] if book_intro else "简介不存在"
     Vars.current_book["bookStatus"] = book_state[0] if book_state else None
     Vars.current_book["last_chapter_title"] = last_chapter_title[0] if last_chapter_title else None
     Vars.current_book["book_update_time"] = book_update_time[0] if book_update_time else None
 
 
 def init_chapter_url_list(book_info_html, max_retry: int = 3):
-    if Vars.current_book_source.get("url").get("catalogue_info") != "":
+    if Vars.current_book_source["url"]["catalogue_info"] != "":
         catalogue = Vars.current_book_api.get_catalogue_info_by_book_id(Vars.current_book["bookId"])
         if Vars.current_book_type == "https://www.linovelib.com":
             chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list) if "novel" in i]
