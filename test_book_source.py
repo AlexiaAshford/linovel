@@ -1,4 +1,3 @@
-import argparse
 import book
 from src import *
 from config import *

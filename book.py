@@ -16,6 +16,8 @@ class Book:
 
     @property
     def book_intro(self) -> str:
+        if self.book_info.get('bookIntro') is None:
+            return ""
         intro_list = [line for line in self.book_info.get('bookIntro').splitlines() if line.strip()]
         return re.sub(r' |\r|\s', '', '\n'.join(intro_list))
 

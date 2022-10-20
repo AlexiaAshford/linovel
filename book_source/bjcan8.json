@@ -1,0 +1,23 @@
+{
+  "data": {
+    "book_img": "/html/body/div[4]/div[1]/div/dl/dt/img/@src",
+    "book_name": "/html/body/div[4]/div[1]/div/dl/dd/h2/text()",
+    "book_author": "/html/body/div[4]/div[1]/div/dl/dd/p/span[4]/text()",
+    "chapter_url_list": "/html/body/div[4]/div/div[2]/ul/li/a/@href",
+    "book_state": "/html/body/div[4]/div[1]/div/dl/dt/i/text()",
+    "book_label": "/html/body/div[4]/div[1]/div/div[3]/p/a/text()",
+    "book_intro": "/html/body/div[3]/div/div/div[2]/div[2]/div/p/text()",
+    "last_chapter_title": "/html/body/div[3]/div/div/div[2]/div[3]/a/text()",
+    "book_words": "/html/body/notfound",
+    "book_update_time": "/html/body/div[4]/div[1]/div/dl/dd/p/span[1]/text()",
+    "chapter_title": "/html/body/div/div[2]/div[1]/h2/text()",
+    "chapter_content": "/html/body/div/div[2]/div[2]/p/text()"
+  },
+  "url": {
+    "host_site": "http://m.bjcan8.com",
+    "book_info": "http://m.bjcan8.com/book/{}.html",
+    "chapter_info": "http://m.bjcan8.com{}",
+    "search_info": "",
+    "catalogue_info": "http://m.bjcan8.com/home/chapter/lists/id/{}.html"
+  }
+}

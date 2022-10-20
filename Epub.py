@@ -3,6 +3,7 @@ from src import http_utils
 from config import *
 import uuid
 
+
 class EpubHtml:
     def __init__(self):
         self.description = ""
@@ -77,6 +78,8 @@ class EpubFile(epub.EpubBook):
             Vars.current_book.cover = "https://www.qu-la.com" + Vars.current_book.cover
         elif Vars.current_book_type == "http://www.trxs.cc":
             Vars.current_book.cover = "http://www.trxs.cc" + Vars.current_book.cover
+        elif Vars.current_book_type == "http://www.trxs.cc":
+            Vars.current_book.cover = "http://m.bjcan8.com" + Vars.current_book.cover
         cover_file_path = os.path.join(make_dirs("cover"), Vars.current_book.book_name + ".png")
         if not os.path.exists(cover_file_path):
             image_file = http_utils.get(api_url=Vars.current_book.cover, re_type="content")
@@ -84,11 +87,12 @@ class EpubFile(epub.EpubBook):
                 open(cover_file_path, 'wb').write(image_file)
             else:
                 print("download cover image failed, can't download the epub cover！")
-        cover_image = open(cover_file_path, 'rb').read()
-        if cover_image is not None:  # if cover image is not None ,then add to epub file
-            self.set_cover("cover.png", cover_image)  # add cover image to epub file
-        else:
-            self.download_cover_and_add_epub()
+        if os.path.exists(cover_file_path):
+            cover_image = open(cover_file_path, 'rb').read()
+            if cover_image is not None:  # if cover image is not None ,then add to epub file
+                self.set_cover("cover.png", cover_image)  # add cover image to epub file
+            else:
+                self.download_cover_and_add_epub()
 
     def add_chapter_in_epub_file(self, **kwargs):
         chapter_serial = self.template.set_chapter(

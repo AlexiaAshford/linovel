@@ -76,7 +76,7 @@ class Msg:
         '3': 'https://book.sfacg.com', '4': 'https://www.linovelib.com', '5': 'https://www.qbtr.cc',
         '6': 'http://www.trxs.cc', '7': 'https://www.popo.tw', '8': 'http://www.80zw.net',
         '9': 'https://www.qu-la.com', '10': 'https://www.52dus.cc/', '11': 'https://www.qb5.la',
-        '12': 'https://www.xbiquge.la',
+        '12': 'https://www.xbiquge.la', '13': 'http://m.bjcan8.com',
     }
     gbk_book_type = [
         'https://www.ddyueshu.com', 'https://www.qu-la.com', 'https://www.qbtr.cc', 'http://www.trxs.cc',

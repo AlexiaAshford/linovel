@@ -29,6 +29,8 @@ def init_chapter_url_list(book_info_html, max_retry: int = 3):
         catalogue = Vars.current_book_api.get_catalogue_info_by_book_id(Vars.current_book["bookId"])
         if Vars.current_book_type == "https://www.linovelib.com":
             chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list) if "novel" in i]
+        elif Vars.current_book_type == "http://m.bjcan8.com":
+            chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list) if "chapter" in i]
         else:
             chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list)]
     else:
