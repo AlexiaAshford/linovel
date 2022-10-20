@@ -72,14 +72,9 @@ class EpubFile(epub.EpubBook):
         self.EpubList.append(description)
 
     def download_cover_and_add_epub(self):  # download cover image and add to epub file as cover
-        if Vars.current_book_type == "https://www.ddyueshu.com":
-            Vars.current_book.cover = "https://www.ddyueshu.com" + Vars.current_book.cover
-        elif Vars.current_book_type == "https://www.qu-la.com":
-            Vars.current_book.cover = "https://www.qu-la.com" + Vars.current_book.cover
-        elif Vars.current_book_type == "http://www.trxs.cc":
-            Vars.current_book.cover = "http://www.trxs.cc" + Vars.current_book.cover
-        elif Vars.current_book_type == "http://m.bjcan8.com":
-            Vars.current_book.cover = "http://m.bjcan8.com" + Vars.current_book.cover
+        if Vars.current_book.cover[0] == "/":
+            Vars.current_book.cover = Vars.current_book_type + Vars.current_book.cover
+
         cover_file_path = os.path.join(make_dirs("cover"), Vars.current_book.book_name + ".png")
         if not os.path.exists(cover_file_path):
             image_file = http_utils.get(api_url=Vars.current_book.cover, re_type="content")
