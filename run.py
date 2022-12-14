@@ -3,7 +3,6 @@ import book
 from src import *
 from config import *
 import json
-import constant
 
 
 def init_config_book_source():
