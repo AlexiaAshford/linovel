@@ -45,3 +45,11 @@ class BookInfo(BaseModel):
     chapter_url_list: Optional[List[str]] = None
     book_id: Optional[str] = None
     book_info: Optional[dict] = None
+
+
+class ChapterInfo(BaseModel):
+    chapter_index: Optional[int]
+    chapter_url: Optional[str]
+    chapter_title: Optional[str]
+    chapter_content: Optional[str]
+    chapter_image_list: Optional[List[str]] = None

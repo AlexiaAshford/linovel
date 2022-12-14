@@ -31,15 +31,15 @@ class Chapter:
         return self.chapter_page.xpath(Vars.current_source.data.chapter_content)
 
     @property
-    def chapter_json(self):
+    def chapter_json(self) -> dict:
         self.chapter_page = Response.get_chapter_info_by_chapter_id(self.chapter_id)
-        return {
-            "chapterIndex": self.chapter_index,
-            "chapter_url": self.chapter_id,
-            "chapterTitle": self.chapter_title,
-            "chapterContent": self.standard_content,
-            "imageList": self.image_list if self.image_list is not None else []
-        }
+        return model.ChapterInfo(
+            chapter_index=self.chapter_index,
+            chapter_url=self.chapter_id,
+            chapter_title=self.chapter_title,
+            chapter_content=self.standard_content,
+            chapter_image_list=self.image_list if self.image_list is not None else []
+        ).dict()
 
     @property
     def standard_content(self) -> str:  # return a standard content
