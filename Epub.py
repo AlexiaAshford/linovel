@@ -31,17 +31,15 @@ class EpubHtml:
         if Vars.current_book.book_intro is not None:
             self.description += '<h5>简介信息:</h5>{}\n'.format(Vars.current_book.book_intro)
         self.description += '</body></html>'
-        data_template = self.html_template(
-            title='小说简介', file_name='0000-000000-intro.xhtml', lang='zh-CN'
-        )
+        data_template = self.html_template(title='小说简介', file_name='0000-000000-intro.xhtml', lang='zh-CN')
         data_template.content = self.description
         return data_template
 
+    # create chapter object
     def set_chapter(self, chapter_title: str, content: str, serial_number: str):
-        chapter = self.html_template(
-            title=chapter_title, file_name=str(serial_number).rjust(4, "0") + '.xhtml', lang='zh-CN',
-            uid=uuid.uuid4().hex
-        )  # create chapter object and set chapter title, file name, language, uid
+        chapter = self.html_template(title=chapter_title, file_name=str(serial_number).rjust(4, "0") + '.xhtml',
+                                     lang='zh-CN',
+                                     uid=uuid.uuid4().hex)
         chapter.content = '</p>\r\n<p>'.join(content)
         return chapter
 

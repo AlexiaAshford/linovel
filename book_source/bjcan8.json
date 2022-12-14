@@ -20,5 +20,6 @@
         "search_info": "",
         "catalogue_info": "http://m.bjcan8.com/home/chapter/lists/id/{}.html"
     },
-    "json_page": false
+    "json_page": false,
+    "gbk_encoding": false
 }

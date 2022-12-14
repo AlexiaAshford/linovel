@@ -20,5 +20,6 @@
         "search_info": "https://s.sfacg.com/",
         "catalogue_info": "https://book.sfacg.com/Novel/{}/MainIndex/"
     },
-    "json_page": false
+    "json_page": false,
+    "gbk_encoding": false
 }

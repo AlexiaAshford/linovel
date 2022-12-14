@@ -20,5 +20,6 @@
         "search_info": "",
         "catalogue_info": "https://www.linovelib.com/novel/{}/catalog"
     },
-    "json_page": false
+    "json_page": false,
+    "gbk_encoding": false
 }

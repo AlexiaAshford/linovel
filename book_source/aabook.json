@@ -20,5 +20,6 @@
         "search_info": "",
         "catalogue_info": "https://www.aabook.xyz/chapterList-{}.html"
     },
-    "json_page": false
+    "json_page": false,
+    "gbk_encoding": false
 }

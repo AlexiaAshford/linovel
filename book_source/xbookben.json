@@ -20,5 +20,6 @@
         "search_info": "https://www.xbookben.net/search",
         "catalogue_info": ""
     },
-    "json_page": false
+    "json_page": false,
+    "gbk_encoding": false
 }
