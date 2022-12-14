@@ -1,6 +1,6 @@
 from api import Response
 from config import *
-from . import decodes, API
+from . import decodes
 from typing import Optional, List, Union
 
 

@@ -1,5 +1,5 @@
 from ebooklib import epub
-from src import http_utils
+from lib import http_utils
 from config import *
 import uuid
 

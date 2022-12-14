@@ -7,10 +7,10 @@ from tenacity import *
 
 session = requests.Session()
 try:
-    fake_useragent_list = json.loads(open("./src/http_utils/fake_useragent_0.1.11.json", "r", encoding="utf-8").read())
+    fake_useragent_list = json.loads(open("./lib/http_utils/fake_useragent_0.1.11.json", "r", encoding="utf-8").read())
 except Exception as error:
     print("fake_useragent_list error: {}".format(error))
-    fake_useragent_list = json.loads(open("./fake_useragent_0.1.11.json", "r", encoding="utf-8").read())
+    fake_useragent_list = json.loads(open("fake_useragent_0.1.11.json", "r", encoding="utf-8").read())
 
 logging.basicConfig(
     filename="logfile.log", filemode="w", format="%(levelname)s %(asctime)s - %(message)s", level=logging.ERROR
