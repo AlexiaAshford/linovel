@@ -12,9 +12,9 @@ class EpubHtml:
         Vars.current_book.book_words = re.sub(r'\s|\n|\r|字数：', '', Vars.current_book.book_words)
         self.description = "<html><head></head><body>"
         if Vars.current_book.book_cover is not None:
-            self.description += f'<img src="cover.png" alt="{Vars.current_book.bookName} 封面">'
-        if Vars.current_book.bookName is not None:
-            self.description += '<h1>书籍书名:{}</h1>'.format(Vars.current_book.bookName)
+            self.description += f'<img src="cover.png" alt="{Vars.current_book.book_name} 封面">'
+        if Vars.current_book.book_name is not None:
+            self.description += '<h1>书籍书名:{}</h1>'.format(Vars.current_book.book_name)
         if Vars.current_book.book_author is not None:
             self.description += '<h2>书籍作者:{}</h2>\n'.format(Vars.current_book.book_author)
         if Vars.current_book.book_id is not None:
@@ -53,7 +53,7 @@ class EpubFile(epub.EpubBook):
     def set_epub_book_info(self):
         self.set_language('zh-CN')  # set epub file language
         self.set_identifier(Vars.current_book.book_id)
-        self.set_title(Vars.current_book.bookName)
+        self.set_title(Vars.current_book.book_name)
         self.add_author(Vars.current_book.book_author)
         if Vars.current_book.book_cover:
             Vars.current_epub.download_cover_and_add_epub()
@@ -62,8 +62,8 @@ class EpubFile(epub.EpubBook):
         description = self.template.set_description()
         book_detailed = re.sub(r"\n+", "\n", re.sub('<[^>]+>|<p>|</p>', "\n", description.content).strip())
         write_text(
-            path_name=os.path.join(Vars.cfg.data['out_path'], Vars.current_book.bookName,
-                                   Vars.current_book.bookName + ".txt"),
+            path_name=os.path.join(Vars.cfg.data['out_path'], Vars.current_book.book_name,
+                                   Vars.current_book.book_name + ".txt"),
             content=book_detailed + "\n\n"
         )  # write book information to text file in downloads folder and show book name, author and chapter count
         print(book_detailed)  # print book detailed information to console
@@ -75,8 +75,7 @@ class EpubFile(epub.EpubBook):
             Vars.current_book.book_cover = Vars.current_book_type + Vars.current_book.book_cover
 
         # Cache/cover/book_name.png
-        cover_file_path = os.path.join(make_dirs(Vars.cfg.data['config_path'] + "cover"),
-                                       Vars.current_book.bookName + ".png")
+        cover_file_path = os.path.join(Vars.cfg.data['config_path'] + "cover", Vars.current_book.book_name + ".png")
 
         if not os.path.exists(cover_file_path):
             image_file = http_utils.get(api_url=Vars.current_book.book_cover, re_type="content")
@@ -102,6 +101,6 @@ class EpubFile(epub.EpubBook):
         self.toc = tuple(self.EpubList)
         self.spine.extend(self.EpubList)
         self.add_item(epub.EpubNcx()), self.add_item(epub.EpubNav())
-        save_epub_file = os.path.join(Vars.cfg.data['out_path'], Vars.current_book.bookName,
-                                      Vars.current_book.bookName + '.epub')
+        save_epub_file = os.path.join(Vars.cfg.data['out_path'], Vars.current_book.book_name,
+                                      Vars.current_book.book_name + '.epub')
         epub.write_epub(save_epub_file, self)  # save epub file to out_path directory with book_name.epub

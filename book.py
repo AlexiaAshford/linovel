@@ -63,9 +63,7 @@ class BookConfig:
     def __init__(self):
         self.content_config = []
         self.threading_list = []
-
-        make_dirs(Vars.cfg.data['config_path'])
-        self.save_config_path = os.path.join(Vars.cfg.data['config_path'], Vars.current_book.bookName + ".json")
+        self.save_config_path = os.path.join(Vars.cfg.data['config_path'], Vars.current_book.book_name + ".json")
 
     def init_content_config(self):
         if os.path.exists(self.save_config_path):
@@ -88,7 +86,6 @@ class BookConfig:
             self.save_content_json()
 
     def merge_text_file(self) -> None:  # merge all text file into one text file
-        make_dirs(os.path.join(Vars.cfg.data['out_path'], Vars.current_book.bookName))
         for chapter_info in self.content_config:
             chapter_title = "第{}章: {}\n".format(chapter_info['chapterIndex'], chapter_info['chapterTitle'])
             chapter_content = ["　　" + i for i in chapter_info.get('chapterContent').split("\n")]
@@ -97,8 +94,8 @@ class BookConfig:
             )
 
             write_text(
-                path_name=os.path.join(Vars.cfg.data['out_path'], Vars.current_book.bookName,
-                                       Vars.current_book.bookName + ".txt"),
+                path_name=os.path.join(Vars.cfg.data['out_path'], Vars.current_book.book_name,
+                                       Vars.current_book.book_name + ".txt"),
                 content=chapter_title + '\n'.join(chapter_content) + "\n\n\n", mode="a"
             )  # write chapter title and content to text file in downloads folder
         self.content_config.clear()  # clear content_config for next book download
@@ -142,7 +139,7 @@ class BookConfig:
                 for thread in tqdm(self.threading_list, ncols=100, desc='download book content'):
                     thread.result()
             else:
-                print(Vars.current_book.bookName, "is no chapter to download.\n\n")
+                print(Vars.current_book.book_name, "is no chapter to download.\n\n")
 
         self.save_content_json()
 

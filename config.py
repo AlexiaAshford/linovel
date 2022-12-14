@@ -91,7 +91,7 @@ class BookSource(BaseModel):
 
 
 class BookInfo(BaseModel):
-    bookName: Optional[str]
+    book_name: Optional[str]
     book_author: Optional[str] = None
     book_cover: Optional[str] = None
     book_words: Optional[str] = None

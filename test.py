@@ -33,7 +33,7 @@ if __name__ == '__main__':
     if Vars.current_book.chapter_url_list is None:
         print("<error>", "[red]The chapter list is empty, please check your book id.[/red]")
         exit(1)
-    if Vars.current_book.bookName:
+    if Vars.current_book.book_name:
         current_book = book.BookConfig()
         current_book.init_content_config()
         current_book.multi_thread_download_book()

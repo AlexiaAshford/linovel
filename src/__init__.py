@@ -17,7 +17,7 @@ def init_book_info_template(book_info_html):
     # print(last_chapter_title[0])
 
     Vars.current_book = BookInfo(
-        bookName=book_name[0],
+        book_name=book_name[0],
         book_id=Vars.current_book_id,
         book_author=book_author[0] if book_author else None,
         book_cover=book_img[0] if book_img else None,

@@ -5,6 +5,7 @@ from config import *
 import json
 from api import Response
 
+
 def init_config_book_source():
     book_source_path = "./book_source/{}.json".format(Vars.current_book_type.split(".")[-2])
     if os.path.exists(book_source_path):
@@ -65,8 +66,11 @@ def shell_console(inputs: list):
 
             if Vars.current_book.chapter_url_list is None:
                 return print("<error>", "[red]Get chapter url list error, please check your book id.[/red]")
-            if Vars.current_book.bookName:
-                Vars.current_book.bookName = re.sub(r"[\/\\\:\*\?\"\<\>\|]", "_", Vars.current_book.bookName)
+            if Vars.current_book.book_name:
+                Vars.current_book.book_name = re.sub(r"[\/\\\:\*\?\"\<\>\|]", "_", Vars.current_book.book_name)
+                make_dirs(Vars.cfg.data['config_path'])
+                make_dirs(os.path.join(Vars.cfg.data['config_path'], "cover"))
+                make_dirs(os.path.join(Vars.cfg.data['out_path'], Vars.current_book.book_name))
                 current_book = book.BookConfig()
                 current_book.init_content_config()
                 current_book.multi_thread_download_book()
