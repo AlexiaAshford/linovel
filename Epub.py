@@ -11,24 +11,24 @@ class EpubHtml:
 
     def set_description(self):
         self.description = "<html><head></head><body>"
-        if Vars.current_book.cover is not None:
-            self.description += f'<img src="cover.png" alt="{Vars.current_book.book_name} 封面">'
-        if Vars.current_book.book_name is not None:
-            self.description += '<h1>书籍书名:{}</h1>'.format(Vars.current_book.book_name)
-        if Vars.current_book.book_author is not None:
-            self.description += '<h2>书籍作者:{}</h2>\n'.format(Vars.current_book.book_author)
-        if Vars.current_book.book_id is not None:
-            self.description += '<h3>书籍序号:{}</h3>'.format(Vars.current_book.book_id)
-        if Vars.current_book.book_status is not None:
-            self.description += '<h4>书籍状态:{}</h4>\n'.format(Vars.current_book.book_status)
-        if Vars.current_book.book_words is not None:
-            self.description += '<h4>字数信息:</h4>{}\n'.format(Vars.current_book.book_words.replace("字数：", ""))
-        if Vars.current_book.last_chapter_title is not None:
-            self.description += '<h4>最新章节:{}</h4>\n'.format(Vars.current_book.last_chapter_title)
-        if Vars.current_book.book_tag is not None:
-            self.description += '<h4>系统标签:{}</h4>\n'.format(Vars.current_book.book_tag)
-        if Vars.current_book.book_intro is not None:
-            self.description += '<h5>简介信息:</h5>{}\n'.format(Vars.current_book.book_intro)
+        if Vars.current_book_obj.book_cover is not None:
+            self.description += f'<img src="cover.png" alt="{Vars.current_book_obj.bookName} 封面">'
+        if Vars.current_book_obj.bookName is not None:
+            self.description += '<h1>书籍书名:{}</h1>'.format(Vars.current_book_obj.bookName)
+        if Vars.current_book_obj.book_author is not None:
+            self.description += '<h2>书籍作者:{}</h2>\n'.format(Vars.current_book_obj.book_author)
+        if Vars.current_book_obj.book_id is not None:
+            self.description += '<h3>书籍序号:{}</h3>'.format(Vars.current_book_obj.book_id)
+        if Vars.current_book_obj.book_status is not None:
+            self.description += '<h4>书籍状态:{}</h4>\n'.format(Vars.current_book_obj.book_status)
+        if Vars.current_book_obj.book_words is not None:
+            self.description += '<h4>字数信息:</h4>{}\n'.format(Vars.current_book_obj.book_words.replace("字数：", ""))
+        if Vars.current_book_obj.last_chapter_title is not None:
+            self.description += '<h4>最新章节:{}</h4>\n'.format(Vars.current_book_obj.last_chapter_title)
+        if Vars.current_book_obj.book_tag is not None:
+            self.description += '<h4>系统标签:{}</h4>\n'.format(Vars.current_book_obj.book_tag)
+        if Vars.current_book_obj.book_intro is not None:
+            self.description += '<h5>简介信息:</h5>{}\n'.format(Vars.current_book_obj.book_intro)
         self.description += '</body></html>'
         data_template = self.html_template(
             title='小说简介', file_name='0000-000000-intro.xhtml', lang='zh-CN'
@@ -54,17 +54,18 @@ class EpubFile(epub.EpubBook):
 
     def set_epub_book_info(self):
         self.set_language('zh-CN')  # set epub file language
-        self.set_identifier(Vars.current_book.book_id)
-        self.set_title(Vars.current_book.book_name)
-        self.add_author(Vars.current_book.book_author)
-        if Vars.current_book.cover:
+        self.set_identifier(Vars.current_book_obj.book_id)
+        self.set_title(Vars.current_book_obj.bookName)
+        self.add_author(Vars.current_book_obj.book_author)
+        if Vars.current_book_obj.book_cover:
             Vars.current_epub.download_cover_and_add_epub()
         else:
             print("cover is None, can't download the epub cover！")
         description = self.template.set_description()
         book_detailed = re.sub(r"\n+", "\n", re.sub('<[^>]+>|<p>|</p>', "\n", description.content).strip())
         write_text(
-            path_name=os.path.join(Vars.current_book.out_text_path, Vars.current_book.book_name + ".txt"),
+            path_name=os.path.join(Vars.cfg.data['out_path'], Vars.current_book_obj.bookName,
+                                   Vars.current_book_obj.bookName + ".txt"),
             content=book_detailed + "\n\n"
         )  # write book information to text file in downloads folder and show book name, author and chapter count
         print(book_detailed)  # print book detailed information to console
@@ -72,15 +73,15 @@ class EpubFile(epub.EpubBook):
         self.EpubList.append(description)
 
     def download_cover_and_add_epub(self):  # download cover image and add to epub file as cover
-        if Vars.current_book.cover[0] == "/":
-            Vars.current_book.cover = Vars.current_book_type + Vars.current_book.cover
+        if Vars.current_book_obj.book_cover[0] == "/":
+            Vars.current_book_obj.book_cover = Vars.current_book_type + Vars.current_book_obj.book_cover
 
         # Cache/cover/book_name.png
         cover_file_path = os.path.join(make_dirs(Vars.cfg.data['config_path'] + "cover"),
-                                       Vars.current_book.book_name + ".png")
+                                       Vars.current_book_obj.bookName + ".png")
 
         if not os.path.exists(cover_file_path):
-            image_file = http_utils.get(api_url=Vars.current_book.cover, re_type="content")
+            image_file = http_utils.get(api_url=Vars.current_book_obj.book_cover, re_type="content")
             if image_file:
                 open(cover_file_path, 'wb').write(image_file)
             else:
@@ -103,5 +104,6 @@ class EpubFile(epub.EpubBook):
         self.toc = tuple(self.EpubList)
         self.spine.extend(self.EpubList)
         self.add_item(epub.EpubNcx()), self.add_item(epub.EpubNav())
-        save_epub_file = os.path.join(Vars.current_book.out_text_path, Vars.current_book.book_name + '.epub')
+        save_epub_file = os.path.join(Vars.cfg.data['out_path'], Vars.current_book_obj.bookName,
+                                      Vars.current_book_obj.bookName + '.epub')
         epub.write_epub(save_epub_file, self)  # save epub file to out_path directory with book_name.epub

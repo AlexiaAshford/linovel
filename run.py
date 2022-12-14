@@ -66,12 +66,14 @@ def shell_console(inputs: list):
             print("<error>", "[red]Get book info error, please check your book id.[/red]")
         else:
             init_book_info_template(book_info_html=book_info_html)
+
             if Vars.current_book_obj.chapter_url_list is None:
                 return print("<error>", "[red]Get chapter url list error, please check your book id.[/red]")
-            if Vars.current_book and Vars.current_book.get("bookName") is not None:
-                Vars.current_book = book.BookConfig(Vars.current_book)
-                Vars.current_book.init_content_config()
-                Vars.current_book.multi_thread_download_book()
+            if Vars.current_book_obj.bookName:
+                Vars.current_book_obj.bookName = re.sub(r"[\/\\\:\*\?\"\<\>\|]", "_", Vars.current_book_obj.bookName)
+                current_book = book.BookConfig()
+                current_book.init_content_config()
+                current_book.multi_thread_download_book()
             else:
                 print("<error>", "[red]Download book error,please check your input app type name.[/red]")
 
@@ -113,17 +115,3 @@ if __name__ == '__main__':
         print("[input]s + search keyword\t\tsearch book by keyword")
         while True:
             shell_console(get(">").strip().split(" "))
-
-    # def input_index():
-    #     try:
-    #         index = int(input())
-    #         if index < len(response):
-    #             Vars.current_book = book.Book(response[index])
-    #             Vars.current_book.init_content_config()
-    #             Vars.current_book.multi_thread_download_book()
-    #         else:
-    #             print("[error] index out of range, please input again")
-    #             input_index()
-    #     except ValueError:
-    #         print("[error] please input number")
-    #         input_index()

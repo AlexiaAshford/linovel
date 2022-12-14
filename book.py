@@ -52,7 +52,8 @@ class Chapter:
         self.chapter_page = None
         self.image_list = []
 
-    # @property
+        # @property
+
     # def chapter_info(self):
     #     return Vars.current_book_api.get_chapter_info_by_chapter_id(self.chapter_id)
 
@@ -97,11 +98,13 @@ class Chapter:
         return [page.strip() for page in self.content_page_html if page is not None and len(page.strip()) != 0]
 
 
-class BookConfig(Book):
-    def __init__(self, book_info: dict):
-        super().__init__(book_info=book_info)
+class BookConfig:
+    def __init__(self):
         self.content_config = []
         self.threading_list = []
+
+        make_dirs(Vars.cfg.data['config_path'])
+        self.save_config_path = os.path.join(Vars.cfg.data['config_path'], Vars.current_book_obj.bookName + ".json")
 
     def init_content_config(self):
         if os.path.exists(self.save_config_path):
@@ -124,14 +127,17 @@ class BookConfig(Book):
             self.save_content_json()
 
     def merge_text_file(self) -> None:  # merge all text file into one text file
+        make_dirs(os.path.join(Vars.cfg.data['out_path'], Vars.current_book_obj.bookName))
         for chapter_info in self.content_config:
             chapter_title = "第{}章: {}\n".format(chapter_info['chapterIndex'], chapter_info['chapterTitle'])
             chapter_content = ["　　" + i for i in chapter_info.get('chapterContent').split("\n")]
             Vars.current_epub.add_chapter_in_epub_file(
                 title=chapter_title, content=chapter_content, index=chapter_info['chapterIndex']
             )
+
             write_text(
-                path_name=os.path.join(self.out_text_path, self.book_name + ".txt"),
+                path_name=os.path.join(Vars.cfg.data['out_path'], Vars.current_book_obj.bookName,
+                                       Vars.current_book_obj.bookName + ".txt"),
                 content=chapter_title + '\n'.join(chapter_content) + "\n\n\n", mode="a"
             )  # write chapter title and content to text file in downloads folder
         self.content_config.clear()  # clear content_config for next book download
@@ -160,7 +166,7 @@ class BookConfig(Book):
 
     def multi_thread_download_book(self) -> None:
         with ThreadPoolExecutor(max_workers=Vars.cfg.data.get('max_thread')) as executor:
-            for index, chapter_url in enumerate(self.chapter_url_list, start=1):
+            for index, chapter_url in enumerate(Vars.current_book_obj.chapter_url_list, start=1):
                 if Vars.current_book_type == "https://book.sfacg.com" and "vip/c" in chapter_url:
                     continue  # sfacg web vip chapter is images, not support download
                 if self.test_config_chapter(chapter_url):
@@ -175,7 +181,7 @@ class BookConfig(Book):
                 for thread in tqdm(self.threading_list, ncols=100, desc='download book content'):
                     thread.result()
             else:
-                print(self.book_name, "is no chapter to download.\n\n")
+                print(Vars.current_book_obj.bookName, "is no chapter to download.\n\n")
 
         self.save_content_json()
 

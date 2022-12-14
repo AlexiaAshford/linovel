@@ -19,15 +19,15 @@ class Response:
             url = Vars.current_book_source.get("url").get("book_info").format(book_id[:2], book_id)
         else:
             url = Vars.current_book_source.get("url").get("book_info").format(book_id)
-        Vars.current_book["bookId"] = book_id
+        Vars.current_book_id = book_id
         return src.http_utils.get(api_url=url, gbk=Vars.current_book_gbk)
 
     @staticmethod
     def get_chapter_info_by_chapter_id(chapter_url: str):
         if Vars.current_book_type == "http://www.80zw.net":
-            url = Vars.current_book_source.get("url").get("chapter_info").format(Vars.current_book.book_id, chapter_url)
+            url = Vars.current_book_source.get("url").get("chapter_info").format(Vars.current_book_obj.book_id, chapter_url)
         elif Vars.current_book_type == "https://www.qb5.la":
-            url = Vars.current_book_source.get("url").get("chapter_info").format(Vars.current_book.book_id, chapter_url)
+            url = Vars.current_book_source.get("url").get("chapter_info").format(Vars.current_book_obj.book_id, chapter_url)
         else:
             url = Vars.current_book_source.get("url").get("chapter_info").format(chapter_url)
         result = src.http_utils.get(api_url=url, gbk=Vars.current_book_gbk)

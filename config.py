@@ -62,16 +62,16 @@ class Config:
 
 class BookInfo(BaseModel):
     bookName: Optional[str]
-    authorName: Optional[str] = None
-    bookCoverUrl: Optional[str] = None
-    bookWords: Optional[str] = None
-    bookTag: Optional[str] = None
-    bookIntro: Optional[str] = None
+    book_author: Optional[str] = None
+    book_cover: Optional[str] = None
+    book_words: Optional[str] = None
+    book_tag: Optional[str] = None
+    book_intro: Optional[str] = None
     book_status: Optional[str] = None
     last_chapter_title: Optional[Any] = None
     book_update_time: Optional[str] = None
     chapter_url_list: Optional[List[str]] = None
-    bookId: Optional[str] = None
+    book_id: Optional[str] = None
     book_info: Optional[dict] = None
 
 
@@ -79,6 +79,7 @@ class Vars:
     cfg = Config(os.getcwd() + '/config.json', os.getcwd())
     current_book = {}
     current_book_obj: Union[BookInfo] = None
+    current_book_id = None
     current_epub = None
     current_book_type = None
     current_book_gbk = False
