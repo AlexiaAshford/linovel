@@ -60,6 +60,34 @@ class Config:
             print('保存配置文件时出错')
 
 
+class BookInfoData(BaseModel):
+    book_img: Optional[str] = ""
+    book_name: Optional[str] = ""
+    book_author: Optional[str] = ""
+    book_state: Optional[str] = ""
+    book_label: Optional[str] = ""
+    book_intro: Optional[str] = ""
+    last_chapter_title: Optional[str] = ""
+    book_words: Optional[str] = ""
+    book_update_time: Optional[str] = ""
+    chapter_title: Optional[str] = ""
+    chapter_content: Optional[str] = ""
+
+
+class BookInfoUrl(BaseModel):
+    host_site: Optional[str] = ""
+    book_info: Optional[str] = ""
+    chapter_info: Optional[str] = ""
+    search_info: Optional[str] = ""
+    catalogue_info: Optional[str] = ""
+
+
+class BookSource(BaseModel):
+    data: Union[BookInfoData]
+    url: Union[BookInfoUrl]
+    json_page: bool = False
+
+
 class BookInfo(BaseModel):
     bookName: Optional[str]
     book_author: Optional[str] = None
