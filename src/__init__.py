@@ -32,7 +32,7 @@ def init_book_info_template(book_info_html):
 
 
 def init_chapter_url_list(book_info_html, max_retry: int = 3) -> Union[List[str], None]:
-    if Vars.current_book_source["url"]["catalogue_info"] != "":
+    if Vars.current_source.url.catalogue_info != "":
         catalogue = Vars.current_book_api.get_catalogue_info_by_book_id(Vars.current_book.book_id)
         if Vars.current_book_type == "https://www.linovelib.com":
             chapter_url_list = [i for i in catalogue.xpath(Vars.current_source.data.chapter_url_list) if "novel" in i]
