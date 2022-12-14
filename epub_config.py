@@ -15,7 +15,7 @@ class EpubHtml:
         if Vars.current_book.book_name is not None:
             self.description += '<h1>书籍书名:{}</h1>'.format(Vars.current_book.book_name)
         if Vars.current_book.book_author:
-            Vars.current_book.book_status = re.sub('作|者|：| ', '', Vars.current_book.book_author)
+            Vars.current_book.book_author = re.sub(r'作|者|：| ', '', Vars.current_book.book_author)
             self.description += '<h2>书籍作者:{}</h2>\n'.format(Vars.current_book.book_author)
         if Vars.current_book.book_id is not None:
             self.description += '<h3>书籍序号:{}</h3>'.format(Vars.current_book.book_id)
@@ -94,7 +94,10 @@ class EpubFile(epub.EpubBook):
 
     def add_chapter_in_epub_file(self, **kwargs):
         chapter_serial = self.template.set_chapter(
-            kwargs.get("title"), kwargs.get("content"), kwargs.get("index"))
+            kwargs.get("title"),
+            kwargs.get("content"),
+            kwargs.get("index")
+        )
         self.add_item(chapter_serial)  # add chapter to epub file as item
         self.EpubList.append(chapter_serial)  # add chapter to epub list
 

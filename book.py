@@ -44,7 +44,7 @@ class Chapter:
 
     @property
     def standard_content(self) -> str:  # return a standard content
-        content = "\n".join(self.content)  # list to str
+        content = "\n".join(["　　" + i for i in self.content])  # list to str
         if Vars.current_book_type == "https://www.linovelib.com":
             content = decodes.decode_content_text(content)  # decode content text
         for delete_info in Msg.del_chapter_advertisement_list:  # delete chapter advertisement text
@@ -85,16 +85,16 @@ class BookConfig:
     def merge_text_file(self) -> None:  # merge all text file into one text file
         for chapter_info_json in self.content_config:
             chapter_info = model.ChapterInfo(**chapter_info_json)
-            chapter_content = ["　　" + i for i in chapter_info.chapter_content.split("\n")]
-            Vars.current_epub.add_chapter_in_epub_file(title=chapter_info.chapter_title,
-                                                       content=chapter_content,
-                                                       index=chapter_info.chapter_index
-                                                       )
+            Vars.current_epub.add_chapter_in_epub_file(
+                title=chapter_info.chapter_title,
+                index=chapter_info.chapter_index,
+                content=chapter_info.chapter_content.split("\n"),
+            )
             # write chapter title and content to text file in downloads folder
             write_text(mode="a",
                        path_name=os.path.join(Vars.cfg.data['out_path'], Vars.current_book.book_name,
                                               Vars.current_book.book_name + ".txt"),
-                       content=chapter_info.chapter_index_title + '\n'.join(chapter_content) + "\n\n\n",
+                       content=chapter_info.chapter_index_title + chapter_info.chapter_content + "\n\n\n",
                        )
         # clear content_config for next book download
         self.content_config.clear()
@@ -117,7 +117,7 @@ class BookConfig:
                 raise Exception("chapter_info.chapter_title is None")
         except Exception as err:
             self.download_book_content(chapter_url=chapter_url, index=index)
-            log.error("download_book_content error: {}".format(err))
+            log.logger("download_book_content error: {}".format(err))
             self.save_content_json()  # save content_config if error
 
     def multi_thread_download_book(self) -> None:
