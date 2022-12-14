@@ -1,23 +1,24 @@
 {
-  "data": {
-    "book_img": "//*[@id=\"rs\"]/@src",
-    "book_name": "/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/h3/text()",
-    "book_author": "/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[1]/a/text()",
-    "chapter_url_list": "//*[@id=\"w0\"]/div/div/div[2]/a/@href",
-    "book_state": "/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[3]/text()",
-    "book_label": "/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[2]/span/text()",
-    "book_intro": "/html/body/div[4]/div[2]/div[1]/div[5]/p/text()",
-    "last_chapter_title": "/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[3]/span/text()",
-    "book_words": "/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/div[2]/table[1]/tbody/tr[3]/td/text()",
-    "book_update_time": "//*[@id=\"list\"]/div[2]/p[2]/span/text()",
-    "chapter_title": "//*[@id=\"readmask\"]/div/h2/text()",
-    "chapter_content": "//*[@id=\"readmask\"]/div/p/text()"
-  },
-  "url": {
-    "host_site": "https://www.popo.tw",
-    "book_info": "https://www.popo.tw/books/{}",
-    "chapter_info": "https://www.popo.tw{}",
-    "search_info": "",
-    "catalogue_info": "https://www.popo.tw/books/{}/articles"
-  }
+    "data": {
+        "book_img": "//*[@id=\"rs\"]/@src",
+        "book_name": "/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/h3/text()",
+        "book_author": "/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[1]/a/text()",
+        "chapter_url_list": "//*[@id=\"w0\"]/div/div/div[2]/a/@href",
+        "book_state": "/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[3]/text()",
+        "book_label": "/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[2]/span/text()",
+        "book_intro": "/html/body/div[4]/div[2]/div[1]/div[5]/p/text()",
+        "last_chapter_title": "/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[3]/span/text()",
+        "book_words": "/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/div[2]/table[1]/tbody/tr[3]/td/text()",
+        "book_update_time": "//*[@id=\"list\"]/div[2]/p[2]/span/text()",
+        "chapter_title": "//*[@id=\"readmask\"]/div/h2/text()",
+        "chapter_content": "//*[@id=\"readmask\"]/div/p/text()"
+    },
+    "url": {
+        "host_site": "https://www.popo.tw",
+        "book_info": "https://www.popo.tw/books/{}",
+        "chapter_info": "https://www.popo.tw{}",
+        "search_info": "",
+        "catalogue_info": "https://www.popo.tw/books/{}/articles"
+    },
+    "json_page": false
 }

@@ -2,11 +2,11 @@ import argparse
 import book
 from src import *
 from config import *
+import json
+import constant
 
 
 def init_config_book_source():
-    import json
-    import constant
     book_source_path = "./book_source/{}.json".format(Vars.current_book_type.split(".")[-2])
     if os.path.exists(book_source_path):
         Vars.current_book_source = json.loads(open(book_source_path, "r", encoding="utf-8").read())

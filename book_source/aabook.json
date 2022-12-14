@@ -1,23 +1,24 @@
 {
-  "data": {
-    "book_img": "/html/body/div[6]/div/div[2]/div[1]/div/div[1]/div[2]/img/@src",
-    "book_name": "/html/body/div[6]/div/div[2]/div[1]/div/div[1]/div[3]/div/h3/a/text()",
-    "book_author": "/html/body/div[6]/div/div[2]/div[1]/div/div[1]/div[3]/div/p/text()",
-    "chapter_url_list": "/html/body/div/div[2]/ul/li/a/@href",
-    "book_state": "/html/body/div[6]/div/div[2]/div[1]/div/div[1]/div[3]/ul[1]/li[2]/ul/li[2]/span/text()",
-    "book_label": "/html/body/div[6]/div/div[2]/div[1]/div/div[1]/div[3]/ul[1]/li[2]/ul/li[1]/span/text()",
-    "book_intro": "/html/body/div[6]/div/div[2]/div[1]/div/div[1]/div[3]/ul[1]/li[1]/div/p[1]/text()",
-    "last_chapter_title": "/html/body/div[6]/div/div[2]/div[1]/div/div[1]/div[3]/ul[1]/li[2]/ul/li[4]/span/text()",
-    "book_words": "/html/body/div[6]/div/div[2]/div[1]/div/div[1]/div[3]/ul[1]/li[2]/ul/li[3]/span/text()",
-    "book_update_time": "/html/notfound",
-    "chapter_title": "/html/body/div[2]/div[2]/h1/text()",
-    "chapter_content": "/html/body/p/text()"
-  },
-  "url": {
-    "host_site": "https://www.aabook.xyz",
-    "book_info": "https://www.aabook.xyz/book-{}.html",
-    "chapter_info": "https://www.aabook.xyz{}",
-    "search_info": "",
-    "catalogue_info": "https://www.aabook.xyz/chapterList-{}.html"
-  }
+    "data": {
+        "book_img": "/html/body/div[6]/div/div[2]/div[1]/div/div[1]/div[2]/img/@src",
+        "book_name": "/html/body/div[6]/div/div[2]/div[1]/div/div[1]/div[3]/div/h3/a/text()",
+        "book_author": "/html/body/div[6]/div/div[2]/div[1]/div/div[1]/div[3]/div/p/text()",
+        "chapter_url_list": "/html/body/div/div[2]/ul/li/a/@href",
+        "book_state": "/html/body/div[6]/div/div[2]/div[1]/div/div[1]/div[3]/ul[1]/li[2]/ul/li[2]/span/text()",
+        "book_label": "/html/body/div[6]/div/div[2]/div[1]/div/div[1]/div[3]/ul[1]/li[2]/ul/li[1]/span/text()",
+        "book_intro": "/html/body/div[6]/div/div[2]/div[1]/div/div[1]/div[3]/ul[1]/li[1]/div/p[1]/text()",
+        "last_chapter_title": "/html/body/div[6]/div/div[2]/div[1]/div/div[1]/div[3]/ul[1]/li[2]/ul/li[4]/span/text()",
+        "book_words": "/html/body/div[6]/div/div[2]/div[1]/div/div[1]/div[3]/ul[1]/li[2]/ul/li[3]/span/text()",
+        "book_update_time": "/html/notfound",
+        "chapter_title": "/html/body/div[2]/div[2]/h1/text()",
+        "chapter_content": "/html/body/p/text()"
+    },
+    "url": {
+        "host_site": "https://www.aabook.xyz",
+        "book_info": "https://www.aabook.xyz/book-{}.html",
+        "chapter_info": "https://www.aabook.xyz{}",
+        "search_info": "",
+        "catalogue_info": "https://www.aabook.xyz/chapterList-{}.html"
+    },
+    "json_page": false
 }
