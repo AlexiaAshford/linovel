@@ -87,6 +87,7 @@ class BookSource(BaseModel):
     data: Union[BookInfoData]
     url: Union[BookInfoUrl]
     json_page: bool = False
+    gbk_encoding: bool = False
 
 
 class BookInfo(BaseModel):
@@ -110,7 +111,6 @@ class Vars:
     current_book_id = None
     current_epub = None
     current_book_type = None
-    current_book_gbk = False
     current_book_classify_name = None
     current_book_rule = None
     current_book_api = None

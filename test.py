@@ -20,7 +20,6 @@ if __name__ == '__main__':
     book_id = "6072"
     Vars.current_book_classify_name = "tongren"
     Vars.current_book_type = "http://www.trxs.cc"
-    Vars.current_book_gbk = True
     if not init_config_book_source():
         raise Exception("book source not found, please check your book type, book type:", Vars.current_book_type)
 

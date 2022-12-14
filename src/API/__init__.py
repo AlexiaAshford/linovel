@@ -20,7 +20,7 @@ class Response:
         else:
             url = Vars.current_source.url.book_info.format(book_id)
         Vars.current_book_id = book_id
-        return src.http_utils.get(api_url=url, gbk=Vars.current_book_gbk)
+        return src.http_utils.get(api_url=url)
 
     @staticmethod
     def get_chapter_info_by_chapter_id(chapter_url: str):
@@ -30,20 +30,16 @@ class Response:
             url = Vars.current_source.url.chapter_info.format(Vars.current_book.book_id, chapter_url)
         else:
             url = Vars.current_source.url.chapter_info.format(chapter_url)
-        result = src.http_utils.get(api_url=url, gbk=Vars.current_book_gbk)
+        result = src.http_utils.get(api_url=url)
         return result
 
     @staticmethod
     def get_catalogue_info_by_book_id(book_id: str):
-        return src.http_utils.get(api_url=Vars.current_source.url.catalogue_info.format(book_id),
-                                  gbk=Vars.current_book_gbk)
+        return src.http_utils.get(api_url=Vars.current_source.url.catalogue_info.format(book_id))
 
     @staticmethod
     def get_book_info_by_keyword(method: str, params: dict):
-        response = src.http_utils.get(
-            method=method, params=params, api_url=Vars.Vars.current_source.url.search_info,
-            gbk=Vars.current_book_gbk
-        )
+        response = src.http_utils.get(method=method, params=params, api_url=Vars.Vars.current_source.url.search_info)
         return list(zip(
             # response.xpath(Vars.current_book_rule.Search.book_name),
             # response.xpath(Vars.current_book_rule.Search.book_id)

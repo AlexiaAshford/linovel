@@ -21,7 +21,6 @@ def set_up_app_type(book_type: str):  # set up app type and book type
         Vars.current_book_type = Msg.book_type_dict.get(book_type)
         if not init_config_book_source():
             raise Exception("book source not found, please check your book type, book type:", Vars.current_book_type)
-        Vars.current_book_gbk = Vars.current_book_type in Msg.gbk_book_type
 
         if book_type == "5" or book_type == "6":
             print("index:1\t\t常规小说\nindex:2\t\t同人小说")

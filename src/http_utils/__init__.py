@@ -19,9 +19,9 @@ logging.basicConfig(
 logger = logging.getLogger()
 
 
-def get(api_url: str, method: str = "GET", gbk: bool = False, params: dict = None, re_type: str = "html"):
+def get(api_url: str, method: str = "GET", params: dict = None, re_type: str = "html"):
     try:
-        response = request(method=method, api_url=api_url, gbk=gbk, params=params)
+        response = request(method=method, api_url=api_url, gbk=Vars.current_source.gbk_encoding, params=params)
         if re_type == "html":
             return etree.HTML(str(response.text))
         elif re_type == "json":
