@@ -77,8 +77,7 @@ class BookInfo(BaseModel):
 
 class Vars:
     cfg = Config(os.getcwd() + '/config.json', os.getcwd())
-    current_book = {}
-    current_book_obj: Union[BookInfo] = None
+    current_book: Union[BookInfo] = None
     current_book_id = None
     current_epub = None
     current_book_type = None

@@ -16,7 +16,7 @@ def init_book_info_template(book_info_html):
     book_intro = book_info_html.xpath(Vars.current_book_rule.book_intro)
     # print(last_chapter_title[0])
 
-    Vars.current_book_obj = BookInfo(
+    Vars.current_book = BookInfo(
         bookName=book_name[0],
         book_id=Vars.current_book_id,
         book_author=book_author[0] if book_author else None,
@@ -33,7 +33,7 @@ def init_book_info_template(book_info_html):
 
 def init_chapter_url_list(book_info_html, max_retry: int = 3) -> List[str]:
     if Vars.current_book_source["url"]["catalogue_info"] != "":
-        catalogue = Vars.current_book_api.get_catalogue_info_by_book_id(Vars.current_book_obj.book_id)
+        catalogue = Vars.current_book_api.get_catalogue_info_by_book_id(Vars.current_book.book_id)
         if Vars.current_book_type == "https://www.linovelib.com":
             chapter_url_list = [i for i in catalogue.xpath(Vars.current_book_rule.chapter_url_list) if "novel" in i]
         elif Vars.current_book_type == "http://m.bjcan8.com":
@@ -49,5 +49,5 @@ def init_chapter_url_list(book_info_html, max_retry: int = 3) -> List[str]:
         if max_retry >= 0:
             return init_chapter_url_list(book_info_html, max_retry - 1)
         else:
-            return print("retry 3 times, but still empty, book_id is {}".format(Vars.current_book_obj.book_id))
+            return print("retry 3 times, but still empty, book_id is {}".format(Vars.current_book.book_id))
     return chapter_url_list

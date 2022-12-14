@@ -25,9 +25,9 @@ class Response:
     @staticmethod
     def get_chapter_info_by_chapter_id(chapter_url: str):
         if Vars.current_book_type == "http://www.80zw.net":
-            url = Vars.current_book_source.get("url").get("chapter_info").format(Vars.current_book_obj.book_id, chapter_url)
+            url = Vars.current_book_source.get("url").get("chapter_info").format(Vars.current_book.book_id, chapter_url)
         elif Vars.current_book_type == "https://www.qb5.la":
-            url = Vars.current_book_source.get("url").get("chapter_info").format(Vars.current_book_obj.book_id, chapter_url)
+            url = Vars.current_book_source.get("url").get("chapter_info").format(Vars.current_book.book_id, chapter_url)
         else:
             url = Vars.current_book_source.get("url").get("chapter_info").format(chapter_url)
         result = src.http_utils.get(api_url=url, gbk=Vars.current_book_gbk)

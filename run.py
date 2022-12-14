@@ -67,10 +67,10 @@ def shell_console(inputs: list):
         else:
             init_book_info_template(book_info_html=book_info_html)
 
-            if Vars.current_book_obj.chapter_url_list is None:
+            if Vars.current_book.chapter_url_list is None:
                 return print("<error>", "[red]Get chapter url list error, please check your book id.[/red]")
-            if Vars.current_book_obj.bookName:
-                Vars.current_book_obj.bookName = re.sub(r"[\/\\\:\*\?\"\<\>\|]", "_", Vars.current_book_obj.bookName)
+            if Vars.current_book.bookName:
+                Vars.current_book.bookName = re.sub(r"[\/\\\:\*\?\"\<\>\|]", "_", Vars.current_book.bookName)
                 current_book = book.BookConfig()
                 current_book.init_content_config()
                 current_book.multi_thread_download_book()
