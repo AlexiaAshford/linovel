@@ -3,7 +3,7 @@ import src
 from config import *
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
-
+from api import Response
 
 class Chapter:
     def __init__(self, chapter_id: str, index: int):
@@ -27,7 +27,7 @@ class Chapter:
     @property
     def content_page_html(self):
         if Vars.current_book_type == "https://www.xbookben.net":
-            next_page = Vars.current_book_api.get_chapter_info_by_chapter_id(self.next_url)
+            next_page = Response.get_chapter_info_by_chapter_id(self.next_url)
             return self.chapter_page.xpath(Vars.current_source.data.chapter_content) + next_page.xpath(
                 Vars.current_source.data.chapter_content)
 
@@ -35,7 +35,7 @@ class Chapter:
 
     @property
     def chapter_json(self):
-        self.chapter_page = Vars.current_book_api.get_chapter_info_by_chapter_id(self.chapter_id)
+        self.chapter_page = Response.get_chapter_info_by_chapter_id(self.chapter_id)
         return {
             "chapterIndex": self.chapter_index,
             "chapter_url": self.chapter_id,

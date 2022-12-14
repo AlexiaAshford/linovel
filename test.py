@@ -1,7 +1,7 @@
 import book
 from src import *
 from config import *
-
+from api import Response
 
 def init_config_book_source():
     import json
@@ -10,7 +10,6 @@ def init_config_book_source():
         return False
     # print(book_source_path)
     Vars.current_source = BookSource(**json.loads(open(book_source_path, "r", encoding="utf-8").read()))
-    Vars.current_book_api = API.Response
     print("下载源已设置为: {}".format(Vars.current_book_type))
     return True
 
@@ -23,7 +22,7 @@ if __name__ == '__main__':
     if not init_config_book_source():
         raise Exception("book source not found, please check your book type, book type:", Vars.current_book_type)
 
-    book_info_html = Vars.current_book_api.get_book_info_by_book_id(book_id)
+    book_info_html = Response.get_book_info_by_book_id(book_id)
     print("=== book_info_html ===")
     if book_info_html is None:
         print("<error>", "[red]Get book info error, please check your book id.[/red]")

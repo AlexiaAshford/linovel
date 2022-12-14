@@ -1,3 +1,4 @@
+from api import Response
 from config import *
 from . import decodes, API
 from typing import Optional, List, Union
@@ -33,7 +34,7 @@ def init_book_info_template(book_info_html):
 
 def init_chapter_url_list(book_info_html, max_retry: int = 3) -> Union[List[str], None]:
     if Vars.current_source.url.catalogue_info != "":
-        catalogue = Vars.current_book_api.get_catalogue_info_by_book_id(Vars.current_book.book_id)
+        catalogue = Response.get_catalogue_info_by_book_id(Vars.current_book.book_id)
         if Vars.current_book_type == "https://www.linovelib.com":
             chapter_url_list = [i for i in catalogue.xpath(Vars.current_source.data.chapter_url_list) if "novel" in i]
         elif Vars.current_book_type == "http://m.bjcan8.com":

@@ -3,13 +3,12 @@ import book
 from src import *
 from config import *
 import json
-
+from api import Response
 
 def init_config_book_source():
     book_source_path = "./book_source/{}.json".format(Vars.current_book_type.split(".")[-2])
     if os.path.exists(book_source_path):
         Vars.current_source = BookSource(**json.loads(open(book_source_path, "r", encoding="utf-8").read()))
-        Vars.current_book_api = API.Response
         print("下载源已设置为: {}".format(Vars.current_book_type))
         return True
     else:
@@ -58,7 +57,7 @@ def get_book_id_by_url(i: str):
 
 def shell_console(inputs: list):
     if inputs[0] == "d" or inputs[0] == "download":
-        book_info_html = Vars.current_book_api.get_book_info_by_book_id(get_book_id_by_url(inputs[1]))
+        book_info_html = Response.get_book_info_by_book_id(get_book_id_by_url(inputs[1]))
         if book_info_html is None:
             print("<error>", "[red]Get book info error, please check your book id.[/red]")
         else:
@@ -75,7 +74,7 @@ def shell_console(inputs: list):
                 print("<error>", "[red]Download book error,please check your input app type name.[/red]")
 
     elif inputs[0] == "s" or inputs[0] == "search":
-        response = Vars.current_book_api.get_book_info_by_keyword(inputs[1]) if len(inputs) >= 2 else []
+        response = Response.get_book_info_by_keyword(inputs[1]) if len(inputs) >= 2 else []
         if len(response) > 0:
             for index, i in enumerate(response):
                 print("index", index, "\t\tbook name:", i[0])

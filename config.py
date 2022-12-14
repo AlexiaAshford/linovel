@@ -112,8 +112,6 @@ class Vars:
     current_epub = None
     current_book_type = None
     current_book_classify_name = None
-    current_book_rule = None
-    current_book_api = None
     current_source: Union[BookSource] = None
 
 
@@ -125,10 +123,6 @@ class Msg:
         '9': 'https://www.qu-la.com', '10': 'https://www.52dus.cc/', '11': 'https://www.qb5.la',
         '12': 'https://www.xbiquge.la', '13': 'http://m.bjcan8.com',
     }
-    gbk_book_type = [
-        'https://www.ddyueshu.com', 'https://www.qu-la.com', 'https://www.qbtr.cc', 'http://www.trxs.cc',
-        'http://www.80zw.net', 'https://www.qb5.la',
-    ]
     del_chapter_advertisement_list = [
         "&amp;", "amp;", "lt;",
         "gt;", "一秒记住【八零中文网 www.80zw.net】，精彩小说无弹窗免费阅读！",
