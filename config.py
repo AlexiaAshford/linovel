@@ -16,7 +16,7 @@ def update_config():
         Vars.cfg.data['popo_cookie'] = ""
         change_config = True
     if not isinstance(Vars.cfg.data.get('config_path'), str):
-        Vars.cfg.data['config_path'] = "./Cache/"
+        Vars.cfg.data['config_path'] = "./cache/"
         change_config = True
     if not isinstance(Vars.cfg.data.get('out_path'), str):
         Vars.cfg.data['out_path'] = "./downloads/"
