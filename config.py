@@ -79,11 +79,10 @@ class Msg:
         '12': 'https://www.xbiquge.la', '13': 'http://m.bjcan8.com',
     }
     del_chapter_advertisement_list = [
-        "&amp;", "amp;", "lt;",
-        "gt;", "一秒记住【八零中文网 www.80zw.net】，精彩小说无弹窗免费阅读！", "顶点小说手机",
-        "<br>", "<br/>", "<br />", "<p>", "</p>", "<div>", "</div>", "<span>",
-        "</span>", "<strong>", "</strong>", "<b>", "</b>", "<i>", "</i>",
-        "最新章节！", "全本小说网 www.qb5.la，最快更新", "最新章节免费阅读！"
+        "&amp;", "amp;", "lt;", "gt;", "一秒记住【八零中文网 www.80zw.net】，精彩小说无弹窗免费阅读！", "顶点小说手机",
+        "<br>", "<br/>", "<br />", "<p>", "</p>", "<div>", "</div>", "<span>", "</span>", "<strong>",
+        "</strong>", "<b>", "</b>", "<i>", "</i>", "最新章节！", "全本小说网 www.qb5.la，最快更新", "最新章节免费阅读！",
+        "m.ddyueshu.com"
     ]
 
 

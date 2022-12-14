@@ -14,10 +14,6 @@ class Chapter:
         self.chapter_page = None
         self.image_list = []
 
-        # def chapter_info(self):
-
-    #     return Vars.current_book_api.get_chapter_info_by_chapter_id(self.chapter_id)
-
     @property
     def chapter_title(self) -> str:
         chapter_name = self.chapter_page.xpath(Vars.current_source.data.chapter_title)
