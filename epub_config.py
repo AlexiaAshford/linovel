@@ -9,19 +9,21 @@ class EpubHtml:
         self.html_template = epub.EpubHtml
 
     def set_description(self):
-        Vars.current_book.book_words = re.sub(r'\s|\n|\r|字数：', '', Vars.current_book.book_words)
         self.description = "<html><head></head><body>"
         if Vars.current_book.book_cover is not None:
             self.description += f'<img src="cover.png" alt="{Vars.current_book.book_name} 封面">'
         if Vars.current_book.book_name is not None:
             self.description += '<h1>书籍书名:{}</h1>'.format(Vars.current_book.book_name)
         if Vars.current_book.book_author is not None:
+            Vars.current_book.book_status = re.sub(r'作|者|：| ', '', Vars.current_book.book_status)
             self.description += '<h2>书籍作者:{}</h2>\n'.format(Vars.current_book.book_author)
         if Vars.current_book.book_id is not None:
             self.description += '<h3>书籍序号:{}</h3>'.format(Vars.current_book.book_id)
-        if re.sub(r'\s|\n|\r', '', Vars.current_book.book_status) != "":
+        if Vars.current_book.book_status:
+            Vars.current_book.book_status = re.sub(r'\s|\n|\r', '', Vars.current_book.book_status)
             self.description += '<h4>书籍状态:{}</h4>\n'.format(Vars.current_book.book_status)
-        if Vars.current_book.book_words != "":
+        if Vars.current_book.book_words:
+            Vars.current_book.book_words = re.sub(r'\s|\n|\r|字数：', '', Vars.current_book.book_words)
             self.description += '<h4>字数信息:{}</h4>\n'.format(Vars.current_book.book_words)
         if Vars.current_book.last_chapter_title is not None:
             self.description += '<h4>最新章节:{}</h4>\n'.format(Vars.current_book.last_chapter_title)
