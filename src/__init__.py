@@ -30,8 +30,6 @@ def init_book_info_template(book_info_html):
         chapter_url_list=init_chapter_url_list(book_info_html),
     )
 
-    Vars.current_book = Vars.current_book_obj.dict()
-
 
 def init_chapter_url_list(book_info_html, max_retry: int = 3) -> List[str]:
     if Vars.current_book_source["url"]["catalogue_info"] != "":

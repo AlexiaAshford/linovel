@@ -35,12 +35,12 @@ if __name__ == '__main__':
     init_book_info_template(book_info_html)
     init_chapter_url_list(book_info_html)
     print("=== init_chapter_url_list ===")
-    if Vars.current_book.get("chapter_url_list") is None:
+    if Vars.current_book_obj.chapter_url_list is None:
         print("<error>", "[red]The chapter list is empty, please check your book id.[/red]")
         exit(1)
     if Vars.current_book_obj.bookName:
-        Vars.current_book = book.BookConfig(Vars.current_book)
-        Vars.current_book.init_content_config()
-        Vars.current_book.multi_thread_download_book()
+        current_book = book.BookConfig()
+        current_book.init_content_config()
+        current_book.multi_thread_download_book()
     else:
         print("<error>", "[red]Download book error,please check your input app type name.[/red]")

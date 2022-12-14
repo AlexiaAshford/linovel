@@ -5,45 +5,6 @@ from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
 
 
-class Book:
-    def __init__(self, book_info: dict):
-        self.book_info = book_info
-        self.book_id = book_info['bookId']
-        self.cover = book_info.get('bookCoverUrl')
-        self.chapter_url_list = book_info['chapter_url_list']
-        self.book_tag = book_info.get('bookTag')
-        self.last_chapter_title = book_info.get('last_chapter_title')
-
-    @property
-    def book_intro(self) -> str:
-        intro_list = [line for line in self.book_info.get('bookIntro').splitlines() if line.strip()]
-        return re.sub(r' |\r|\s', '', '\n'.join(intro_list))
-
-    @property
-    def book_name(self) -> str:
-        return re.sub(r'[？?*|“《》<>:/]|\r|\n|\s', '', self.book_info['bookName']).strip()
-
-    @property
-    def book_author(self) -> str:
-        return self.book_info['authorName'].replace('作    者：', '')
-
-    @property
-    def book_status(self) -> str:
-        return self.book_info['book_status'].strip() if isinstance(self.book_info.get('book_status'), str) else None
-
-    @property
-    def book_words(self) -> str:
-        return self.book_info['bookWords'] if isinstance(self.book_info.get('bookWords'), str) else None
-
-    @property
-    def out_text_path(self) -> str:
-        return make_dirs(os.path.join(Vars.cfg.data['out_path'], self.book_name))
-
-    @property
-    def save_config_path(self) -> str:
-        return os.path.join(make_dirs(Vars.cfg.data['config_path']), self.book_name + ".json")
-
-
 class Chapter:
     def __init__(self, chapter_id: str, index: int):
         self.chapter_index = index
@@ -52,9 +13,8 @@ class Chapter:
         self.chapter_page = None
         self.image_list = []
 
-        # @property
+        # def chapter_info(self):
 
-    # def chapter_info(self):
     #     return Vars.current_book_api.get_chapter_info_by_chapter_id(self.chapter_id)
 
     @property
@@ -186,3 +146,41 @@ class BookConfig:
         self.save_content_json()
 
         self.merge_text_file()
+
+# class Book:
+#     def __init__(self, book_info: dict):
+#         self.book_info = book_info
+#         self.book_id = book_info['bookId']
+#         self.cover = book_info.get('bookCoverUrl')
+#         self.chapter_url_list = book_info['chapter_url_list']
+#         self.book_tag = book_info.get('bookTag')
+#         self.last_chapter_title = book_info.get('last_chapter_title')
+#
+#     @property
+#     def book_intro(self) -> str:
+#         intro_list = [line for line in self.book_info.get('bookIntro').splitlines() if line.strip()]
+#         return re.sub(r' |\r|\s', '', '\n'.join(intro_list))
+#
+#     @property
+#     def book_name(self) -> str:
+#         return re.sub(r'[？?*|“《》<>:/]|\r|\n|\s', '', self.book_info['bookName']).strip()
+#
+#     @property
+#     def book_author(self) -> str:
+#         return self.book_info['authorName'].replace('作    者：', '')
+#
+#     @property
+#     def book_status(self) -> str:
+#         return self.book_info['book_status'].strip() if isinstance(self.book_info.get('book_status'), str) else None
+#
+#     @property
+#     def book_words(self) -> str:
+#         return self.book_info['bookWords'] if isinstance(self.book_info.get('bookWords'), str) else None
+#
+#     @property
+#     def out_text_path(self) -> str:
+#         return make_dirs(os.path.join(Vars.cfg.data['out_path'], self.book_name))
+#
+#     @property
+#     def save_config_path(self) -> str:
+#         return os.path.join(make_dirs(Vars.cfg.data['config_path']), self.book_name + ".json")
