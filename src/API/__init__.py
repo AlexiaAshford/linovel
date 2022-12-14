@@ -45,8 +45,8 @@ class Response:
             gbk=Vars.current_book_gbk
         )
         return list(zip(
-            response.xpath(Vars.current_book_rule.Search.book_name),
-            response.xpath(Vars.current_book_rule.Search.book_id)
+            # response.xpath(Vars.current_book_rule.Search.book_name),
+            # response.xpath(Vars.current_book_rule.Search.book_id)
         ))
 
 # class ResponseAPI:

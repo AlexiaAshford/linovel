@@ -19,7 +19,7 @@ class Chapter:
 
     @property
     def chapter_title(self) -> str:
-        chapter_name = self.chapter_page.xpath(Vars.current_book_rule.chapter_title)
+        chapter_name = self.chapter_page.xpath(Vars.current_source.data.chapter_title)
         if isinstance(chapter_name, list) and len(chapter_name) != 0:
             return chapter_name[0].strip()
         return chapter_name.strip()
@@ -28,10 +28,10 @@ class Chapter:
     def content_page_html(self):
         if Vars.current_book_type == "https://www.xbookben.net":
             next_page = Vars.current_book_api.get_chapter_info_by_chapter_id(self.next_url)
-            return self.chapter_page.xpath(Vars.current_book_rule.chapter_content) + next_page.xpath(
-                Vars.current_book_rule.chapter_content)
+            return self.chapter_page.xpath(Vars.current_source.data.chapter_content) + next_page.xpath(
+                Vars.current_source.data.chapter_content)
 
-        return self.chapter_page.xpath(Vars.current_book_rule.chapter_content)
+        return self.chapter_page.xpath(Vars.current_source.data.chapter_content)
 
     @property
     def chapter_json(self):

@@ -68,6 +68,7 @@ class BookInfoData(BaseModel):
     book_label: Optional[str] = ""
     book_intro: Optional[str] = ""
     last_chapter_title: Optional[str] = ""
+    chapter_url_list: Optional[str] = ""
     book_words: Optional[str] = ""
     book_update_time: Optional[str] = ""
     chapter_title: Optional[str] = ""
@@ -113,7 +114,9 @@ class Vars:
     current_book_classify_name = None
     current_book_rule = None
     current_book_api = None
+
     current_book_source = None
+    current_source: Union[BookSource] = None
 
 
 class Msg:

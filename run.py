@@ -10,8 +10,8 @@ def init_config_book_source():
     book_source_path = "./book_source/{}.json".format(Vars.current_book_type.split(".")[-2])
     if os.path.exists(book_source_path):
         Vars.current_book_source = json.loads(open(book_source_path, "r", encoding="utf-8").read())
+        Vars.current_source = BookSource(**Vars.current_book_source)
         Vars.current_book_api = API.Response
-        Vars.current_book_rule = constant.NovelRule()
         print("下载源已设置为: {}".format(Vars.current_book_type))
         return True
     else:
