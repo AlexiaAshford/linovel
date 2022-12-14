@@ -1,4 +1,4 @@
-import Epub
+import epub_config
 from config import *
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
@@ -75,7 +75,7 @@ class BookConfig:
         else:
             self.content_config = []
 
-        Vars.current_epub = Epub.EpubFile()
+        Vars.current_epub = epub_config.EpubFile()
         Vars.current_epub.set_epub_book_info()
 
     def save_content_json(self) -> None:
