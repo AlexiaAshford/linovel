@@ -17,8 +17,8 @@
 import six
 import subprocess
 
-from ebooklib.plugins.base import BasePlugin
-from ebooklib.utils import parse_html_string
+from lib.ebooklib.plugins.base import BasePlugin
+
 
 # Recommend usage of
 # - https://github.com/w3c/tidy-html5

@@ -14,8 +14,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with EbookLib.  If not, see <http://www.gnu.org/licenses/>.
 
-from ebooklib.plugins.base import BasePlugin
-from ebooklib.utils import parse_html_string
+from lib.ebooklib.plugins.base import BasePlugin
+from lib.ebooklib.utils import parse_html_string
 
 class SourceHighlighter(BasePlugin):    
     def __init__(self):
@@ -26,8 +26,6 @@ class SourceHighlighter(BasePlugin):
 
         from pygments import highlight
         from pygments.formatters import HtmlFormatter
-
-        from ebooklib import epub
 
         try:
             tree = parse_html_string(chapter.content)

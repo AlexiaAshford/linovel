@@ -62,7 +62,7 @@ def guess_type(extenstion):
 
 
 def create_pagebreak(pageref, label=None, html=True):
-    from ebooklib.epub import NAMESPACES
+    from lib.ebooklib.epub import NAMESPACES
 
     pageref_attributes = {
         '{%s}type' % NAMESPACES['EPUB']: 'pagebreak',

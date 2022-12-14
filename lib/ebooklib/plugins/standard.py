@@ -16,8 +16,8 @@
 
 import six
 
-from ebooklib.plugins.base import BasePlugin
-from ebooklib.utils import parse_html_string
+from lib.ebooklib.plugins.base import BasePlugin
+from lib.ebooklib.utils import parse_html_string
 
 # TODO:
 #   - should also look for the _required_ elements
@@ -124,7 +124,7 @@ class SyntaxPlugin(BasePlugin):
                             chapter.properties.append('remote-resources')
                             # THIS DOES NOT WORK, ONLY VIDEO AND AUDIO FILES CAN BE REMOTE RESOURCES
                             # THAT MEANS I SHOULD ALSO CATCH <SOURCE TAG
-                            from ebooklib import epub
+                            from lib.ebooklib import epub
                             _img = epub.EpubImage(file_name = _item.get('src'))
                             book.add_item(_img)
                     leave_only(_item, ATTRIBUTES_GLOBAL + ['alt', 'src', 'crossorigin', 'usemap', 'ismap', 'width', 'height'])

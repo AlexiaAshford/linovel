@@ -1,5 +1,4 @@
-from ebooklib import epub
-from lib import http_utils
+from lib import http_utils, epub
 from config import *
 import uuid
 
