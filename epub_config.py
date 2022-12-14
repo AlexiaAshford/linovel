@@ -14,8 +14,8 @@ class EpubHtml:
             self.description += f'<img src="cover.png" alt="{Vars.current_book.book_name} 封面">'
         if Vars.current_book.book_name is not None:
             self.description += '<h1>书籍书名:{}</h1>'.format(Vars.current_book.book_name)
-        if Vars.current_book.book_author is not None:
-            Vars.current_book.book_status = re.sub(r'作|者|：| ', '', Vars.current_book.book_status)
+        if Vars.current_book.book_author:
+            Vars.current_book.book_status = re.sub('作|者|：| ', '', Vars.current_book.book_author)
             self.description += '<h2>书籍作者:{}</h2>\n'.format(Vars.current_book.book_author)
         if Vars.current_book.book_id is not None:
             self.description += '<h3>书籍序号:{}</h3>'.format(Vars.current_book.book_id)

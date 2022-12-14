@@ -9,7 +9,7 @@ from api import Response
 def init_config_book_source():
     book_source_path = "./book_source/{}.json".format(Vars.current_book_type.split(".")[-2])
     if os.path.exists(book_source_path):
-        Vars.current_source = BookSource(**json.loads(open(book_source_path, "r", encoding="utf-8").read()))
+        Vars.current_source = model.BookSource(**json.loads(open(book_source_path, "r", encoding="utf-8").read()))
         print("下载源已设置为: {}".format(Vars.current_book_type))
         return True
     else:
@@ -67,7 +67,7 @@ def shell_console(inputs: list):
             if Vars.current_book.chapter_url_list is None:
                 return print("<error>", "[red]Get chapter url list error, please check your book id.[/red]")
             if Vars.current_book.book_name:
-                Vars.current_book.book_name = re.sub(r"[\/\\\:\*\?\"\<\>\|]", "_", Vars.current_book.book_name)
+                Vars.current_book.book_name = re.sub(r"[/\\:*?\"<>|]", "_", Vars.current_book.book_name)
                 make_dirs(Vars.cfg.data['config_path'])
                 make_dirs(os.path.join(Vars.cfg.data['config_path'], "cover"))
                 make_dirs(os.path.join(Vars.cfg.data['out_path'], Vars.current_book.book_name))

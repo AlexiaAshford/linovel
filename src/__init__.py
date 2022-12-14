@@ -16,7 +16,7 @@ def init_book_info_template(book_info_html):
     book_intro = book_info_html.xpath(Vars.current_source.data.book_intro)
     # print(last_chapter_title[0])
 
-    Vars.current_book = BookInfo(
+    Vars.current_book = model.BookInfo(
         book_name=book_name[0],
         book_id=Vars.current_book_id,
         book_author=book_author[0] if book_author else None,
