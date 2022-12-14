@@ -2,6 +2,8 @@ import json
 import os
 import re
 from rich import print
+from pydantic import BaseModel
+from typing import Optional, List, Union, Any
 
 
 def update_config():
@@ -58,9 +60,25 @@ class Config:
             print('保存配置文件时出错')
 
 
+class BookInfo(BaseModel):
+    bookName: Optional[str]
+    authorName: Optional[str] = None
+    bookCoverUrl: Optional[str] = None
+    bookWords: Optional[str] = None
+    bookTag: Optional[str] = None
+    bookIntro: Optional[str] = None
+    book_status: Optional[str] = None
+    last_chapter_title: Optional[Any] = None
+    book_update_time: Optional[str] = None
+    chapter_url_list: Optional[List[str]] = None
+    bookId: Optional[str] = None
+    book_info: Optional[dict] = None
+
+
 class Vars:
     cfg = Config(os.getcwd() + '/config.json', os.getcwd())
     current_book = {}
+    current_book_obj: Union[BookInfo] = None
     current_epub = None
     current_book_type = None
     current_book_gbk = False

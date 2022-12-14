@@ -66,7 +66,8 @@ def shell_console(inputs: list):
             print("<error>", "[red]Get book info error, please check your book id.[/red]")
         else:
             init_book_info_template(book_info_html=book_info_html)
-            init_chapter_url_list(book_info_html=book_info_html)
+            if Vars.current_book_obj.chapter_url_list is None:
+                return print("<error>", "[red]Get chapter url list error, please check your book id.[/red]")
             if Vars.current_book and Vars.current_book.get("bookName") is not None:
                 Vars.current_book = book.BookConfig(Vars.current_book)
                 Vars.current_book.init_content_config()

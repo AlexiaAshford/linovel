@@ -29,7 +29,7 @@ class Book:
 
     @property
     def book_status(self) -> str:
-        return self.book_info['bookStatus'].strip() if isinstance(self.book_info.get('bookStatus'), str) else None
+        return self.book_info['book_status'].strip() if isinstance(self.book_info.get('book_status'), str) else None
 
     @property
     def book_words(self) -> str:
