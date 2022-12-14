@@ -3,7 +3,7 @@
         "book_img": "/html/body/div[2]/div[3]/div[1]/div[1]/div[1]/img/@src",
         "book_name": "/html/body/div[2]/div[3]/div[1]/div[1]/div[2]/h1/text()",
         "book_author": "/html/body/div[2]/div[3]/div[2]/div[1]/div[2]/a/text()",
-        "chapter_url_list": "/html/body/div[2]/div[3]/div[2]/div[2]/div/ul/li/a/@href",
+        "chapter_url_list": "/html/body/div[2]/div[3]/div[1]/div[2]/div/a/@href",
         "book_state": "/html/body/div[2]/div[3]/div[1]/div[1]/div[2]/div[1]/a[1]/text()",
         "book_label": "/html/body/div[4]/div[2]/div[1]/div[1]/div[3]/dl/dd[2]/span/text()",
         "book_intro": "/html/body/div[2]/div[3]/div[1]/div[1]/div[2]/div[3]/p/text()",
