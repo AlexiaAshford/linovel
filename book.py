@@ -3,7 +3,7 @@ from config import *
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor
 from api import Response
-from lib import decodes
+from lib import decodes, log
 
 
 class Chapter:
@@ -31,15 +31,16 @@ class Chapter:
         return self.chapter_page.xpath(Vars.current_source.data.chapter_content)
 
     @property
-    def chapter_json(self) -> dict:
+    def chapter_json(self) -> model.ChapterInfo:
         self.chapter_page = Response.get_chapter_info_by_chapter_id(self.chapter_id)
         return model.ChapterInfo(
             chapter_index=self.chapter_index,
             chapter_url=self.chapter_id,
             chapter_title=self.chapter_title,
             chapter_content=self.standard_content,
+            chapter_index_title="第{}章: {}".format(self.chapter_index, self.chapter_title),
             chapter_image_list=self.image_list if self.image_list is not None else []
-        ).dict()
+        )
 
     @property
     def standard_content(self) -> str:  # return a standard content
@@ -74,7 +75,7 @@ class BookConfig:
 
     def save_content_json(self) -> None:
         try:
-            self.content_config.sort(key=lambda x: x.get('chapterIndex'))
+            self.content_config.sort(key=lambda x: x.get('chapter_index'))
             json_info = json.dumps(self.content_config, ensure_ascii=False, indent=4)
             write_text(path_name=self.save_config_path, content=json_info)
         except Exception as err:  # if save_config_path is not exist, create it and save content_config
@@ -82,19 +83,21 @@ class BookConfig:
             self.save_content_json()
 
     def merge_text_file(self) -> None:  # merge all text file into one text file
-        for chapter_info in self.content_config:
-            chapter_title = "第{}章: {}\n".format(chapter_info['chapterIndex'], chapter_info['chapterTitle'])
-            chapter_content = ["　　" + i for i in chapter_info.get('chapterContent').split("\n")]
-            Vars.current_epub.add_chapter_in_epub_file(
-                title=chapter_title, content=chapter_content, index=chapter_info['chapterIndex']
-            )
-
-            write_text(
-                path_name=os.path.join(Vars.cfg.data['out_path'], Vars.current_book.book_name,
-                                       Vars.current_book.book_name + ".txt"),
-                content=chapter_title + '\n'.join(chapter_content) + "\n\n\n", mode="a"
-            )  # write chapter title and content to text file in downloads folder
-        self.content_config.clear()  # clear content_config for next book download
+        for chapter_info_json in self.content_config:
+            chapter_info = model.ChapterInfo(**chapter_info_json)
+            chapter_content = ["　　" + i for i in chapter_info.chapter_content.split("\n")]
+            Vars.current_epub.add_chapter_in_epub_file(title=chapter_info.chapter_title,
+                                                       content=chapter_content,
+                                                       index=chapter_info.chapter_index
+                                                       )
+            # write chapter title and content to text file in downloads folder
+            write_text(mode="a",
+                       path_name=os.path.join(Vars.cfg.data['out_path'], Vars.current_book.book_name,
+                                              Vars.current_book.book_name + ".txt"),
+                       content=chapter_info.chapter_index_title + '\n'.join(chapter_content) + "\n\n\n",
+                       )
+        # clear content_config for next book download
+        self.content_config.clear()
         Vars.current_epub.out_put_epub_file()
 
     def test_config_chapter(self, chapter_url: str) -> bool:
@@ -107,15 +110,14 @@ class BookConfig:
 
     def download_book_content(self, chapter_url, index) -> None:
         try:
-            chapter_info = Chapter(chapter_id=chapter_url, index=index)
-            chapter_info_json = chapter_info.chapter_json
-            if isinstance(chapter_info_json, dict):
-                self.content_config.append(chapter_info_json)
+            chapter_info_json = Chapter(chapter_id=chapter_url, index=index).chapter_json
+            if chapter_info_json.chapter_title and isinstance(chapter_info_json.dict(), dict):
+                self.content_config.append(chapter_info_json.dict())
             else:
-                print("chapter_info.chapter_json is not dict", chapter_info_json)
+                raise Exception("chapter_info.chapter_title is None")
         except Exception as err:
             self.download_book_content(chapter_url=chapter_url, index=index)
-            # print("download_book_content error: {}".format(err), end="\r")
+            log.error("download_book_content error: {}".format(err))
             self.save_content_json()  # save content_config if error
 
     def multi_thread_download_book(self) -> None:

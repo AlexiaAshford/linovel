@@ -51,5 +51,6 @@ class ChapterInfo(BaseModel):
     chapter_index: Optional[int]
     chapter_url: Optional[str]
     chapter_title: Optional[str]
+    chapter_index_title: Optional[str]
     chapter_content: Optional[str]
     chapter_image_list: Optional[List[str]] = None

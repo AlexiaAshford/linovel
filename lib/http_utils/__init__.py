@@ -1,22 +1,15 @@
 import random
 import requests
-import logging
 from lxml import etree
 from config import *
 from tenacity import *
-
+from lib import log
 session = requests.Session()
 try:
     fake_useragent_list = json.loads(open("./lib/http_utils/fake_useragent_0.1.11.json", "r", encoding="utf-8").read())
 except Exception as error:
     print("fake_useragent_list error: {}".format(error))
     fake_useragent_list = json.loads(open("fake_useragent_0.1.11.json", "r", encoding="utf-8").read())
-
-logging.basicConfig(
-    filename="logfile.log", filemode="w", format="%(levelname)s %(asctime)s - %(message)s", level=logging.ERROR
-)
-
-logger = logging.getLogger()
 
 
 def get(api_url: str, method: str = "GET", params: dict = None, re_type: str = "html"):
@@ -31,7 +24,7 @@ def get(api_url: str, method: str = "GET", params: dict = None, re_type: str = "
         elif re_type == "content":
             return response.content
     except Exception as e:
-        logger.error("response is None, api_url is {}\t\terror:{}".format(api_url, e))
+        log.error("response is None, api_url is {}\t\terror:{}".format(api_url, e))
 
 
 @retry(stop=stop_after_attempt(4))
