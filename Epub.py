@@ -75,7 +75,10 @@ class EpubFile(epub.EpubBook):
         if Vars.current_book.cover[0] == "/":
             Vars.current_book.cover = Vars.current_book_type + Vars.current_book.cover
 
-        cover_file_path = os.path.join(make_dirs("cover"), Vars.current_book.book_name + ".png")
+        # Cache/cover/book_name.png
+        cover_file_path = os.path.join(make_dirs(Vars.cfg.data['config_path'] + "cover"),
+                                       Vars.current_book.book_name + ".png")
+
         if not os.path.exists(cover_file_path):
             image_file = http_utils.get(api_url=Vars.current_book.cover, re_type="content")
             if image_file:
