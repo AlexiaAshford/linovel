@@ -48,8 +48,11 @@
     "chapter_info": "",
     "search_info": "",
     "catalogue_info": ""
-  }
+  },
+  "json_page": false,
+  "gbk_encoding": true
 }
+ 
 ```
 - book_info
   - book_img: 封面图片
@@ -71,3 +74,5 @@
   - search_info: 搜索地址
   - catalogue_info: 目录地址
   - book_id: 书籍id
+- json_page: 是否为json格式
+- gbk_encoding: 是否为gbk编码

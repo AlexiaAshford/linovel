@@ -15,7 +15,7 @@ def init_config_book_source():
 
 
 if __name__ == '__main__':
-    update_config()
+    Vars.cfg.load()  # load config and init config
     book_id = "6072"
     Vars.current_book_classify_name = "tongren"
     Vars.current_book_type = "http://www.trxs.cc"
