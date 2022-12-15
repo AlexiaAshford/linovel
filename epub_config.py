@@ -1,4 +1,4 @@
-from lib import http_utils, epub
+from lib import utils, epub
 from config import *
 import uuid
 
@@ -80,7 +80,7 @@ class EpubFile(epub.EpubBook):
         cover_file_path = os.path.join(Vars.cfg.data.cover_path, Vars.current_book.book_name + ".png")
 
         if not os.path.exists(cover_file_path):
-            image_file = http_utils.get(api_url=Vars.current_book.book_cover, re_type="content")
+            image_file = utils.get(api_url=Vars.current_book.book_cover, re_type="content")
             if image_file:
                 open(cover_file_path, 'wb').write(image_file)
             else:
