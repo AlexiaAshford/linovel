@@ -1,3 +1,5 @@
+import os
+
 from pydantic import BaseModel
 from typing import Optional, List, Union, Any
 
@@ -54,3 +56,11 @@ class ChapterInfo(BaseModel):
     chapter_index_title: Optional[str]
     chapter_content: Optional[str]
     chapter_image_list: Optional[List[str]] = None
+
+
+class AccountConfig(BaseModel):
+    max_thread: int = 16
+    popo_cookie: Optional[str] = ""
+    config_path: Optional[str] = "./cache/"
+    out_path: Optional[str] = "./downloads/"
+    cover_path: Optional[str] = "./downloads/cover/"

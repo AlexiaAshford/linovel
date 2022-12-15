@@ -38,7 +38,7 @@ def set_up_app_type(book_type: str):  # set up app type and book type
 
 
 def parse_args_command() -> argparse.Namespace:
-    update_config()  # update config file if necessary (for example, add new token)
+    Vars.cfg.load()  # load config and init config
     parser = argparse.ArgumentParser(description='Downloader for Linovel and Dingdian')
     # parser.add_argument('-u', '--update', help='update config file', action="store_true")
     parser.add_argument('-s', '--search', default=None, nargs=1, help='search book')
@@ -68,9 +68,9 @@ def shell_console(inputs: list):
                 return print("<error>", "[red]Get chapter url list error, please check your book id.[/red]")
             if Vars.current_book.book_name:
                 Vars.current_book.book_name = re.sub(r"[/\\:*?\"<>|]", "_", Vars.current_book.book_name)
-                make_dirs(Vars.cfg.data['config_path'])
-                make_dirs(os.path.join(Vars.cfg.data['config_path'], "cover"))
-                make_dirs(os.path.join(Vars.cfg.data['out_path'], Vars.current_book.book_name))
+                make_dirs(Vars.cfg.data.config_path)
+                make_dirs(Vars.cfg.data.cover_path)
+                make_dirs(os.path.join(Vars.cfg.data.out_path, Vars.current_book.book_name))
                 current_book = book.BookConfig()
                 current_book.init_content_config()
                 current_book.multi_thread_download_book()

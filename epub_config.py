@@ -64,7 +64,7 @@ class EpubFile(epub.EpubBook):
         description = self.template.set_description()
         book_detailed = re.sub(r"\n+", "\n", re.sub('<[^>]+>|<p>|</p>', "\n", description.content).strip())
         write_text(
-            path_name=os.path.join(Vars.cfg.data['out_path'], Vars.current_book.book_name,
+            path_name=os.path.join(Vars.cfg.data.out_path, Vars.current_book.book_name,
                                    Vars.current_book.book_name + ".txt"),
             content=book_detailed + "\n\n"
         )  # write book information to text file in downloads folder and show book name, author and chapter count
@@ -77,7 +77,7 @@ class EpubFile(epub.EpubBook):
             Vars.current_book.book_cover = Vars.current_book_type + Vars.current_book.book_cover
 
         # Cache/cover/book_name.png
-        cover_file_path = os.path.join(Vars.cfg.data['config_path'] + "cover", Vars.current_book.book_name + ".png")
+        cover_file_path = os.path.join(Vars.cfg.data.cover_path, Vars.current_book.book_name + ".png")
 
         if not os.path.exists(cover_file_path):
             image_file = http_utils.get(api_url=Vars.current_book.book_cover, re_type="content")
@@ -106,6 +106,6 @@ class EpubFile(epub.EpubBook):
         self.toc = tuple(self.EpubList)
         self.spine.extend(self.EpubList)
         self.add_item(epub.EpubNcx()), self.add_item(epub.EpubNav())
-        save_epub_file = os.path.join(Vars.cfg.data['out_path'], Vars.current_book.book_name,
+        save_epub_file = os.path.join(Vars.cfg.data.out_path, Vars.current_book.book_name,
                                       Vars.current_book.book_name + '.epub')
         epub.write_epub(save_epub_file, self)  # save epub file to out_path directory with book_name.epub

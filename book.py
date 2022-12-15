@@ -60,7 +60,7 @@ class BookConfig:
     def __init__(self):
         self.content_config = []
         self.threading_list = []
-        self.save_config_path = os.path.join(Vars.cfg.data['config_path'], Vars.current_book.book_name + ".json")
+        self.save_config_path = os.path.join(Vars.cfg.data.config_path, Vars.current_book.book_name + ".json")
 
     def init_content_config(self):
         if os.path.exists(self.save_config_path):
@@ -92,7 +92,7 @@ class BookConfig:
             )
             # write chapter title and content to text file in downloads folder
             write_text(mode="a",
-                       path_name=os.path.join(Vars.cfg.data['out_path'], Vars.current_book.book_name,
+                       path_name=os.path.join(Vars.cfg.data.out_path, Vars.current_book.book_name,
                                               Vars.current_book.book_name + ".txt"),
                        content=chapter_info.chapter_index_title + chapter_info.chapter_content + "\n\n\n",
                        )
@@ -121,7 +121,7 @@ class BookConfig:
             self.save_content_json()  # save content_config if error
 
     def multi_thread_download_book(self) -> None:
-        with ThreadPoolExecutor(max_workers=Vars.cfg.data.get('max_thread')) as executor:
+        with ThreadPoolExecutor(max_workers=Vars.cfg.data.max_thread) as executor:
             for index, chapter_url in enumerate(Vars.current_book.chapter_url_list, start=1):
                 if Vars.current_book_type == "https://book.sfacg.com" and "vip/c" in chapter_url:
                     continue  # sfacg web vip chapter is images, not support download
@@ -142,41 +142,3 @@ class BookConfig:
         self.save_content_json()
 
         self.merge_text_file()
-
-# class Book:
-#     def __init__(self, book_info: dict):
-#         self.book_info = book_info
-#         self.book_id = book_info['bookId']
-#         self.cover = book_info.get('bookCoverUrl')
-#         self.chapter_url_list = book_info['chapter_url_list']
-#         self.book_tag = book_info.get('bookTag')
-#         self.last_chapter_title = book_info.get('last_chapter_title')
-#
-#     @property
-#     def book_intro(self) -> str:
-#         intro_list = [line for line in self.book_info.get('bookIntro').splitlines() if line.strip()]
-#         return re.sub(r' |\r|\s', '', '\n'.join(intro_list))
-#
-#     @property
-#     def book_name(self) -> str:
-#         return re.sub(r'[？?*|“《》<>:/]|\r|\n|\s', '', self.book_info['bookName']).strip()
-#
-#     @property
-#     def book_author(self) -> str:
-#         return self.book_info['authorName'].replace('作    者：', '')
-#
-#     @property
-#     def book_status(self) -> str:
-#         return self.book_info['book_status'].strip() if isinstance(self.book_info.get('book_status'), str) else None
-#
-#     @property
-#     def book_words(self) -> str:
-#         return self.book_info['bookWords'] if isinstance(self.book_info.get('bookWords'), str) else None
-#
-#     @property
-#     def out_text_path(self) -> str:
-#         return make_dirs(os.path.join(Vars.cfg.data['out_path'], self.book_name))
-#
-#     @property
-#     def save_config_path(self) -> str:
-#         return os.path.join(make_dirs(Vars.cfg.data['config_path']), self.book_name + ".json")

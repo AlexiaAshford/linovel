@@ -6,29 +6,9 @@ from lib import model
 from typing import Union
 
 
-def update_config():
-    Vars.cfg.load()
-    change_config = False
-    if not isinstance(Vars.cfg.data.get('max_thread'), int):
-        Vars.cfg.data['max_thread'] = 16
-        change_config = True
-    if not isinstance(Vars.cfg.data.get('popo_cookie'), str):
-        Vars.cfg.data['popo_cookie'] = ""
-        change_config = True
-    if not isinstance(Vars.cfg.data.get('config_path'), str):
-        Vars.cfg.data['config_path'] = "./cache/"
-        change_config = True
-    if not isinstance(Vars.cfg.data.get('out_path'), str):
-        Vars.cfg.data['out_path'] = "./downloads/"
-        change_config = True
-    if change_config:
-        Vars.cfg.save()
-
-
 class Config:
     file_path = None
     dir_path = None
-    data = None
 
     def __init__(self, file_path, dir_path):
         self.file_path = file_path
@@ -37,24 +17,59 @@ class Config:
             os.makedirs(self.dir_path)
         if '.txt' in file_path:
             open(self.file_path, 'w').close()
-        self.data = {}
+        self.data_config = {}
 
-    def load(self):
+    @property
+    def data(self):
+        return model.AccountConfig(**self.data_config)
+
+    def update(self):
+        change_config = False
+        if not isinstance(self.data_config.get('max_thread'), int):
+            self.data_config['max_thread'] = 16
+            change_config = True
+        if not isinstance(self.data_config.get('popo_cookie'), str):
+            self.data_config['popo_cookie'] = ""
+            change_config = True
+        if self.data_config.get('config_path') == "" or \
+                not isinstance(self.data_config.get('config_path'), str):
+            self.data_config['config_path'] = "./cache/"
+            change_config = True
+        if self.data_config.get('out_path') == "" or \
+                not isinstance(self.data_config.get('out_path'), str):
+            self.data_config['out_path'] = "./downloads/"
+            change_config = True
+        if self.data_config.get('cover_path') == "" or \
+                not isinstance(self.data_config.get('cover_path'), str):
+            self.data_config['cover_path'] = "./cache/cover/"
+            change_config = True
+        if change_config:
+            self.save()
+
+    def load(self) -> bool:
         try:
             with open(self.file_path, 'r', encoding="utf-8") as f:
-                self.data = json.load(f) or {}
+                self.data_config = json.load(f) or {}
+                self.update()
+                return True
         except FileNotFoundError:
             try:
-                open(self.file_path, 'w', encoding="utf-8").close()
+                print("配置文件不存在，正在创建配置文件")
+                with open(self.file_path, 'w', encoding="utf-8") as f:
+                    f.write("{}")
+                self.load()
             except Exception as error:
                 print('[错误]', error, '创建配置文件时出错')
+
         except Exception as error:
             print('[错误]', error, '读取配置文件时出错')
+            print(self.data_config)
+        return False
 
     def save(self):
         try:
             with open(self.file_path, 'w', encoding="utf-8") as f:
-                json.dump(self.data, f, ensure_ascii=False, indent=4)
+                json.dump(self.data_config, f, ensure_ascii=False, indent=4)
         except Exception as e:
             print('[错误]', e)
             print('保存配置文件时出错')
@@ -84,10 +99,6 @@ class Msg:
         "</strong>", "<b>", "</b>", "<i>", "</i>", "最新章节！", "全本小说网 www.qb5.la，最快更新", "最新章节免费阅读！",
         "ddyueshu.com"
     ]
-
-
-class Current:
-    pass
 
 
 def get_id(url: str) -> str:
