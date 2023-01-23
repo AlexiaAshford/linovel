@@ -1,8 +1,8 @@
+import lib
 import argparse
 import book
 from src import *
 from config import *
-import json
 from api import Response
 
 
@@ -56,6 +56,7 @@ def get_book_id_by_url(i: str):
         return print(error)
 
 
+@lib.time_count
 def shell_console(inputs: list):
     if inputs[0] == "d" or inputs[0] == "download":
         book_info_html = Response.get_book_info_by_book_id(get_book_id_by_url(inputs[1]))
@@ -99,16 +100,17 @@ def shell_console(inputs: list):
 
 
 if __name__ == '__main__':
+
     args_command = parse_args_command()
     set_up_app_type(args_command.app[0]) if args_command.app else set_up_app_type("")
 
-    if args_command.bookid is not None and args_command.bookid != "":
+    if args_command.bookid:
         shell_console(["d", args_command.bookid[0]])
 
-    elif args_command.download is not None and args_command.download != "":
+    elif args_command.download:
         shell_console(["d", args_command.download[0]])
 
-    elif args_command.search is not None and args_command.search != "":
+    elif args_command.search:
         shell_console(["s", args_command.search[0]])
     else:
         print("[input]d + book id\t\t\tddownload book by book id")
